@@ -8,16 +8,16 @@
 ## Producer
 - [x] KafkaProducerService yaz
 - [x] Topic'e mesaj gönder (send)
-- [ ] Batch gönderim desteği
-- [ ] Retry + hata yönetimi
-- [ ] Graceful shutdown (flush bekle)
+- [x] Batch gönderim desteği
+- [x] Retry + hata yönetimi
+- [x] Graceful shutdown (flush bekle)
 
 ## Consumer
 - [x] KafkaConsumerService yaz
 - [x] Consumer group yönetimi
 - [x] Handler registry (topic → handler mapping)
 - [ ] Manual commit (at-least-once)
-- [ ] Graceful shutdown
+- [x] Graceful shutdown
 
 ## Outbox Relay
 - [ ] OutboxRelayService yaz

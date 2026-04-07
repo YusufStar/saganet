@@ -59,8 +59,6 @@ pnpm dev
 | Jaeger UI | 16686 |
 | Prometheus | 9090 |
 | Grafana | 4000 |
-| Mailhog SMTP | 1025 |
-| Mailhog UI | 8025 |
 
 ## Swagger API Dokümantasyonu
 

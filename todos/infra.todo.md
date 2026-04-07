@@ -10,8 +10,6 @@
   - [x] Jaeger
   - [x] Prometheus
   - [x] Grafana
-- [x] docker-compose.override.yml (geliştirme overrides)
-- [ ] docker-compose.test.yml (entegrasyon testleri için)
 - [x] Health check tanımları compose'a ekle
 
 ## Kubernetes (ilerleyen aşama)

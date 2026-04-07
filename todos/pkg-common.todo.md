@@ -6,26 +6,26 @@
 - [x] tsconfig.json, build script
 
 ## DTOs & Types
-- [ ] Ortak request/response DTO'ları
-- [ ] Pagination DTO (cursor & offset)
+- [x] Ortak request/response DTO'ları
+- [x] Pagination DTO (cursor & offset)
 - [x] API response wrapper (data, error, meta)
-- [ ] Ortak error kodları enum
+- [x] Ortak error kodları enum
 
 ## Decorators & Guards
-- [ ] @CurrentUser() decorator
-- [ ] @Roles() decorator
-- [ ] IsPublic() metadata helper
+- [x] @CurrentUser() decorator
+- [x] @Roles() decorator
+- [x] IsPublic() metadata helper
 
 ## Validators
-- [ ] Custom class-validator dekoratörler
-- [ ] UUID validasyon
-- [ ] Para birimi / tutar validasyonu
+- [x] Custom class-validator dekoratörler
+- [x] UUID validasyon
+- [x] Para birimi / tutar validasyonu
 
 ## Utilities
-- [ ] Date helper (UTC normalize, format)
+- [x] Date helper (UTC normalize, format)
 - [x] String helper (slug üretimi, truncate)
-- [ ] Retry utility (exponential backoff)
-- [ ] Deep clone / merge helper
+- [x] Retry utility (exponential backoff)
+- [x] Deep clone / merge helper
 
 ## Constants
 - [ ] HTTP durum kodları sabitleri
@@ -33,7 +33,7 @@
 - [x] Servis adları sabitleri
 
 ## Tests
-- [ ] Her utility için unit test
+- [x] Her utility için unit test
 
 ## Build & Export
 - [x] Barrel export (index.ts)

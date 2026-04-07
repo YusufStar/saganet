@@ -8,11 +8,23 @@
     "dev": "tsc -p tsconfig.json --watch"
   },
   "dependencies": {
+    "@opentelemetry/auto-instrumentations-node": "^0.72.0",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.214.0",
+    "@opentelemetry/resources": "^2.6.1",
+    "@opentelemetry/sdk-node": "^0.214.0",
+    "@opentelemetry/semantic-conventions": "^1.40.0",
     "pino": "^10.3.1",
-    "pino-pretty": "^13.1.3"
+    "pino-pretty": "^13.1.3",
+    "prom-client": "^15.1.3"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^10.0.0",
+    "reflect-metadata": "^0.2.0"
   },
   "devDependencies": {
+    "@nestjs/common": "^11.1.18",
     "@types/node": "^25.5.2",
+    "reflect-metadata": "^0.2.2",
     "typescript": "^6.0.2"
   }
 }

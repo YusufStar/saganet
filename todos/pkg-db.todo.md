@@ -24,15 +24,15 @@
 - [x] Index: sent_at IS NULL, retry_count
 
 ## Seeding
-- [ ] Base seeder class
+- [x] Base seeder class
 - [ ] Development seed: örnek ürün, kullanıcı, sipariş
 - [ ] npm run seed:dev komutu
 
 ## Utilities
-- [ ] Pagination helper (offset & cursor)
+- [x] Pagination helper (offset & cursor)
 - [x] Soft delete base entity
 - [x] BaseEntity (id, createdAt, updatedAt)
-- [ ] Transaction helper wrapper
+- [x] Transaction helper wrapper
 
 ## Tests
 - [ ] Test database setup (in-memory veya Docker testcontainers)

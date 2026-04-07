@@ -17,8 +17,8 @@
 - [ ] TLS / SSL konfigürasyonu (production)
 
 ## Utilities
-- [ ] Cache helper (get/set/del with TTL wrapper)
-- [ ] Distributed lock (Redlock benzeri)
+- [x] Cache helper (get/set/del with TTL wrapper)
+- [x] Distributed lock (Redlock benzeri)
 - [ ] Rate limiter helper
 
 ## Tests

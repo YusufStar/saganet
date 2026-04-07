@@ -6,17 +6,17 @@
 - [x] Bağımlılıklar: pino (pino + pino-pretty)
 
 ## Tracing (OpenTelemetry)
-- [ ] TracingModule (NestJS dynamic module)
-- [ ] OTLP exporter (Jaeger'a gönder)
-- [ ] Auto-instrumentation: HTTP, Kafka, DB
+- [x] TracingModule (NestJS dynamic module)
+- [x] OTLP exporter (Jaeger'a gönder)
+- [x] Auto-instrumentation: HTTP, Kafka, DB
 - [ ] Trace context propagation (W3C TraceContext)
 - [ ] Custom span yardımcıları (@Trace() decorator)
 - [ ] Sampling konfigürasyonu (dev: %100, prod: %10)
 
 ## Metrics (Prometheus)
-- [ ] MetricsModule
+- [x] MetricsModule
 - [ ] /metrics endpoint her servise ekle
-- [ ] Default Node.js metrikleri (GC, heap, event loop)
+- [x] Default Node.js metrikleri (GC, heap, event loop)
 - [ ] Custom business metrikleri helper'ları
   - [ ] Counter (sipariş sayısı, hata sayısı)
   - [ ] Histogram (istek süresi, saga süresi)

@@ -27,4 +27,44 @@ export class KafkaProducer {
       ],
     });
   }
+
+  /** Send with retry and exponential backoff */
+  async sendWithRetry<T>(
+    topic: string,
+    event: KafkaEvent<T>,
+    maxAttempts = 3,
+    baseDelayMs = 100,
+  ): Promise<void> {
+    let lastError: Error | undefined;
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      try {
+        await this.send(topic, event);
+        return;
+      } catch (err) {
+        lastError = err as Error;
+        if (attempt < maxAttempts) {
+          await new Promise((r) => setTimeout(r, baseDelayMs * Math.pow(2, attempt - 1)));
+        }
+      }
+    }
+    throw lastError;
+  }
+
+  /** Batch send messages to multiple topics */
+  async sendBatch(messages: Array<{ topic: string; value: object; key?: string }>): Promise<void> {
+    const topicMessages = messages.reduce(
+      (acc, msg) => {
+        const existing = acc.find((m) => m.topic === msg.topic);
+        const record = { value: JSON.stringify(msg.value), key: msg.key };
+        if (existing) {
+          existing.messages.push(record);
+        } else {
+          acc.push({ topic: msg.topic, messages: [record] });
+        }
+        return acc;
+      },
+      [] as Array<{ topic: string; messages: Array<{ value: string; key?: string }> }>,
+    );
+    await this.producer.sendBatch({ topicMessages });
+  }
 }
