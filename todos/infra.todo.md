@@ -1,8 +1,8 @@
 # infra todos
 
 ## Docker
-- [ ] Her servis için Dockerfile yaz (multi-stage build)
-- [ ] .dockerignore ekle
+- [x] Her servis için Dockerfile yaz (multi-stage build)
+- [x] .dockerignore ekle
 - [x] docker-compose.yml: tüm servisler + infra
   - [x] PostgreSQL
   - [x] Kafka + Zookeeper
@@ -10,7 +10,7 @@
   - [x] Jaeger
   - [x] Prometheus
   - [x] Grafana
-- [ ] docker-compose.override.yml (geliştirme overrides)
+- [x] docker-compose.override.yml (geliştirme overrides)
 - [ ] docker-compose.test.yml (entegrasyon testleri için)
 - [x] Health check tanımları compose'a ekle
 
@@ -40,7 +40,7 @@
 
 ## Environment
 - [x] .env.example dosyası (tüm değişkenler, değersiz)
-- [ ] Her ortam için env template: .env.dev, .env.test
+- [x] Her ortam için env template: .env.dev, .env.test
 - [ ] Secrets yönetimi stratejisi belirle (Vault / AWS Secrets Manager)
 
 ## Monitoring Stack
