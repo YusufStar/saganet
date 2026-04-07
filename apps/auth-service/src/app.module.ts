@@ -15,6 +15,7 @@ import { HealthModule } from './health/health.module';
 import { MetricsModule } from './metrics/metrics.module';
 import { ProfileModule } from './profile/profile.module';
 import { AddressModule } from './address/address.module';
+import { SeedModule } from './seed/seed.module';
 
 const envFilePath = [
   path.join(__dirname, '../../../.env'),
@@ -37,6 +38,7 @@ const envFilePath = [
     MetricsModule,
     ProfileModule,
     AddressModule,
+    SeedModule,
   ],
 })
 export class AppModule {}
