@@ -13,6 +13,7 @@ import { CategoryModule } from './category/category.module';
 import { VendorProductModule } from './vendor/vendor-product.module';
 import { HealthModule } from './health/health.module';
 import { MetricsModule } from './metrics/metrics.module';
+import { AdminModule } from './admin/admin.module';
 
 const envFilePath = [
   path.join(__dirname, '../../../.env'),
@@ -34,6 +35,7 @@ const envFilePath = [
     VendorProductModule,
     HealthModule,
     MetricsModule,
+    AdminModule,
   ],
 })
 export class AppModule {}

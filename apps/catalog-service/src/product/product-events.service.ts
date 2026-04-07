@@ -39,6 +39,18 @@ export class ProductEventsService {
     });
   }
 
+  async emitProductApproved(productId: string, vendorId: string): Promise<void> {
+    await this.send('product.approved', 'product.approved', { productId, vendorId });
+  }
+
+  async emitProductRejected(productId: string, vendorId: string, reason: string): Promise<void> {
+    await this.send('product.rejected', 'product.rejected', { productId, vendorId, reason });
+  }
+
+  async emitProductSuspended(productId: string, vendorId: string): Promise<void> {
+    await this.send('product.suspended', 'product.suspended', { productId, vendorId });
+  }
+
   private async send(topic: string, type: string, payload: unknown): Promise<void> {
     try {
       const producer = this.kafka.producer();

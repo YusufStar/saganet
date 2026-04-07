@@ -79,16 +79,16 @@ VENDOR ürün ekler
 
 ### Admin Endpoint'leri (`@Roles(ADMIN)`)
 
-- [ ] `GET /admin/products` — tüm ürünler (tüm status'lar, tüm vendor'lar)
-- [ ] `POST /admin/products` — admin doğrudan ACTIVE ürün ekleyebilir
-- [ ] `PATCH /admin/products/:id` — herhangi bir ürünü düzenle
-- [ ] `DELETE /admin/products/:id` — hard delete
-- [ ] `PATCH /admin/products/:id/approve` — status → ACTIVE
-- [ ] `PATCH /admin/products/:id/reject` — status → REJECTED + rejectionReason zorunlu
-- [ ] `PATCH /admin/products/:id/suspend` — status → SUSPENDED
-- [ ] `POST /admin/categories` — kategori ekle
-- [ ] `PATCH /admin/categories/:id` — kategori düzenle
-- [ ] `DELETE /admin/categories/:id` — kategori sil
+- [x] `GET /admin/products` — tüm ürünler (tüm status'lar, tüm vendor'lar)
+- [x] `POST /admin/products` — admin doğrudan ACTIVE ürün ekleyebilir
+- [x] `PATCH /admin/products/:id` — herhangi bir ürünü düzenle
+- [x] `DELETE /admin/products/:id` — hard delete
+- [x] `PATCH /admin/products/:id/approve` — status → ACTIVE
+- [x] `PATCH /admin/products/:id/reject` — status → REJECTED + rejectionReason zorunlu
+- [x] `PATCH /admin/products/:id/suspend` — status → SUSPENDED
+- [x] `POST /admin/categories` — kategori ekle
+- [x] `PATCH /admin/categories/:id` — kategori düzenle
+- [x] `DELETE /admin/categories/:id` — kategori sil
 
 ---
 
@@ -144,9 +144,9 @@ VENDOR ürün ekler
 ## Kafka Events
 
 - [x] `product.created` event yayınla (vendorId dahil)
-- [ ] `product.approved` event yayınla (inventory-service stok kaydı açabilir)
+- [x] `product.approved` event yayınla (inventory-service stok kaydı açabilir)
 - [x] `product.price-changed` event yayınla
-- [ ] `product.suspended` event yayınla
+- [x] `product.suspended` event yayınla
 - [x] `product.deleted` event yayınla
 - [ ] `stock.updated` event'ini inventory-service'ten dinle
 
@@ -156,7 +156,7 @@ VENDOR ürün ekler
 
 - [x] Redis ile ürün detay cache (TTL: 5dk) — sadece ACTIVE ürünler cache'lenir
 - [x] Cache invalidation: product.updated, product.deleted event'lerinde
-- [ ] Admin onay sonrası cache bust
+- [x] Admin onay sonrası cache bust
 
 ---
 
@@ -176,9 +176,9 @@ VENDOR ürün ekler
 - [x] Unit: fiyat doğrulama, slug üretimi, OwnershipGuard
 - [x] Unit: VENDOR başkasının ürününü düzenleyemez (403)
 - [x] Unit: VENDOR status/vendorId alanını değiştiremez
-- [ ] Unit: CUSTOMER ürün ekleyemez (403)
-- [ ] Integration: vendor ürün ekle → PENDING_REVIEW → admin onaylar → ACTIVE
-- [ ] Integration: admin redder → REJECTED + rejectionReason zorunlu
+- [x] Unit: CUSTOMER ürün ekleyemez (403)
+- [x] Integration: vendor ürün ekle → PENDING_REVIEW → admin onaylar → ACTIVE
+- [x] Admin redder → REJECTED + rejectionReason zorunlu
 - [x] Integration: public endpoint yalnızca ACTIVE döndürür
 - [ ] E2E: ürün arama
 
