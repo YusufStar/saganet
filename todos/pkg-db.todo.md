@@ -12,15 +12,15 @@
 - [x] Graceful shutdown (connection kapat)
 
 ## Migration Altyapısı
-- [ ] Migration klasör yapısı: packages/db/migrations/
-- [ ] Migration oluşturma script'i (npm run migration:create)
-- [ ] Migration çalıştırma script'i (npm run migration:run)
-- [ ] Migration geri alma script'i (npm run migration:revert)
-- [ ] Her servis kendi migration'larını buraya mı koyacak? → karar ver
+- [x] Migration klasör yapısı (her servis kendi migrations/ klasörünü yönetir)
+- [x] Migration oluşturma script'i (npm run migration:create)
+- [x] Migration çalıştırma script'i (her serviste migration:run/revert/generate script'leri mevcut)
+- [x] Migration geri alma script'i (her serviste migration:run/revert/generate script'leri mevcut)
+- [x] Her servis kendi migration'larını buraya mı koyacak? → karar ver (Karar: her servis kendi migration'larını yönetir)
 
 ## Outbox Tablosu (Shared)
 - [x] Outbox entity/model tanımla (id, topic, payload, sentAt, retryCount, createdAt)
-- [ ] Outbox için TypeORM repository veya Prisma client export et
+- [x] Outbox için TypeORM repository veya Prisma client export et
 - [x] Index: sent_at IS NULL, retry_count
 
 ## Seeding
@@ -39,5 +39,5 @@
 - [ ] Migration idempotency testi
 
 ## Docs
-- [ ] Yeni migration ekleme rehberi
-- [ ] Outbox pattern kullanım örneği
+- [x] Yeni migration ekleme rehberi
+- [x] Outbox pattern kullanım örneği

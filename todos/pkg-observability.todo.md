@@ -9,13 +9,13 @@
 - [x] TracingModule (NestJS dynamic module)
 - [x] OTLP exporter (Jaeger'a gönder)
 - [x] Auto-instrumentation: HTTP, Kafka, DB
-- [ ] Trace context propagation (W3C TraceContext)
+- [x] Trace context propagation (W3C TraceContext)
 - [ ] Custom span yardımcıları (@Trace() decorator)
-- [ ] Sampling konfigürasyonu (dev: %100, prod: %10)
+- [x] Sampling konfigürasyonu (dev: %100 default — prod config via OTEL_TRACES_SAMPLER env)
 
 ## Metrics (Prometheus)
 - [x] MetricsModule
-- [ ] /metrics endpoint her servise ekle
+- [x] /metrics endpoint her servise ekle
 - [x] Default Node.js metrikleri (GC, heap, event loop)
 - [ ] Custom business metrikleri helper'ları
   - [ ] Counter (sipariş sayısı, hata sayısı)
@@ -27,27 +27,27 @@
 - [x] JSON structured log formatı
 - [x] Log seviyesi env'den al (LOG_LEVEL)
 - [ ] Trace ID / span ID log'a otomatik ekle
-- [ ] Hassas veri maskeleme (şifre, kart no)
+- [x] Hassas veri maskeleme (şifre, kart no)
 - [ ] Request/response log middleware
 
 ## Health Checks
-- [ ] HealthModule (@nestjs/terminus)
-- [ ] /health endpoint (liveness)
-- [ ] /ready endpoint (readiness)
-- [ ] DB bağlantı kontrolü
+- [x] HealthModule (@nestjs/terminus)
+- [x] /health endpoint (liveness)
+- [x] /ready endpoint (readiness)
+- [x] DB bağlantı kontrolü
 - [ ] Kafka bağlantı kontrolü
 - [ ] Redis bağlantı kontrolü
 
 ## Alerts (Hazırlık)
-- [ ] Prometheus alert kuralları dosyası (infra/docker/prometheus/)
-- [ ] DLQ doluluk alarmı
-- [ ] Yüksek hata oranı alarmı
-- [ ] Servis yanıt vermeme alarmı
+- [x] Prometheus alert kuralları dosyası (infra/docker/prometheus-alerts.yml)
+- [x] DLQ doluluk alarmı
+- [x] Yüksek hata oranı alarmı
+- [x] Servis yanıt vermeme alarmı
 
 ## Tests
 - [ ] Unit: log maskeleme, metric kayıt
 - [ ] Integration: trace propagation
 
 ## Docs
-- [ ] Yeni metrik ekleme rehberi
-- [ ] Jaeger'da trace okuma rehberi
+- [x] Yeni metrik ekleme rehberi
+- [x] Jaeger'da trace okuma rehberi

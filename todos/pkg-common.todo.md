@@ -28,7 +28,7 @@
 - [x] Deep clone / merge helper
 
 ## Constants
-- [ ] HTTP durum kodları sabitleri
+- [x] HTTP durum kodları sabitleri
 - [x] Kafka topic isimleri sabitleri
 - [x] Servis adları sabitleri
 

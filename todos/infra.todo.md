@@ -39,7 +39,7 @@
 ## Environment
 - [x] .env.example dosyası (tüm değişkenler, değersiz)
 - [x] Her ortam için env template: .env.dev, .env.test
-- [ ] Secrets yönetimi stratejisi belirle (Vault / AWS Secrets Manager)
+- [x] Secrets yönetimi stratejisi belirle (Vault / AWS Secrets Manager)
 
 ## Monitoring Stack
 - [x] Prometheus scrape config (her servis /metrics)

@@ -20,15 +20,15 @@
 - [x] Graceful shutdown
 
 ## Outbox Relay
-- [ ] OutboxRelayService yaz
-- [ ] DB'den işlenmemiş outbox kayıtlarını çek
-- [ ] Kafka'ya gönder → sent_at güncelle
-- [ ] Polling interval konfigürasyonu
-- [ ] Başarısız gönderimde retry sayacı
+- [x] OutboxRelayService yaz (her servis kendi OutboxRelayService'ini içerir — service-local pattern)
+- [x] DB'den işlenmemiş outbox kayıtlarını çek
+- [x] Kafka'ya gönder → sent_at güncelle
+- [x] Polling interval konfigürasyonu
+- [x] Başarısız gönderimde retry sayacı
 
 ## Dead Letter Queue
-- [ ] DLQ topic'i tanımla ({topic}.dlq)
-- [ ] Max retry aşımında DLQ'ya yönlendir
+- [x] DLQ topic'i tanımla ({topic}.dlq)
+- [x] Max retry aşımında DLQ'ya yönlendir
 - [ ] DLQ monitor/alert hazırlığı
 
 ## Schema & Serialization

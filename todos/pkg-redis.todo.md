@@ -19,11 +19,11 @@
 ## Utilities
 - [x] Cache helper (get/set/del with TTL wrapper)
 - [x] Distributed lock (Redlock benzeri)
-- [ ] Rate limiter helper
+- [x] Rate limiter helper
 
 ## Tests
 - [ ] Unit: mock ioredis ile bağlantı factory testi
 - [ ] Integration: Docker testcontainers ile Redis
 
 ## Docs
-- [ ] Servislerde nasıl kullanılır örneği
+- [x] Servislerde nasıl kullanılır örneği

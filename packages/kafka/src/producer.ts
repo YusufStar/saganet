@@ -50,6 +50,22 @@ export class KafkaProducer {
     throw lastError;
   }
 
+  /** Send a message to the dead letter queue for a topic */
+  async sendToDLQ(originalTopic: string, payload: object, error: string): Promise<void> {
+    const dlqTopic = `${originalTopic}.dlq`;
+    await this.producer.send({
+      topic: dlqTopic,
+      messages: [{
+        value: JSON.stringify({
+          originalTopic,
+          payload,
+          error,
+          timestamp: new Date().toISOString(),
+        }),
+      }],
+    });
+  }
+
   /** Batch send messages to multiple topics */
   async sendBatch(messages: Array<{ topic: string; value: object; key?: string }>): Promise<void> {
     const topicMessages = messages.reduce(
