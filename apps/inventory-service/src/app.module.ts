@@ -1,11 +1,12 @@
 import * as path from 'path';
-import { Module } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule, OutboxEntity } from '@saganet/db';
 import { RedisModule } from '@saganet/redis';
 import { KafkaModule } from '@saganet/kafka';
 import { InventoryEntity } from './inventory/inventory.entity';
 import { StockLedgerEntity } from './inventory/stock-ledger.entity';
+import { InternalAuthMiddleware } from './common/middleware/internal-auth.middleware';
 import { HealthModule } from './health/health.module';
 import { MetricsModule } from './metrics/metrics.module';
 import { InventoryModule } from './inventory/inventory.module';
@@ -31,4 +32,8 @@ const envFilePath = [
     OutboxModule,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(InternalAuthMiddleware).forRoutes('*');
+  }
+}

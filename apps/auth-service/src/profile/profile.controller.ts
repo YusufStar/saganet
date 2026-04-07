@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
@@ -58,7 +59,11 @@ export class ProfileController {
       limits: { fileSize: 5 * 1024 * 1024 },
       fileFilter: (_req, file, cb) => {
         const allowed = ['image/jpeg', 'image/png', 'image/webp'];
-        cb(null, allowed.includes(file.mimetype));
+        if (!allowed.includes(file.mimetype)) {
+          cb(new BadRequestException('Only JPEG, PNG, and WebP images are allowed'), false);
+          return;
+        }
+        cb(null, true);
       },
     }),
   )

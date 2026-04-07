@@ -14,6 +14,16 @@ import { GlobalExceptionFilter } from './filters/http-exception.filter';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  const expressApp = app.getHttpAdapter().getInstance();
+  expressApp.set('trust proxy', 1);
+
+  app.enableCors({
+    origin: process.env.ALLOWED_ORIGINS?.split(',') ?? ['http://localhost:3333', 'http://localhost:3000'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-idempotency-key', 'x-request-id', 'Cookie'],
+  });
+
   app.use(cookieParser());
   app.use(pinoHttp({ logger }));
   app.setGlobalPrefix('api', { exclude: ['metrics'] });

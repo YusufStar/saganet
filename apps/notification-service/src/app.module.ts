@@ -1,11 +1,12 @@
 import 'reflect-metadata';
 import * as path from 'path';
-import { Module } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BullModule } from '@nestjs/bullmq';
 import { KafkaModule } from '@saganet/kafka';
 import { MailerModule } from '@saganet/smtp';
+import { InternalAuthMiddleware } from './common/middleware/internal-auth.middleware';
 import { NotificationModule } from './notification/notification.module';
 import { NotificationEntity } from './notification/notification.entity';
 import { NotificationPreferenceEntity } from './notification/notification-preference.entity';
@@ -55,4 +56,8 @@ const envFilePath = [
     NotificationModule,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(InternalAuthMiddleware).forRoutes('*');
+  }
+}

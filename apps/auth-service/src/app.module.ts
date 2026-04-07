@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { Module } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule, OutboxEntity } from '@saganet/db';
 import { StorageModule } from '@saganet/storage';
@@ -9,6 +9,7 @@ import { UserEntity } from './users/user.entity';
 import { UserSessionEntity } from './users/user-session.entity';
 import { UserOAuthAccountEntity } from './users/user-oauth-account.entity';
 import { UserAddressEntity } from './users/user-address.entity';
+import { InternalAuthMiddleware } from './common/middleware/internal-auth.middleware';
 import { AuthModule } from './auth/auth.module';
 import { OutboxModule } from './outbox/outbox.module';
 import { HealthModule } from './health/health.module';
@@ -41,4 +42,8 @@ const envFilePath = [
     SeedModule,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(InternalAuthMiddleware).forRoutes('*');
+  }
+}

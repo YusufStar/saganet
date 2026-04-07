@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { DATA_SOURCE, OutboxEntity } from '@saganet/db';
 import { PaymentEntity } from './payment.entity';
@@ -16,6 +16,13 @@ export class PaymentService {
 
   // Called by Kafka consumer: payment.charge command
   async charge(orderId: string, userId: string, amount: string, card?: CardDetails): Promise<void> {
+    if (process.env.NODE_ENV === 'production') {
+      const providerName = this.provider.constructor.name;
+      if (providerName === 'MockPaymentProvider') {
+        throw new InternalServerErrorException('Mock payment provider cannot be used in production');
+      }
+    }
+
     // Idempotency: if already processed, skip
     const existing = await this.dataSource.getRepository(PaymentEntity)
       .findOne({ where: { orderId } });

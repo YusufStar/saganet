@@ -47,7 +47,11 @@ export class AuthService {
     const userRepo = this.dataSource.getRepository(UserEntity);
     const existing = await userRepo.findOne({ where: { email: dto.email } });
     if (existing) {
-      throw new ConflictException('Email address is already in use');
+      // Prevent email enumeration — silently return success
+      return {
+        user: { id: existing.id, email: existing.email, role: existing.role },
+        message: 'If this email is not yet registered, a verification email has been sent.',
+      };
     }
 
     const passwordHash = await bcrypt.hash(dto.password, 10);
@@ -155,7 +159,7 @@ export class AuthService {
 
     // 3. OAuth-only account
     if (!user.passwordHash) {
-      throw new UnauthorizedException('This account uses OAuth. Please sign in with Google.');
+      throw new UnauthorizedException('Invalid email or password');
     }
 
     // 4. Account lockout check
@@ -396,6 +400,8 @@ export class AuthService {
     } finally {
       await queryRunner.release();
     }
+
+    await this.logoutAll(user.id);
 
     return { message: 'Password has been reset successfully.' };
   }

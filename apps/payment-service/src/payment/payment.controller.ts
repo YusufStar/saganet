@@ -1,6 +1,7 @@
-import { Body, Controller, Get, NotFoundException, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, ForbiddenException, Get, NotFoundException, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Inject } from '@nestjs/common';
+import { Request } from 'express';
 import { DataSource } from 'typeorm';
 import { DATA_SOURCE, OutboxEntity } from '@saganet/db';
 import { PaymentService } from './payment.service';
@@ -19,10 +20,15 @@ export class PaymentController {
   ) {}
 
   @Get(':orderId')
-  @Roles(UserRole.CUSTOMER, UserRole.ADMIN)
-  async findByOrderId(@Param('orderId') orderId: string): Promise<PaymentEntity> {
+  @Roles(UserRole.CUSTOMER, UserRole.ADMIN, UserRole.VENDOR)
+  async findByOrderId(@Param('orderId') orderId: string, @Req() req: Request) {
     const payment = await this.paymentService.findByOrderId(orderId);
-    if (!payment) throw new NotFoundException(`Payment for order ${orderId} not found`);
+    if (!payment) throw new NotFoundException('Payment not found');
+    const role = req.headers['x-user-role'] as string;
+    const userId = req.headers['x-user-id'] as string;
+    if (role !== 'ADMIN' && payment.userId !== userId) {
+      throw new ForbiddenException('Access denied');
+    }
     return payment;
   }
 

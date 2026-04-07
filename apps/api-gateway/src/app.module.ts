@@ -29,7 +29,6 @@ const PUBLIC_ROUTES = [
   { path: 'api/auth/forgot-password', method: RequestMethod.POST },
   { path: 'api/auth/reset-password',  method: RequestMethod.POST },
   { path: 'api/health',               method: RequestMethod.GET  },
-  { path: 'api/metrics',              method: RequestMethod.GET  },
   { path: 'docs',                     method: RequestMethod.GET  },
   { path: 'docs/(.*)',                method: RequestMethod.GET  },
   { path: 'api/swagger-proxy/(.*)',   method: RequestMethod.GET  },

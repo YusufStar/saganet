@@ -12,7 +12,7 @@ interface RouteLimit {
 // Designed so normal usage never triggers them.
 const ROUTE_LIMITS: RouteLimit[] = [
   // Auth write endpoints — tighter (brute-force surface)
-  { pattern: /^\/api\/auth\/(login|forgot-password|reset-password)/, limit: 20,  windowSeconds: 900 },
+  { pattern: /^\/api\/auth\/(login|register|forgot-password|reset-password)/, limit: 10,  windowSeconds: 900 },
   // Default for everything else
   { pattern: /.*/, limit: 120, windowSeconds: 60 },
 ];
