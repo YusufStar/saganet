@@ -39,10 +39,7 @@ Services started:
 | Kafka       | localhost:9092                |
 | Jaeger UI   | http://localhost:16686        |
 | Prometheus  | http://localhost:9090         |
-| Grafana     | http://localhost:3001         |
-
-> **Note:** Grafana runs on port 3001. auth-service also uses 3001 by default.
-> If running both locally, set `AUTH_SERVICE_PORT=3002` in `.env`.
+| Grafana     | http://localhost:4000         |
 
 ## 4. Run Migrations
 
