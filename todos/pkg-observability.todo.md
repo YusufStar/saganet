@@ -10,7 +10,7 @@
 - [x] OTLP exporter (Jaeger'a gönder)
 - [x] Auto-instrumentation: HTTP, Kafka, DB
 - [x] Trace context propagation (W3C TraceContext)
-- [ ] Custom span yardımcıları (@Trace() decorator)
+- [x] Custom span yardımcıları (@Trace() decorator)
 - [x] Sampling konfigürasyonu (dev: %100 default — prod config via OTEL_TRACES_SAMPLER env)
 
 ## Metrics (Prometheus)
@@ -26,17 +26,17 @@
 - [x] LoggerModule (Pino)
 - [x] JSON structured log formatı
 - [x] Log seviyesi env'den al (LOG_LEVEL)
-- [ ] Trace ID / span ID log'a otomatik ekle
+- [x] Trace ID / span ID log'a otomatik ekle
 - [x] Hassas veri maskeleme (şifre, kart no)
-- [ ] Request/response log middleware
+- [x] Request/response log middleware
 
 ## Health Checks
 - [x] HealthModule (@nestjs/terminus)
 - [x] /health endpoint (liveness)
 - [x] /ready endpoint (readiness)
 - [x] DB bağlantı kontrolü
-- [ ] Kafka bağlantı kontrolü
-- [ ] Redis bağlantı kontrolü
+- [ ] Kafka bağlantı kontrolü (deferred — no built-in terminus indicator)
+- [x] Redis bağlantı kontrolü
 
 ## Alerts (Hazırlık)
 - [x] Prometheus alert kuralları dosyası (infra/docker/prometheus-alerts.yml)

@@ -1,4 +1,5 @@
 import { Kafka, Consumer, EachMessagePayload } from 'kafkajs';
+import { recordConsume } from './kafka.metrics';
 
 export type MessageHandler = (payload: EachMessagePayload) => Promise<void>;
 
@@ -27,9 +28,22 @@ export class KafkaConsumer {
     const topics = Array.from(this.handlers.keys());
     await this.consumer.subscribe({ topics, fromBeginning: false });
     await this.consumer.run({
-      eachMessage: async (payload) => {
-        const handler = this.handlers.get(payload.topic);
-        if (handler) await handler(payload);
+      autoCommit: false,
+      eachMessage: async ({ topic, partition, message, heartbeat, pause }) => {
+        const handler = this.handlers.get(topic);
+        if (!handler) return;
+
+        const start = performance.now();
+        await handler({ topic, partition, message, heartbeat, pause } as EachMessagePayload);
+        const duration = performance.now() - start;
+        recordConsume(topic, duration);
+
+        // Manual commit after successful processing (at-least-once guarantee)
+        await this.consumer.commitOffsets([{
+          topic,
+          partition,
+          offset: (BigInt(message.offset) + BigInt(1)).toString(),
+        }]);
       },
     });
   }

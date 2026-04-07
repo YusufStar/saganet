@@ -1,5 +1,6 @@
 import { Kafka, Producer } from 'kafkajs';
 import { KafkaEvent } from './types';
+import { recordPublish, recordDLQ } from './kafka.metrics';
 
 export class KafkaProducer {
   private producer: Producer;
@@ -17,6 +18,7 @@ export class KafkaProducer {
   }
 
   async send<T>(topic: string, event: KafkaEvent<T>): Promise<void> {
+    const start = performance.now();
     await this.producer.send({
       topic,
       messages: [
@@ -26,6 +28,8 @@ export class KafkaProducer {
         },
       ],
     });
+    const duration = performance.now() - start;
+    recordPublish(topic, duration);
   }
 
   /** Send with retry and exponential backoff */
@@ -64,6 +68,7 @@ export class KafkaProducer {
         }),
       }],
     });
+    recordDLQ(originalTopic);
   }
 
   /** Batch send messages to multiple topics */

@@ -24,3 +24,5 @@ export const IsPublic = () => SetMetadata(IS_PUBLIC_KEY, true);
 /** Roles decorator — use with RolesGuard */
 export const ROLES_KEY = 'roles';
 export const Roles = (...roles: string[]) => SetMetadata(ROLES_KEY, roles);
+
+export { UserRole } from './types';

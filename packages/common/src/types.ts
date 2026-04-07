@@ -31,6 +31,12 @@ export interface CursorPaginationMeta {
 }
 
 // Error codes enum
+export enum UserRole {
+  ADMIN = 'ADMIN',
+  VENDOR = 'VENDOR',
+  CUSTOMER = 'CUSTOMER',
+}
+
 export enum ErrorCode {
   VALIDATION_ERROR = 'VALIDATION_ERROR',
   UNAUTHORIZED = 'UNAUTHORIZED',

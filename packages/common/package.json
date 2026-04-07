@@ -9,7 +9,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "class-validator": "^0.14.2"
+    "class-validator": "^0.15.1"
   },
   "peerDependencies": {
     "@nestjs/common": "^10.0.0",
@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@nestjs/common": "^11.1.18",
+    "@nestjs/core": "^11.1.18",
     "@types/express": "^5.0.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^25.5.2",

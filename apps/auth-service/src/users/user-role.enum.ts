@@ -1,5 +1,1 @@
-export enum UserRole {
-  ADMIN = 'ADMIN',
-  CUSTOMER = 'CUSTOMER',
-  VENDOR = 'VENDOR',
-}
+export { UserRole } from '@saganet/common';

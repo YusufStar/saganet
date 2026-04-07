@@ -16,7 +16,7 @@
 - [x] KafkaConsumerService yaz
 - [x] Consumer group yönetimi
 - [x] Handler registry (topic → handler mapping)
-- [ ] Manual commit (at-least-once)
+- [x] Manual commit (at-least-once)
 - [x] Graceful shutdown
 
 ## Outbox Relay
@@ -29,7 +29,7 @@
 ## Dead Letter Queue
 - [x] DLQ topic'i tanımla ({topic}.dlq)
 - [x] Max retry aşımında DLQ'ya yönlendir
-- [ ] DLQ monitor/alert hazırlığı
+- [x] DLQ monitor/alert hazırlığı
 
 ## Schema & Serialization
 - [x] Event envelope formatı (eventId, type, timestamp, payload)
@@ -42,9 +42,9 @@
 - [ ] SSL / SASL konfigürasyonu (production)
 
 ## Observability
-- [ ] Consumer lag metriği
-- [ ] Publish/consume latency histogram
-- [ ] DLQ mesaj sayısı metriği
+- [x] Consumer lag metriği
+- [x] Publish/consume latency histogram
+- [x] DLQ mesaj sayısı metriği
 
 ## Tests
 - [ ] Unit: producer, consumer, outbox relay

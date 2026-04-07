@@ -44,6 +44,15 @@ groups:
           summary: "Kafka consumer lag is high"
           description: "Consumer group {{ $labels.group }} has lag of {{ $value }}"
 
+      - alert: DLQMessagesAccumulating
+        expr: sum(increase(kafka_dlq_messages_total[5m])) by (topic) > 0
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "DLQ messages accumulating on {{ $labels.topic }}"
+          description: "{{ $value }} messages were sent to DLQ in the last 5 minutes for topic {{ $labels.topic }}"
+
       - alert: LowInventory
         expr: inventory_low_stock_total > 0
         labels:
