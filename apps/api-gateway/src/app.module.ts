@@ -33,6 +33,7 @@ export class AppModule implements NestModule {
       .exclude(
         { path: 'api/auth/register', method: RequestMethod.POST },
         { path: 'api/auth/login', method: RequestMethod.POST },
+        { path: 'api/auth/verify-email', method: RequestMethod.GET },
         { path: 'api/health', method: RequestMethod.GET },
         { path: 'docs', method: RequestMethod.GET },
         { path: 'docs/(.*)', method: RequestMethod.GET },

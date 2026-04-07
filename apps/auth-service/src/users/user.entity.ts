@@ -8,10 +8,21 @@ export class UserEntity extends BaseEntity {
   @Column({ length: 255 })
   email: string;
 
-  // OAuth ile kayıt olanlarda null
+  // null for OAuth users
   @Column({ nullable: true })
   passwordHash?: string;
 
   @Column({ type: 'enum', enum: UserRole, default: UserRole.CUSTOMER })
   role: UserRole;
+
+  @Column({ default: false })
+  emailVerified: boolean;
+
+  // SHA-256 hash of the one-time verification token (indexed for fast lookup)
+  @Index()
+  @Column({ nullable: true })
+  verificationTokenHash?: string;
+
+  @Column({ type: 'timestamp', nullable: true })
+  verificationTokenExpiresAt?: Date;
 }

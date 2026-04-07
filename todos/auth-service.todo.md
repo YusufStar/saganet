@@ -29,7 +29,7 @@ API Gateway, her istekte auth-service'in `/auth/verify` endpoint'ini çağırır
 - [x] Register endpoint (POST /auth/register)
 - [ ] Login endpoint (POST /auth/login)
 - [ ] Logout / token invalidation
-- [ ] Email doğrulama akışı
+- [x] Email verification flow (token generation, verify-email endpoint, outbox → welcome email)
 
 ## OAuth
 

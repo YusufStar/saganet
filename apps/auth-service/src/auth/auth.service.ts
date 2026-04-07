@@ -1,6 +1,8 @@
-import { ConflictException, Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { DataSource } from 'typeorm';
+import { randomUUID } from 'crypto';
+import { createHash } from 'crypto';
 import * as bcrypt from 'bcrypt';
 import { DATA_SOURCE, OutboxEntity } from '@saganet/db';
 import { REDIS_CLIENT, RedisClient } from '@saganet/redis';
@@ -9,6 +11,10 @@ import { UserEntity } from '../users/user.entity';
 import { UserRole } from '../users/user-role.enum';
 import { RegisterDto } from './dto/register.dto';
 import { RegisterResponseDto } from './dto/register-response.dto';
+
+function sha256(value: string): string {
+  return createHash('sha256').update(value).digest('hex');
+}
 
 @Injectable()
 export class AuthService {
@@ -27,7 +33,11 @@ export class AuthService {
 
     const passwordHash = await bcrypt.hash(dto.password, 10);
 
-    // Atomic: persist user + outbox event in a single transaction
+    // One-time verification token — raw goes to outbox for notification-service
+    const verificationToken = randomUUID();
+    const verificationTokenHash = sha256(verificationToken);
+    const verificationTokenExpiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24h
+
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -38,12 +48,15 @@ export class AuthService {
         email: dto.email,
         passwordHash,
         role: UserRole.CUSTOMER,
+        emailVerified: false,
+        verificationTokenHash,
+        verificationTokenExpiresAt,
       });
 
-      // Outbox → notification-service will send welcome + verify emails
+      // Outbox → notification-service sends the verify-email link
       await queryRunner.manager.save(OutboxEntity, {
         topic: KAFKA_TOPICS.USER_REGISTERED,
-        payload: { userId: user.id, email: user.email, role: user.role },
+        payload: { userId: user.id, email: user.email, role: user.role, verificationToken },
       });
 
       await queryRunner.commitTransaction();
@@ -60,5 +73,49 @@ export class AuthService {
     };
   }
 
-  // Session creation (session_id + refresh_token + access_token) lives in login — see login()
+  async verifyEmail(token: string): Promise<{ message: string }> {
+    const tokenHash = sha256(token);
+    const userRepo = this.dataSource.getRepository(UserEntity);
+
+    const user = await userRepo.findOne({ where: { verificationTokenHash: tokenHash } });
+
+    if (!user) {
+      throw new BadRequestException('Invalid or expired verification token');
+    }
+    if (user.emailVerified) {
+      throw new BadRequestException('Email address is already verified');
+    }
+    if (user.verificationTokenExpiresAt && user.verificationTokenExpiresAt < new Date()) {
+      throw new BadRequestException('Verification token has expired');
+    }
+
+    // Atomic: mark verified + queue welcome email via outbox
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    try {
+      await queryRunner.manager.update(UserEntity, user.id, {
+        emailVerified: true,
+        verificationTokenHash: null,
+        verificationTokenExpiresAt: null,
+      });
+
+      await queryRunner.manager.save(OutboxEntity, {
+        topic: KAFKA_TOPICS.USER_EMAIL_VERIFIED,
+        payload: { userId: user.id, email: user.email },
+      });
+
+      await queryRunner.commitTransaction();
+    } catch (err) {
+      await queryRunner.rollbackTransaction();
+      throw err;
+    } finally {
+      await queryRunner.release();
+    }
+
+    return { message: 'Email verified successfully. Welcome to Saganet!' };
+  }
+
+  // Session creation (session_id + refresh_token + access_token) — implemented in login()
 }
