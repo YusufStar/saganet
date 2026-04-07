@@ -25,7 +25,7 @@ API Gateway, her istekte auth-service'in `/auth/verify` endpoint'ini çağırır
 - [x] Gerekli bağımlılıklar: @nestjs/jwt, bcrypt, passport
 
 ## User Management
-- [ ] User entity / schema tasarla (id, email, passwordHash, role, createdAt)
+- [x] User entity / schema tasarla (id, email, passwordHash, role, createdAt)
 - [ ] Register endpoint (POST /auth/register)
 - [ ] Login endpoint (POST /auth/login)
 - [ ] Logout / token invalidation
