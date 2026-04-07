@@ -61,6 +61,18 @@ Migrations applied (in order):
 5. `AddEmailVerificationToUsers` — email verification token + expiry
 6. `AddLoginSecurityFields` — failed login counter, family ID for token reuse detection
 
+### catalog-service
+
+```bash
+cd apps/catalog-service
+pnpm migration:run
+```
+
+Migrations applied (in order):
+1. `CreateCategoriesTable` — categories, self-referential tree (parentId)
+2. `CreateProductsTable` — products, vendorId, status, price, indexes
+3. `CreateProductImagesTable` — product images, CASCADE delete
+
 ### Revert last migration
 
 ```bash

@@ -33,6 +33,23 @@ API Gateway, her istekte auth-service'in `/auth/verify` endpoint'ini çağırır
 - [x] Logout / token invalidation (POST /auth/logout, POST /auth/logout/all)
 - [x] Email verification flow (token generation, verify-email endpoint, outbox → welcome email)
 
+## User Profile & Addresses
+
+- [x] `GET /auth/profile` — mevcut kullanıcı profilini getir (displayName, avatarUrl, email, role)
+- [x] `PATCH /auth/profile` — displayName güncelle
+- [x] `POST /auth/profile/avatar` — avatar yükle (JPEG/PNG/WebP, max 5MB, magic bytes kontrolü, MinIO)
+- [x] `GET /auth/addresses` — kayıtlı adresleri listele (default önce)
+- [x] `POST /auth/addresses` — yeni adres ekle (max 5 adres/kullanıcı)
+- [x] `PATCH /auth/addresses/:id` — adres güncelle (sahiplik kontrolü)
+- [x] `PATCH /auth/addresses/:id/default` — varsayılan adres yap
+- [x] `DELETE /auth/addresses/:id` — adres sil (sahiplik kontrolü)
+- [x] Migration: `displayName`, `avatarUrl` → users tablosuna eklendi
+- [x] Migration: `user_addresses` tablosu (label, fullName, city, isDefault...)
+- [x] `@saganet/storage` entegrasyonu (MinIO avatar upload)
+- [x] Magic bytes doğrulaması (Content-Type header'ına güvenme)
+
+> **Not:** Adresler yalnızca form pre-fill shortcut'ıdır. Sipariş sisteminde `addressId` FK kullanılmaz — adres verisi snapshot olarak kopyalanır.
+
 ## OAuth
 
 Akış (Google örneği):

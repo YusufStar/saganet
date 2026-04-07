@@ -39,4 +39,10 @@ export class UserEntity extends BaseEntity {
 
   @Column({ type: 'timestamp', nullable: true })
   resetTokenExpiresAt?: Date;
+
+  @Column({ length: 100, nullable: true })
+  displayName?: string;
+
+  @Column({ length: 2048, nullable: true })
+  avatarUrl?: string;
 }

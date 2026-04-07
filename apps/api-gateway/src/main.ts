@@ -23,15 +23,27 @@ async function bootstrap() {
 
   if (process.env.NODE_ENV !== 'production') {
     const config = new DocumentBuilder()
-      .setTitle('Saganet API Gateway')
-      .setDescription('Single entry point for all services')
+      .setTitle('Saganet — API Gateway')
+      .setDescription('Single entry point. Use the dropdown above to switch between services.')
       .setVersion('1.0')
       .addBearerAuth({ type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }, 'access-token')
       .addCookieAuth('session_id')
       .build();
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('docs', app, document, {
-      swaggerOptions: { persistAuthorization: true },
+      swaggerOptions: {
+        persistAuthorization: true,
+        urls: [
+          { url: '/docs-json',                    name: '🔀 API Gateway' },
+          { url: '/api/swagger-proxy/auth',         name: '🔐 Auth Service' },
+          { url: '/api/swagger-proxy/catalog',      name: '📦 Catalog Service' },
+          { url: '/api/swagger-proxy/inventory',    name: '🏪 Inventory Service' },
+          { url: '/api/swagger-proxy/order',        name: '🛒 Order Service' },
+          { url: '/api/swagger-proxy/payment',      name: '💳 Payment Service' },
+          { url: '/api/swagger-proxy/notification', name: '🔔 Notification Service' },
+        ],
+        'urls.primaryName': 'Auth Service',
+      },
     });
     logger.info(
       `[api-gateway] Swagger UI: http://localhost:${process.env.API_GATEWAY_PORT ?? 3000}/docs`,

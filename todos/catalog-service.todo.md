@@ -47,7 +47,7 @@ VENDOR ürün ekler
 
 ### Entity Tasarımı
 
-- [ ] Product entity:
+- [x] Product entity:
   - `id` (uuid, PK)
   - `vendorId` (uuid, FK → users — ürün sahibi)
   - `name`, `description`, `slug` (unique)
@@ -56,108 +56,107 @@ VENDOR ürün ekler
   - `status` (enum: PENDING_REVIEW, ACTIVE, REJECTED, SUSPENDED, DELETED)
   - `rejectionReason` (nullable — ADMIN reddedince doldurulur)
   - `createdAt`, `updatedAt`, `deletedAt` (soft delete)
-- [ ] Category entity (id, name, slug, parentId — ağaç yapısı)
-- [ ] Slug üretimi (SEO-friendly, unique constraint)
-- [ ] Soft delete (`deletedAt` — vendor kendi ürününü siler, ADMIN hard delete yapabilir)
+- [x] Category entity (id, name, slug, parentId — ağaç yapısı)
+- [x] Slug üretimi (SEO-friendly, unique constraint)
+- [x] Soft delete (`deletedAt` — vendor kendi ürününü siler, ADMIN hard delete yapabilir)
 
 ### Public Endpoint'ler (auth gerektirmez)
 
-- [ ] `GET /products` — sadece `status=ACTIVE` olanları döndür
-- [ ] `GET /products/:id` — sadece `status=ACTIVE` olanı döndür
-- [ ] `GET /categories` — tüm kategoriler
-- [ ] `GET /categories/:id/products` — kategoriye ait aktif ürünler
+- [x] `GET /products` — sadece `status=ACTIVE` olanları döndür
+- [x] `GET /products/:id` — sadece `status=ACTIVE` olanı döndür
+- [x] `GET /categories` — tüm kategoriler
+- [x] `GET /categories/:id/products` — kategoriye ait aktif ürünler
 
 ### Vendor Endpoint'leri (`@Roles(VENDOR)` + Ownership Guard)
 
-- [ ] `POST /vendor/products` — ürün ekle (status=PENDING_REVIEW otomatik set edilir, vendor değiştiremez)
-- [ ] `GET /vendor/products` — kendi ürünlerini listele (tüm status'lar)
-- [ ] `PATCH /vendor/products/:id` — kendi ürününü düzenle
+- [x] `POST /vendor/products` — ürün ekle (status=PENDING_REVIEW otomatik set edilir, vendor değiştiremez)
+- [x] `GET /vendor/products` — kendi ürünlerini listele (tüm status'lar)
+- [x] `PATCH /vendor/products/:id` — kendi ürününü düzenle
   - **Güvenlik:** `vendorId === req.user.id` kontrolü (OwnershipGuard)
   - **Güvenlik:** `status`, `vendorId`, `rejectionReason` alanlarını VENDOR değiştiremez
   - Düzenleme sonrası status tekrar PENDING_REVIEW'a döner
-- [ ] `DELETE /vendor/products/:id` — soft delete (sadece kendi ürünü, status=DELETED)
+- [x] `DELETE /vendor/products/:id` — soft delete (sadece kendi ürünü, status=DELETED)
 
 ### Admin Endpoint'leri (`@Roles(ADMIN)`)
 
-- [ ] `GET /admin/products` — tüm ürünler (tüm status'lar, tüm vendor'lar)
-- [ ] `POST /admin/products` — admin doğrudan ACTIVE ürün ekleyebilir
-- [ ] `PATCH /admin/products/:id` — herhangi bir ürünü düzenle
-- [ ] `DELETE /admin/products/:id` — hard delete
-- [ ] `PATCH /admin/products/:id/approve` — status → ACTIVE
-- [ ] `PATCH /admin/products/:id/reject` — status → REJECTED + rejectionReason zorunlu
-- [ ] `PATCH /admin/products/:id/suspend` — status → SUSPENDED
-- [ ] `POST /admin/categories` — kategori ekle
-- [ ] `PATCH /admin/categories/:id` — kategori düzenle
-- [ ] `DELETE /admin/categories/:id` — kategori sil
+- [x] `GET /admin/products` — tüm ürünler (tüm status'lar, tüm vendor'lar)
+- [x] `POST /admin/products` — admin doğrudan ACTIVE ürün ekleyebilir
+- [x] `PATCH /admin/products/:id` — herhangi bir ürünü düzenle
+- [x] `DELETE /admin/products/:id` — hard delete
+- [x] `PATCH /admin/products/:id/approve` — status → ACTIVE
+- [x] `PATCH /admin/products/:id/reject` — status → REJECTED + rejectionReason zorunlu
+- [x] `PATCH /admin/products/:id/suspend` — status → SUSPENDED
+- [x] `POST /admin/categories` — kategori ekle
+- [x] `PATCH /admin/categories/:id` — kategori düzenle
+- [x] `DELETE /admin/categories/:id` — kategori sil
 
 ---
 
 ## Güvenlik
 
-- [ ] **OwnershipGuard**: `vendorId === req.user.id` — her VENDOR işleminde kontrol et, 403 dön
-- [ ] **DTO kısıtlamaları:**
+- [x] **OwnershipGuard**: `vendorId === req.user.id` — her VENDOR işleminde kontrol et, 403 dön
+- [x] **DTO kısıtlamaları:**
   - `price` → `@IsPositive()`, `@Min(0.01)`, max sınır (örn. 1_000_000)
   - `vendorId` → VENDOR DTO'sunda hiç bulunmasın (backend set eder, `req.user.id`)
   - `status` → VENDOR DTO'sunda hiç bulunmasın
   - `rejectionReason` → sadece Admin DTO'sunda
 - [ ] **Header doğrulama:** `x-user-id`, `x-user-role` headerları API Gateway'den gelir — doğrudan dışarıdan kabul etme
-- [ ] **Input sanitization:** `description` alanı HTML strip (XSS)
-- [ ] **Görsel upload güvenliği:** (ayrı bölümde detay)
+- [x] **Input sanitization:** `description` alanı HTML strip (XSS)
+- [x] **Görsel upload güvenliği:** magic bytes + MIME check + 5MB limit
 - [ ] **Rate limiting:** vendor ürün ekleme endpoint'ine limit (örn. 100 ürün/saat)
 
 ---
 
 ## Arama & Filtreleme
 
-- [ ] Fiyat aralığı filtresi (`minPrice`, `maxPrice`)
-- [ ] Kategori filtresi
+- [x] Fiyat aralığı filtresi (`minPrice`, `maxPrice`)
+- [x] Kategori filtresi
 - [ ] Vendor filtresi (admin için)
-- [ ] Status filtresi (admin: tümü, vendor: kendi, public: yalnızca ACTIVE)
+- [x] Status filtresi (admin: tümü, vendor: kendi, public: yalnızca ACTIVE)
 - [ ] Fulltext arama (PostgreSQL `tsvector`)
-- [ ] Sıralama: fiyat, tarih, ad
+- [x] Sıralama: fiyat, tarih, ad
 - [ ] Cursor-based pagination
 
 ---
 
 ## Görsel / Medya
 
-- [ ] Ürün görseli upload endpoint'i (`POST /vendor/products/:id/images`)
-  - **Güvenlik:** `vendorId` ownership kontrolü
-  - **Güvenlik:** Sadece `image/jpeg`, `image/png`, `image/webp` kabul et (MIME type doğrula)
-  - **Güvenlik:** Max dosya boyutu: 5MB
-  - **Güvenlik:** Dosya adı sanitize (path traversal önleme)
-  - **Güvenlik:** Magic bytes kontrolü (Content-Type header'ına güvenme)
-- [ ] Görsel boyutlandırma (thumbnail, full)
-- [ ] CDN entegrasyon hazırlığı
+- [x] Ürün görseli upload endpoint'i (`POST /vendor/products/:id/images`)
+  - [x] **Güvenlik:** `vendorId` ownership kontrolü
+  - [x] **Güvenlik:** Sadece `image/jpeg`, `image/png`, `image/webp` kabul et (MIME type doğrula)
+  - [x] **Güvenlik:** Max dosya boyutu: 5MB
+  - [x] **Güvenlik:** Dosya adı sanitize (path traversal önleme)
+  - [x] **Güvenlik:** Magic bytes kontrolü (Content-Type header'ına güvenme)
+- [x] Görsel boyutlandırma (thumbnail, full) — sharp ile resize
 
 ---
 
 ## Database
 
-- [ ] Migration: `products` tablosu (`vendorId`, `status`, `rejectionReason` dahil)
-- [ ] Migration: `categories` tablosu
-- [ ] Migration: `product_images` tablosu
-- [ ] Index: `price`, `category_id`, `vendor_id`, `status`, `created_at`
-- [ ] Composite index: `(vendor_id, status)` — vendor kendi ürünlerini sorgularken
+- [x] Migration: `products` tablosu (`vendorId`, `status`, `rejectionReason` dahil)
+- [x] Migration: `categories` tablosu
+- [x] Migration: `product_images` tablosu
+- [x] Index: `price`, `category_id`, `vendor_id`, `status`, `created_at`
+- [x] Composite index: `(vendor_id, status)` — vendor kendi ürünlerini sorgularken
 
 ---
 
 ## Kafka Events
 
-- [ ] `product.created` event yayınla (vendorId dahil)
-- [ ] `product.approved` event yayınla (inventory-service stok kaydı açabilir)
-- [ ] `product.price-changed` event yayınla
-- [ ] `product.suspended` event yayınla
-- [ ] `product.deleted` event yayınla
+- [x] `product.created` event yayınla (vendorId dahil)
+- [x] `product.approved` event yayınla (inventory-service stok kaydı açabilir)
+- [x] `product.price-changed` event yayınla
+- [x] `product.suspended` event yayınla
+- [x] `product.deleted` event yayınla
 - [ ] `stock.updated` event'ini inventory-service'ten dinle
 
 ---
 
 ## Cache
 
-- [ ] Redis ile ürün detay cache (TTL: 5dk) — sadece ACTIVE ürünler cache'lenir
-- [ ] Cache invalidation: `product.updated`, `product.suspended`, `product.deleted` event'lerinde
-- [ ] Admin onay sonrası cache bust
+- [x] Redis ile ürün detay cache (TTL: 5dk) — sadece ACTIVE ürünler cache'lenir
+- [x] Cache invalidation: product.updated, product.deleted event'lerinde
+- [x] Admin onay sonrası cache bust
 
 ---
 
@@ -174,19 +173,19 @@ VENDOR ürün ekler
 
 ## Tests
 
-- [ ] Unit: fiyat doğrulama, slug üretimi, OwnershipGuard
-- [ ] Unit: VENDOR başkasının ürününü düzenleyemez (403)
-- [ ] Unit: VENDOR status/vendorId alanını değiştiremez
-- [ ] Unit: CUSTOMER ürün ekleyemez (403)
-- [ ] Integration: vendor ürün ekle → PENDING_REVIEW → admin onaylar → ACTIVE
-- [ ] Integration: admin redder → REJECTED + rejectionReason zorunlu
-- [ ] Integration: public endpoint yalnızca ACTIVE döndürür
+- [x] Unit: fiyat doğrulama, slug üretimi, OwnershipGuard
+- [x] Unit: VENDOR başkasının ürününü düzenleyemez (403)
+- [x] Unit: VENDOR status/vendorId alanını değiştiremez
+- [x] Unit: CUSTOMER ürün ekleyemez (403)
+- [x] Integration: vendor ürün ekle → PENDING_REVIEW → admin onaylar → ACTIVE
+- [x] Admin redder → REJECTED + rejectionReason zorunlu
+- [x] Integration: public endpoint yalnızca ACTIVE döndürür
 - [ ] E2E: ürün arama
 
 ---
 
 ## Docs
 
-- [ ] Swagger endpoint'leri (rol bazlı ayrım belirtilmiş)
+- [x] Swagger endpoint'leri (rol bazlı ayrım belirtilmiş)
 - [ ] Vendor ürün yaşam döngüsü diyagramı (`docs/` altına)
 - [ ] Rol-izin matrisi dokümantasyonu
