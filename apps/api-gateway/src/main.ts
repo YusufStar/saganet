@@ -16,7 +16,7 @@ async function bootstrap() {
 
   app.use(cookieParser());
   app.use(pinoHttp({ logger }));
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix('api', { exclude: ['metrics'] });
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   app.useGlobalFilters(new GlobalExceptionFilter());
   app.enableShutdownHooks();

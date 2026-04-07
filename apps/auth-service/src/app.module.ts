@@ -10,6 +10,7 @@ import { UserOAuthAccountEntity } from './users/user-oauth-account.entity';
 import { AuthModule } from './auth/auth.module';
 import { OutboxModule } from './outbox/outbox.module';
 import { HealthModule } from './health/health.module';
+import { MetricsModule } from './metrics/metrics.module';
 
 const envFilePath = [
   path.join(__dirname, '../../../.env'),
@@ -28,6 +29,7 @@ const envFilePath = [
     AuthModule,
     OutboxModule,
     HealthModule,
+    MetricsModule,
   ],
 })
 export class AppModule {}
