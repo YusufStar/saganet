@@ -36,4 +36,10 @@ export class UserSessionEntity extends BaseEntity {
   // Manuel iptal (cihaz çıkışı veya "tüm oturumlardan çık")
   @Column({ type: 'timestamp', nullable: true })
   revokedAt?: Date;
+
+  // Refresh token family — all rotations of the same login share this ID.
+  // Reuse of an old token triggers revocation of the entire family.
+  @Index()
+  @Column('uuid')
+  familyId: string;
 }

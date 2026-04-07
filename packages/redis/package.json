@@ -8,16 +8,16 @@
     "dev": "tsc -p tsconfig.json --watch"
   },
   "dependencies": {
-    "ioredis": "^5.4.2"
+    "ioredis": "^5.10.1"
   },
   "peerDependencies": {
     "@nestjs/common": "^10.0.0",
     "reflect-metadata": "^0.2.0"
   },
   "devDependencies": {
-    "@nestjs/common": "^10.4.15",
-    "@types/node": "^20.17.9",
+    "@nestjs/common": "^11.1.18",
+    "@types/node": "^25.5.2",
     "reflect-metadata": "^0.2.2",
-    "typescript": "^5.7.2"
+    "typescript": "^6.0.2"
   }
 }

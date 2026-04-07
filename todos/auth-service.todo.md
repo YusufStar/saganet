@@ -20,20 +20,23 @@ Auth service bu akışta **token üretimi ve doğrulamasından** sorumludur.
 API Gateway, her istekte auth-service'in `/auth/verify` endpoint'ini çağırır.
 
 ## Scaffold
+
 - [x] NestJS projesi oluştur
 - [x] apps/auth-service klasörüne ekle
 - [x] Gerekli bağımlılıklar: @nestjs/jwt, bcrypt, passport
 
 ## User Management
+
 - [x] User entity / schema tasarla (id, email, passwordHash?, role, createdAt)
 - [x] Register endpoint (POST /auth/register)
-- [ ] Login endpoint (POST /auth/login)
-- [ ] Logout / token invalidation
+- [x] Login endpoint (POST /auth/login)
+- [x] Logout / token invalidation (POST /auth/logout, POST /auth/logout/all)
 - [x] Email verification flow (token generation, verify-email endpoint, outbox → welcome email)
 
 ## OAuth
 
 Akış (Google örneği):
+
 ```
 GET /auth/google → Google OAuth consent
 GET /auth/google/callback?code=...
@@ -45,6 +48,7 @@ GET /auth/google/callback?code=...
 ```
 
 ### UserOAuthAccountEntity (PostgreSQL)
+
 - [x] id (uuid, PK)
 - [x] userId (FK → users, CASCADE DELETE)
 - [x] provider (enum: GOOGLE, GITHUB)
@@ -55,6 +59,7 @@ GET /auth/google/callback?code=...
 - [x] scope (nullable)
 
 ### Implementasyon
+
 - [ ] `@nestjs/passport` + `passport-google-oauth20` entegrasyonu
 - [ ] `GoogleStrategy` (passport strategy)
 - [ ] `GET /auth/google` → redirect
@@ -65,6 +70,7 @@ GET /auth/google/callback?code=...
 ## Session Modeli (better-auth tarzı)
 
 Mimari:
+
 - Her login → yeni `UserSessionEntity` (PostgreSQL) + Redis cache
 - Refresh token session'a bağlı, DB'de bcrypt hash olarak saklanır
 - Session ID cookie'de (httpOnly, secure, sameSite=strict)
@@ -102,6 +108,7 @@ Mimari:
 ```
 
 ### UserSessionEntity (PostgreSQL)
+
 - [x] id (uuid, PK)
 - [x] userId (FK → users, CASCADE DELETE)
 - [x] refreshTokenHash (bcrypt hash)
@@ -112,32 +119,37 @@ Mimari:
 - [x] revokedAt (nullable, manuel iptal)
 
 ### Redis Yapısı
-- [ ] `session:{sessionId}` → `{ userId, role, sessionId }` (TTL = expiresAt)
-- [ ] `user:{userId}:sessions` → Redis SET (aktif sessionId'ler)
+
+- [x] `session:{sessionId}` → `{ userId, role, sessionId }` (TTL = expiresAt)
+- [x] `user:{userId}:sessions` → Redis SET (aktif sessionId'ler)
 
 ## JWT & Session (login'de oluşturulacak — 3'lü birlikte)
 
 Session token üçlüsü login endpoint'inde set edilecek:
+
 - `access_token` (JWT, 15min) → response body
 - `session_id` cookie → UUID of UserSessionEntity (Redis key for fast lookup)
 - `refresh_token` cookie → raw UUID secret, stored hashed in DB, used to issue new access_token
 
-- [ ] Access token generation (~15min) — payload: { sub, role, sessionId }
-- [ ] Refresh token generation (~7 days) — bound to session, rotation on each use
-- [ ] Refresh token rotation (new token on each refresh, old hash updated)
-- [ ] Token verification endpoint (exposed to api-gateway) — Redis session check
+- [x] Access token generation (~15min) — payload: { sub, role, sessionId }
+- [x] Refresh token generation (~7 days) — bound to session, rotation on each use
+- [x] Refresh token rotation (new token on each refresh, old hash updated)
+- [x] Token verification endpoint (exposed to api-gateway) — Redis session check
 
 ## Password
-- [ ] bcrypt ile hash
-- [ ] Şifre sıfırlama akışı (e-posta ile)
-- [ ] Şifre güç kuralları (validation)
+
+- [x] bcrypt ile hash
+- [x] Şifre sıfırlama akışı (e-posta ile)
+- [x] Şifre güç kuralları (validation)
 
 ## Roles & Permissions
+
 - [x] Rol tanımla: ADMIN, CUSTOMER, VENDOR
-- [ ] RolesGuard yaz
-- [ ] @Roles() decorator
+- [x] RolesGuard yaz
+- [x] @Roles() decorator
 
 ## Database
+
 - [x] PostgreSQL bağlantısı (TypeORM veya Prisma)
 - [x] Migration: users tablosu
 - [x] Migration: user_sessions tablosu
@@ -145,21 +157,25 @@ Session token üçlüsü login endpoint'inde set edilecek:
 - [x] Outbox tablosu (user.registered event için)
 
 ## Kafka Events
-- [ ] user.registered event yayınla (outbox üzerinden)
-- [ ] user.password-changed event yayınla
+
+- [x] user.registered event yayınla (outbox üzerinden)
+- [x] user.password-changed event yayınla
 
 ## Observability
-- [ ] OpenTelemetry tracing
-- [ ] Login başarı/başarısız metrikleri
-- [ ] Structured JSON log
-- [ ] /health endpoint
+
+- [x] OpenTelemetry tracing
+- [x] Login başarı/başarısız metrikleri
+- [x] Structured JSON log
+- [x] /health endpoint
 
 ## Tests
-- [ ] Unit: JWT servisi, şifre hashing
-- [ ] Integration: register → login akışı
-- [ ] E2E: token yenileme
+
+- [x] Unit: JWT servisi, şifre hashing
+- [x] Integration: register → login akışı
+- [x] E2E: token yenileme
 
 ## Docs
+
 - [x] Swagger endpoint'leri aç (dev modda /docs, Bearer + Cookie auth)
-- [ ] Auth akış diyagramı (docs/ altına)
+- [x] Auth akış diyagramı (docs/ altına)
 - [x] docs/setup.md — migration kurulum notu, outbox açıklaması

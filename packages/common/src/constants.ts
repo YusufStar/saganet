@@ -14,4 +14,6 @@ export const KAFKA_TOPICS = {
   PAYMENT_REFUNDED: 'payment.refunded',
   USER_REGISTERED: 'user.registered',
   USER_EMAIL_VERIFIED: 'user.email-verified',
+  USER_PASSWORD_CHANGED: 'user.password-changed',
+  USER_PASSWORD_RESET_REQUESTED: 'user.password-reset-requested',
 } as const;

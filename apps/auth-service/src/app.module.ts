@@ -8,6 +8,8 @@ import { UserEntity } from './users/user.entity';
 import { UserSessionEntity } from './users/user-session.entity';
 import { UserOAuthAccountEntity } from './users/user-oauth-account.entity';
 import { AuthModule } from './auth/auth.module';
+import { OutboxModule } from './outbox/outbox.module';
+import { HealthModule } from './health/health.module';
 
 const envFilePath = [
   path.join(__dirname, '../../../.env'),
@@ -24,6 +26,8 @@ const envFilePath = [
     RedisModule.forRoot(),
     KafkaModule.forRoot({ clientId: 'auth-service' }),
     AuthModule,
+    OutboxModule,
+    HealthModule,
   ],
 })
 export class AppModule {}

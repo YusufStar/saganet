@@ -8,17 +8,17 @@
     "dev": "tsc -p tsconfig.json --watch"
   },
   "dependencies": {
-    "nodemailer": "^6.9.16"
+    "nodemailer": "^8.0.4"
   },
   "peerDependencies": {
     "@nestjs/common": "^10.0.0",
     "reflect-metadata": "^0.2.0"
   },
   "devDependencies": {
-    "@nestjs/common": "^10.4.15",
-    "@types/nodemailer": "^6.4.17",
-    "@types/node": "^20.17.9",
+    "@nestjs/common": "^11.1.18",
+    "@types/node": "^25.5.2",
+    "@types/nodemailer": "^8.0.0",
     "reflect-metadata": "^0.2.2",
-    "typescript": "^5.7.2"
+    "typescript": "^6.0.2"
   }
 }

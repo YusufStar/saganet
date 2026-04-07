@@ -25,4 +25,18 @@ export class UserEntity extends BaseEntity {
 
   @Column({ type: 'timestamp', nullable: true })
   verificationTokenExpiresAt?: Date;
+
+  // Account lockout — incremented on each failed login attempt
+  @Column({ default: 0 })
+  failedLoginAttempts: number;
+
+  @Column({ type: 'timestamp', nullable: true })
+  lastFailedLoginAt?: Date;
+
+  @Index()
+  @Column({ nullable: true })
+  resetTokenHash?: string;
+
+  @Column({ type: 'timestamp', nullable: true })
+  resetTokenExpiresAt?: Date;
 }

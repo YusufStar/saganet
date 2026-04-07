@@ -1,50 +1,53 @@
-# Saganet — Geliştirici Kurulum Rehberi
+# Saganet — Developer Setup Guide
 
-## Gereksinimler
+## Requirements
 
-- Node.js 20+
-- pnpm 9+
+- Node.js 25+
+- pnpm 10+
 - Docker & Docker Compose
 
-## 1. Bağımlılıkları Kur
+## 1. Install Dependencies
 
 ```bash
 pnpm install
 ```
 
-## 2. Ortam Değişkenlerini Ayarla
+## 2. Configure Environment Variables
 
-Kök dizindeki `.env.example` dosyasını kopyala:
+Copy the root `.env.example`:
 
 ```bash
 cp .env.example .env
 ```
 
-> Tüm servisler kök dizindeki bu `.env` dosyasını okur.
-> Servis-spesifik override için `apps/<servis>/.env.local` oluşturabilirsin.
+> All services read from the root `.env` file.
+> For service-specific overrides, create `apps/<service>/.env.local`.
 
-## 3. Altyapıyı Başlat (Docker)
+## 3. Start Infrastructure (Docker)
 
 ```bash
 cd infra/docker
 sudo docker compose up -d
 ```
 
-Ayağa kalkan servisler:
+Services started:
 
-| Servis      | Adres                        |
-|-------------|------------------------------|
-| PostgreSQL  | localhost:5432               |
-| Redis       | localhost:6379               |
-| Kafka       | localhost:9092               |
-| Jaeger UI   | http://localhost:16686       |
-| Prometheus  | http://localhost:9090        |
-| Grafana     | http://localhost:3001        |
+| Service     | Address                        |
+|-------------|-------------------------------|
+| PostgreSQL  | localhost:5432                |
+| Redis       | localhost:6379                |
+| Kafka       | localhost:9092                |
+| Jaeger UI   | http://localhost:16686        |
+| Prometheus  | http://localhost:9090         |
+| Grafana     | http://localhost:3001         |
 
-## 4. Migration'ları Çalıştır
+> **Note:** Grafana runs on port 3001. auth-service also uses 3001 by default.
+> If running both locally, set `AUTH_SERVICE_PORT=3002` in `.env`.
 
-> **Önemli:** `pnpm dev` migration'ları **otomatik çalıştırmaz**.
-> Servis başlatmadan önce elle çalıştırman gerekir.
+## 4. Run Migrations
+
+> **Important:** `pnpm dev` does NOT run migrations automatically.
+> Run them manually before starting a service.
 
 ### auth-service
 
@@ -53,49 +56,109 @@ cd apps/auth-service
 pnpm migration:run
 ```
 
-Diğer servisler hazır oldukça bu bölüme eklenecektir.
+Migrations applied (in order):
+1. `CreateUsersTable` — users, roles, email verification
+2. `CreateUserSessionsTable` — session tracking, refresh token hashes
+3. `CreateUserOAuthAccountsTable` — Google/GitHub OAuth accounts
+4. `CreateOutboxTable` — reliable event publishing
+5. `AddEmailVerificationToUsers` — email verification token + expiry
+6. `AddLoginSecurityFields` — failed login counter, family ID for token reuse detection
 
-### Migration geri alma
+### Revert last migration
 
 ```bash
 pnpm migration:revert
 ```
 
-## 5. Servisleri Başlat
+## 5. Start Services
 
 ```bash
-# Tek servis
+# Single service
 cd apps/auth-service && pnpm dev
 
-# Kökten (ileride turbo/nx entegrasyonu ile)
-pnpm --filter @saganet/auth-service dev
+# From root
+pnpm dev
 ```
 
-## 6. API Dokümantasyonu (Swagger)
+## 6. API Documentation (Swagger)
 
-Swagger UI sadece `NODE_ENV !== production` modunda açıktır.
+Swagger UI is only available when `NODE_ENV !== production`.
 
-| Servis       | URL                                   |
-|--------------|---------------------------------------|
-| auth-service | http://localhost:3001/docs            |
+| Service       | URL                            |
+|---------------|-------------------------------|
+| auth-service  | http://localhost:3001/docs    |
+| api-gateway   | http://localhost:3000/docs    |
 
-## Outbox Pattern Nedir?
+## 7. Auth Flow
 
-Outbox, olayları güvenilir şekilde Kafka'ya iletmek için kullanılan bir desendir:
+### Register → Verify → Login
 
 ```
-[Servis İşlemi]
-  DB transaction açılır
-  → İş verisi kaydedilir (örn. yeni kullanıcı)
-  → Outbox tablosuna event yazılır  ← aynı transaction
-  DB transaction commit olur
+POST /api/auth/register        { email, password }
+  → 201: { user, message }
+  → Sends verification email (via Kafka outbox → notification-service)
 
-[Outbox Relay Worker]  (ileride implement edilecek)
-  → Outbox tablosunu poll eder (sentAt IS NULL)
-  → Kafka'ya publish eder
-  → sentAt güncellenir
+GET  /api/auth/verify-email?token=<token>
+  → 200: { message }
+  → Sends welcome email
+
+POST /api/auth/login           { email, password }
+  → 200: { access_token, user }
+  → Sets cookies: session_id, refresh_token (httpOnly, sameSite=lax)
 ```
 
-**Neden lazım?**
-Direkt Kafka publish yapılırsa: DB commit başarılı ama Kafka publish fail olabilir.
-Outbox ile: ya her ikisi de kaydedilir ya da hiçbiri — atomik güvence sağlanır.
+### Session Management
+
+```
+POST /api/auth/refresh
+  → Reads: session_id + refresh_token cookies
+  → 200: { access_token }
+  → Rotates refresh_token cookie (reuse detection active)
+
+POST /api/auth/logout
+  → Revokes current session, clears cookies
+
+POST /api/auth/logout/all
+  → Revokes all sessions for the user (requires x-user-id header from api-gateway)
+```
+
+### Security Notes
+
+- **Rate limiting**: 30 attempts / 15 min per IP, 10 per email (Redis sliding window)
+- **Account lockout**: 5 failed attempts → 15 min lockout
+- **Refresh token rotation**: every refresh issues a new token, old one is invalidated
+- **Reuse detection**: using a stolen old refresh token revokes the entire session family
+- **Device check**: user-agent change during refresh revokes the session
+
+### Authenticated Requests
+
+After login, include the access token in every request:
+
+```
+Authorization: Bearer <access_token>
+```
+
+The api-gateway validates it and forwards `x-user-id`, `x-user-role`, `x-session-id` headers to downstream services.
+
+---
+
+## Outbox Pattern
+
+Outbox is used to reliably deliver events to Kafka:
+
+```
+[Service Transaction]
+  DB transaction opens
+  → Business data saved (e.g. new user)
+  → Event written to outbox table  ← same transaction
+  DB transaction commits
+
+[Outbox Relay Worker]  (to be implemented)
+  → Polls outbox table (sentAt IS NULL)
+  → Publishes to Kafka
+  → Updates sentAt
+```
+
+**Why it matters:**
+Direct Kafka publish risks: DB commit succeeds but Kafka publish fails.
+With Outbox: both are saved or neither — atomic guarantee.
