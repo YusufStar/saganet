@@ -47,7 +47,7 @@ VENDOR ürün ekler
 
 ### Entity Tasarımı
 
-- [ ] Product entity:
+- [x] Product entity:
   - `id` (uuid, PK)
   - `vendorId` (uuid, FK → users — ürün sahibi)
   - `name`, `description`, `slug` (unique)
@@ -56,16 +56,16 @@ VENDOR ürün ekler
   - `status` (enum: PENDING_REVIEW, ACTIVE, REJECTED, SUSPENDED, DELETED)
   - `rejectionReason` (nullable — ADMIN reddedince doldurulur)
   - `createdAt`, `updatedAt`, `deletedAt` (soft delete)
-- [ ] Category entity (id, name, slug, parentId — ağaç yapısı)
-- [ ] Slug üretimi (SEO-friendly, unique constraint)
-- [ ] Soft delete (`deletedAt` — vendor kendi ürününü siler, ADMIN hard delete yapabilir)
+- [x] Category entity (id, name, slug, parentId — ağaç yapısı)
+- [x] Slug üretimi (SEO-friendly, unique constraint)
+- [x] Soft delete (`deletedAt` — vendor kendi ürününü siler, ADMIN hard delete yapabilir)
 
 ### Public Endpoint'ler (auth gerektirmez)
 
-- [ ] `GET /products` — sadece `status=ACTIVE` olanları döndür
-- [ ] `GET /products/:id` — sadece `status=ACTIVE` olanı döndür
-- [ ] `GET /categories` — tüm kategoriler
-- [ ] `GET /categories/:id/products` — kategoriye ait aktif ürünler
+- [x] `GET /products` — sadece `status=ACTIVE` olanları döndür
+- [x] `GET /products/:id` — sadece `status=ACTIVE` olanı döndür
+- [x] `GET /categories` — tüm kategoriler
+- [x] `GET /categories/:id/products` — kategoriye ait aktif ürünler
 
 ### Vendor Endpoint'leri (`@Roles(VENDOR)` + Ownership Guard)
 
@@ -134,11 +134,11 @@ VENDOR ürün ekler
 
 ## Database
 
-- [ ] Migration: `products` tablosu (`vendorId`, `status`, `rejectionReason` dahil)
-- [ ] Migration: `categories` tablosu
-- [ ] Migration: `product_images` tablosu
-- [ ] Index: `price`, `category_id`, `vendor_id`, `status`, `created_at`
-- [ ] Composite index: `(vendor_id, status)` — vendor kendi ürünlerini sorgularken
+- [x] Migration: `products` tablosu (`vendorId`, `status`, `rejectionReason` dahil)
+- [x] Migration: `categories` tablosu
+- [x] Migration: `product_images` tablosu
+- [x] Index: `price`, `category_id`, `vendor_id`, `status`, `created_at`
+- [x] Composite index: `(vendor_id, status)` — vendor kendi ürünlerini sorgularken
 
 ---
 

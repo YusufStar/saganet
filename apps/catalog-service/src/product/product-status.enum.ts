@@ -1,0 +1,7 @@
+export enum ProductStatus {
+  PENDING_REVIEW = 'PENDING_REVIEW',
+  ACTIVE = 'ACTIVE',
+  REJECTED = 'REJECTED',
+  SUSPENDED = 'SUSPENDED',
+  DELETED = 'DELETED',
+}
