@@ -32,6 +32,11 @@ const PUBLIC_ROUTES = [
   { path: 'docs',                     method: RequestMethod.GET  },
   { path: 'docs/(.*)',                method: RequestMethod.GET  },
   { path: 'api/swagger-proxy/(.*)',   method: RequestMethod.GET  },
+  { path: 'api/catalog/products',                   method: RequestMethod.GET },
+  { path: 'api/catalog/products/(.*)',               method: RequestMethod.GET },
+  { path: 'api/catalog/categories',                  method: RequestMethod.GET },
+  { path: 'api/catalog/categories/(.*)',             method: RequestMethod.GET },
+  { path: 'api/inventory/stock/(.*)',                method: RequestMethod.GET },
 ];
 
 @Module({
