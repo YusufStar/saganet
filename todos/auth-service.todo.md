@@ -1,9 +1,28 @@
 # auth-service todos
 
+## Sistem Mimarisi
+
+```
+[Browser]
+   ↓ cookie (refresh_token) / Authorization: Bearer <access_token>
+[API Gateway]
+   ↓ JWT doğrula → geçersizse 401
+   ↓ user context'i header'a ekle (x-user-id, x-user-role)
+[Order Service]
+   ↓ iş mantığı tamamlanınca event üret
+[Kafka]  →  topic: order.created
+   ↓
+[Inventory Service]
+   ↓ stok güncelle
+```
+
+Auth service bu akışta **token üretimi ve doğrulamasından** sorumludur.
+API Gateway, her istekte auth-service'in `/auth/verify` endpoint'ini çağırır.
+
 ## Scaffold
 - [x] NestJS projesi oluştur
 - [x] apps/auth-service klasörüne ekle
-- [ ] Gerekli bağımlılıklar: @nestjs/jwt, bcrypt, passport
+- [x] Gerekli bağımlılıklar: @nestjs/jwt, bcrypt, passport
 
 ## User Management
 - [ ] User entity / schema tasarla (id, email, passwordHash, role, createdAt)
