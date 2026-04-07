@@ -1,0 +1,20 @@
+# Global owner — reviews required from @YusufStar on all PRs
+* @YusufStar
+
+# Microservices
+/apps/api-gateway/         @YusufStar
+/apps/auth-service/        @YusufStar
+/apps/catalog-service/     @YusufStar
+/apps/inventory-service/   @YusufStar
+/apps/order-service/       @YusufStar
+/apps/payment-service/     @YusufStar
+/apps/notification-service/ @YusufStar
+
+# Shared packages
+/packages/ @YusufStar
+
+# Infrastructure
+/infra/ @YusufStar
+
+# CI/CD
+/.github/ @YusufStar
