@@ -132,10 +132,11 @@ Mimari:
 - [ ] @Roles() decorator
 
 ## Database
-- [ ] PostgreSQL bağlantısı (TypeORM veya Prisma)
-- [ ] Migration: users tablosu
-- [x] Migration: user_sessions tablosu (UserSessionEntity)
-- [ ] Outbox tablosu (user.registered event için)
+- [x] PostgreSQL bağlantısı (TypeORM veya Prisma)
+- [x] Migration: users tablosu
+- [x] Migration: user_sessions tablosu
+- [x] Migration: user_oauth_accounts tablosu
+- [x] Outbox tablosu (user.registered event için)
 
 ## Kafka Events
 - [ ] user.registered event yayınla (outbox üzerinden)
