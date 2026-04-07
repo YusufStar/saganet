@@ -37,8 +37,8 @@
 - [ ] Schema versioning hazırlığı (Avro / JSON Schema — ilerleyen aşama)
 
 ## Config
-- [ ] KafkaModule (NestJS dynamic module)
-- [ ] Broker, client ID, group ID env'den al
+- [x] KafkaModule (NestJS dynamic module)
+- [x] Broker, client ID, group ID env'den al
 - [ ] SSL / SASL konfigürasyonu (production)
 
 ## Observability
