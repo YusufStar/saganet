@@ -58,4 +58,3 @@
 ## Docs
 
 - [x] Swagger/OpenAPI entegrasyonu (dev modda /docs, Bearer + Cookie auth)
-- [ ] Route listesi README'ye ekle
