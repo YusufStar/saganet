@@ -25,11 +25,42 @@ API Gateway, her istekte auth-service'in `/auth/verify` endpoint'ini çağırır
 - [x] Gerekli bağımlılıklar: @nestjs/jwt, bcrypt, passport
 
 ## User Management
-- [x] User entity / schema tasarla (id, email, passwordHash, role, createdAt)
+- [x] User entity / schema tasarla (id, email, passwordHash?, role, createdAt)
 - [ ] Register endpoint (POST /auth/register)
 - [ ] Login endpoint (POST /auth/login)
 - [ ] Logout / token invalidation
 - [ ] Email doğrulama akışı
+
+## OAuth
+
+Akış (Google örneği):
+```
+GET /auth/google → Google OAuth consent
+GET /auth/google/callback?code=...
+  → code ile token exchange (Google API)
+  → provider + providerAccountId ile UserOAuthAccountEntity ara
+  → Bulunamadıysa: yeni User (passwordHash=null) + OAuthAccount oluştur
+  → UserSession oluştur (aynı session mekanizması)
+  → access_token döndür, session cookie set
+```
+
+### UserOAuthAccountEntity (PostgreSQL)
+- [x] id (uuid, PK)
+- [x] userId (FK → users, CASCADE DELETE)
+- [x] provider (enum: GOOGLE, GITHUB)
+- [x] providerAccountId (provider'ın user ID'si, unique per provider)
+- [x] accessToken (nullable)
+- [x] refreshToken (nullable)
+- [x] accessTokenExpiresAt (nullable)
+- [x] scope (nullable)
+
+### Implementasyon
+- [ ] `@nestjs/passport` + `passport-google-oauth20` entegrasyonu
+- [ ] `GoogleStrategy` (passport strategy)
+- [ ] `GET /auth/google` → redirect
+- [ ] `GET /auth/google/callback` → OAuthService.handleCallback()
+- [ ] OAuthService: upsert user + account, session oluştur
+- [ ] GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_CALLBACK_URL env
 
 ## Session Modeli (better-auth tarzı)
 

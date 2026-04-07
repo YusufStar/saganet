@@ -8,8 +8,9 @@ export class UserEntity extends BaseEntity {
   @Column({ length: 255 })
   email: string;
 
-  @Column()
-  passwordHash: string;
+  // OAuth ile kayıt olanlarda null
+  @Column({ nullable: true })
+  passwordHash?: string;
 
   @Column({ type: 'enum', enum: UserRole, default: UserRole.CUSTOMER })
   role: UserRole;
