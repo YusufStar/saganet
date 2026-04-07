@@ -1,8 +1,8 @@
 # auth-service todos
 
 ## Scaffold
-- [ ] NestJS projesi oluştur
-- [ ] apps/auth-service klasörüne ekle
+- [x] NestJS projesi oluştur
+- [x] apps/auth-service klasörüne ekle
 - [ ] Gerekli bağımlılıklar: @nestjs/jwt, bcrypt, passport
 
 ## User Management

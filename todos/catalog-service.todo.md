@@ -1,8 +1,8 @@
 # catalog-service todos
 
 ## Scaffold
-- [ ] NestJS projesi oluştur
-- [ ] apps/catalog-service klasörüne ekle
+- [x] NestJS projesi oluştur
+- [x] apps/catalog-service klasörüne ekle
 - [ ] Bağımlılıklar: TypeORM/Prisma, class-validator
 
 ## Product Domain

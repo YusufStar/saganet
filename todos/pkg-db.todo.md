@@ -1,9 +1,9 @@
 # packages/db todos
 
 ## Scaffold
-- [ ] packages/db klasörü oluştur
-- [ ] package.json, tsconfig.json
-- [ ] TypeORM veya Prisma kararını ver ve ekle
+- [x] packages/db klasörü oluştur
+- [x] package.json, tsconfig.json
+- [x] TypeORM veya Prisma kararını ver ve ekle (→ TypeORM)
 
 ## Bağlantı Yönetimi
 - [ ] DatabaseModule (NestJS dynamic module)
@@ -19,9 +19,9 @@
 - [ ] Her servis kendi migration'larını buraya mı koyacak? → karar ver
 
 ## Outbox Tablosu (Shared)
-- [ ] Outbox entity/model tanımla (id, topic, payload, sentAt, retryCount, createdAt)
+- [x] Outbox entity/model tanımla (id, topic, payload, sentAt, retryCount, createdAt)
 - [ ] Outbox için TypeORM repository veya Prisma client export et
-- [ ] Index: sent_at IS NULL, retry_count
+- [x] Index: sent_at IS NULL, retry_count
 
 ## Seeding
 - [ ] Base seeder class
@@ -30,8 +30,8 @@
 
 ## Utilities
 - [ ] Pagination helper (offset & cursor)
-- [ ] Soft delete base entity
-- [ ] BaseEntity (id, createdAt, updatedAt)
+- [x] Soft delete base entity
+- [x] BaseEntity (id, createdAt, updatedAt)
 - [ ] Transaction helper wrapper
 
 ## Tests

@@ -3,16 +3,16 @@
 ## Docker
 - [ ] Her servis için Dockerfile yaz (multi-stage build)
 - [ ] .dockerignore ekle
-- [ ] docker-compose.yml: tüm servisler + infra
-  - [ ] PostgreSQL
-  - [ ] Kafka + Zookeeper (veya KRaft)
-  - [ ] Redis
-  - [ ] Jaeger
-  - [ ] Prometheus
-  - [ ] Grafana
+- [x] docker-compose.yml: tüm servisler + infra
+  - [x] PostgreSQL
+  - [x] Kafka + Zookeeper
+  - [x] Redis
+  - [x] Jaeger
+  - [x] Prometheus
+  - [x] Grafana
 - [ ] docker-compose.override.yml (geliştirme overrides)
 - [ ] docker-compose.test.yml (entegrasyon testleri için)
-- [ ] Health check tanımları compose'a ekle
+- [x] Health check tanımları compose'a ekle
 
 ## Kubernetes (ilerleyen aşama)
 - [ ] Her servis için Deployment manifest
@@ -26,11 +26,11 @@
 - [ ] Namespace yapısı: dev / staging / prod
 
 ## CI/CD
-- [ ] .github/workflows/ci.yml
-  - [ ] Lint
-  - [ ] Type check
-  - [ ] Unit testleri
-  - [ ] Build
+- [x] .github/workflows/ci.yml
+  - [x] Lint
+  - [x] Type check
+  - [x] Unit testleri
+  - [x] Build
 - [ ] .github/workflows/integration-tests.yml
   - [ ] Docker Compose ayağa kaldır
   - [ ] E2E testleri çalıştır
@@ -39,17 +39,17 @@
   - [ ] Semantic versioning (standard-version)
 
 ## Environment
-- [ ] .env.example dosyası (tüm değişkenler, değersiz)
+- [x] .env.example dosyası (tüm değişkenler, değersiz)
 - [ ] Her ortam için env template: .env.dev, .env.test
 - [ ] Secrets yönetimi stratejisi belirle (Vault / AWS Secrets Manager)
 
 ## Monitoring Stack
-- [ ] Prometheus scrape config (her servis /metrics)
+- [x] Prometheus scrape config (her servis /metrics)
 - [ ] Grafana dashboard JSON'ları
   - [ ] Genel sistem dashboard
   - [ ] Saga akış dashboard
   - [ ] Kafka consumer lag dashboard
-- [ ] Jaeger all-in-one konfigürasyonu
+- [x] Jaeger all-in-one konfigürasyonu
 
 ## Chaos Mode
 - [ ] npm run chaos script'i implement et

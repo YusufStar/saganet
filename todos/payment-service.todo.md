@@ -1,8 +1,8 @@
 # payment-service todos
 
 ## Scaffold
-- [ ] NestJS projesi oluştur
-- [ ] apps/payment-service klasörüne ekle
+- [x] NestJS projesi oluştur
+- [x] apps/payment-service klasörüne ekle
 - [ ] Bağımlılıklar: stripe (veya mock provider), TypeORM/Prisma
 
 ## Payment Domain

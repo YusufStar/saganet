@@ -1,13 +1,13 @@
 # inventory-service todos
 
 ## Scaffold
-- [ ] NestJS projesi oluştur
-- [ ] apps/inventory-service klasörüne ekle
+- [x] NestJS projesi oluştur
+- [x] apps/inventory-service klasörüne ekle
 - [ ] Bağımlılıklar: TypeORM/Prisma, ioredis
 
 ## Stock Domain
 - [ ] Inventory entity (id, productId, quantity, reserved, available)
-- [ ] Stock hareketleri tablosu (StockLedger: type, delta, referenceId, createdAt)
+- [ ] Stok hareketleri tablosu (StockLedger: type, delta, referenceId, createdAt)
 - [ ] CRUD: stok ekle, güncelle, sorgula
 
 ## Rezervasyon Akışı (Saga)

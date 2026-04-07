@@ -1,21 +1,21 @@
 # packages/kafka todos
 
 ## Scaffold
-- [ ] packages/kafka klasörü oluştur
-- [ ] package.json, tsconfig.json
-- [ ] kafkajs bağımlılığı
+- [x] packages/kafka klasörü oluştur
+- [x] package.json, tsconfig.json
+- [x] kafkajs bağımlılığı
 
 ## Producer
-- [ ] KafkaProducerService yaz
-- [ ] Topic'e mesaj gönder (send)
+- [x] KafkaProducerService yaz
+- [x] Topic'e mesaj gönder (send)
 - [ ] Batch gönderim desteği
 - [ ] Retry + hata yönetimi
 - [ ] Graceful shutdown (flush bekle)
 
 ## Consumer
-- [ ] KafkaConsumerService yaz
-- [ ] Consumer group yönetimi
-- [ ] Handler registry (topic → handler mapping)
+- [x] KafkaConsumerService yaz
+- [x] Consumer group yönetimi
+- [x] Handler registry (topic → handler mapping)
 - [ ] Manual commit (at-least-once)
 - [ ] Graceful shutdown
 
@@ -32,8 +32,8 @@
 - [ ] DLQ monitor/alert hazırlığı
 
 ## Schema & Serialization
-- [ ] Event envelope formatı (eventId, type, timestamp, payload)
-- [ ] JSON serializer/deserializer
+- [x] Event envelope formatı (eventId, type, timestamp, payload)
+- [x] JSON serializer/deserializer
 - [ ] Schema versioning hazırlığı (Avro / JSON Schema — ilerleyen aşama)
 
 ## Config
