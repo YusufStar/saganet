@@ -1,8 +1,31 @@
+import * as path from 'path';
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { DatabaseModule, OutboxEntity } from '@saganet/db';
+import { RedisModule } from '@saganet/redis';
+import { KafkaModule } from '@saganet/kafka';
+import { OrderEntity } from './order/order.entity';
+import { OrderItemEntity } from './order/order-item.entity';
+import { SagaStateEntity } from './saga/saga-state.entity';
+import { HealthModule } from './health/health.module';
+import { MetricsModule } from './metrics/metrics.module';
+
+const envFilePath = [
+  path.join(__dirname, '../../../.env'),
+  path.join(process.cwd(), '../../.env'),
+  '.env',
+];
 
 @Module({
-  imports: [],
-  controllers: [],
-  providers: [],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true, envFilePath }),
+    DatabaseModule.forRoot({
+      entities: [OrderEntity, OrderItemEntity, SagaStateEntity, OutboxEntity],
+    }),
+    RedisModule.forRoot(),
+    KafkaModule.forRoot({ clientId: 'order-service' }),
+    HealthModule,
+    MetricsModule,
+  ],
 })
 export class AppModule {}
