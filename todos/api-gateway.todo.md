@@ -16,9 +16,10 @@
 - [ ] Route config'i environment-based yap
 
 ## Auth Middleware
-- [ ] JWT doğrulama middleware'i yaz
-- [ ] Public/protected route ayrımı
-- [ ] Token refresh akışını yönlendir
+- [x] JWT verification middleware (Bearer token → Redis session check)
+- [x] Public/protected route separation (register, login, health, docs excluded)
+- [x] Attach x-user-id, x-user-role, x-session-id headers to forwarded requests
+- [ ] Token refresh flow routing
 
 ## Rate Limiting
 - [ ] Global rate limiter ekle

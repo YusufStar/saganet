@@ -13,9 +13,9 @@ class AuthUserDto {
 }
 
 export class RegisterResponseDto {
-  @ApiProperty({ description: 'JWT access token (~15 dakika geçerli)' })
-  accessToken: string;
-
   @ApiProperty({ type: AuthUserDto })
   user: AuthUserDto;
+
+  @ApiProperty({ example: 'Registration successful. Please check your email to verify your account.' })
+  message: string;
 }

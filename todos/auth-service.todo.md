@@ -26,7 +26,7 @@ API Gateway, her istekte auth-service'in `/auth/verify` endpoint'ini çağırır
 
 ## User Management
 - [x] User entity / schema tasarla (id, email, passwordHash?, role, createdAt)
-- [ ] Register endpoint (POST /auth/register)
+- [x] Register endpoint (POST /auth/register)
 - [ ] Login endpoint (POST /auth/login)
 - [ ] Logout / token invalidation
 - [ ] Email doğrulama akışı
@@ -115,11 +115,17 @@ Mimari:
 - [ ] `session:{sessionId}` → `{ userId, role, sessionId }` (TTL = expiresAt)
 - [ ] `user:{userId}:sessions` → Redis SET (aktif sessionId'ler)
 
-## JWT
-- [ ] Access token üretimi (kısa ömürlü, ~15dk) — payload: { sub, role, sessionId }
-- [ ] Refresh token üretimi (uzun ömürlü, ~7gün) — session'a bağlı, rotation ile
-- [ ] Refresh token rotation (her refresh'te yeni token, eski hash güncellenir)
-- [ ] Token doğrulama servisi (api-gateway'e expose) — Redis'e bakarak anlık kontrol
+## JWT & Session (login'de oluşturulacak — 3'lü birlikte)
+
+Session token üçlüsü login endpoint'inde set edilecek:
+- `access_token` (JWT, 15min) → response body
+- `session_id` cookie → UUID of UserSessionEntity (Redis key for fast lookup)
+- `refresh_token` cookie → raw UUID secret, stored hashed in DB, used to issue new access_token
+
+- [ ] Access token generation (~15min) — payload: { sub, role, sessionId }
+- [ ] Refresh token generation (~7 days) — bound to session, rotation on each use
+- [ ] Refresh token rotation (new token on each refresh, old hash updated)
+- [ ] Token verification endpoint (exposed to api-gateway) — Redis session check
 
 ## Password
 - [ ] bcrypt ile hash
