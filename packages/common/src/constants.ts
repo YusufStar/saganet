@@ -1,0 +1,16 @@
+export const KAFKA_TOPICS = {
+  ORDER_CREATED: 'order.created',
+  ORDER_COMPLETED: 'order.completed',
+  ORDER_FAILED: 'order.failed',
+  INVENTORY_RESERVE: 'inventory.reserve',
+  INVENTORY_RESERVED: 'inventory.reserved',
+  INVENTORY_RESERVATION_FAILED: 'inventory.reservation-failed',
+  INVENTORY_RELEASE: 'inventory.release',
+  INVENTORY_RELEASED: 'inventory.released',
+  PAYMENT_CHARGE: 'payment.charge',
+  PAYMENT_COMPLETED: 'payment.completed',
+  PAYMENT_FAILED: 'payment.failed',
+  PAYMENT_REFUND: 'payment.refund',
+  PAYMENT_REFUNDED: 'payment.refunded',
+  USER_REGISTERED: 'user.registered',
+} as const;

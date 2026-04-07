@@ -1,0 +1,28 @@
+{
+  "name": "saganet",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --filter './apps/*' run dev",
+    "build": "pnpm --filter './packages/*' run build && pnpm --filter './apps/*' run build",
+    "test": "pnpm --filter './apps/*' run test",
+    "lint": "eslint . --ext .ts",
+    "typecheck": "pnpm --filter './apps/*' run typecheck",
+    "format": "prettier --write \"**/*.{ts,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,json,md}\""
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.6.1",
+    "@commitlint/config-conventional": "^19.6.0",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "eslint": "^8.57.1",
+    "husky": "^9.1.7",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  }
+}
