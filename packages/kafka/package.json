@@ -10,8 +10,14 @@
   "dependencies": {
     "kafkajs": "^2.2.4"
   },
+  "peerDependencies": {
+    "@nestjs/common": "^10.0.0",
+    "reflect-metadata": "^0.2.0"
+  },
   "devDependencies": {
+    "@nestjs/common": "^10.4.15",
     "@types/node": "^20.17.9",
+    "reflect-metadata": "^0.2.2",
     "typescript": "^5.7.2"
   }
 }

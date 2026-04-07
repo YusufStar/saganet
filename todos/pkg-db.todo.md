@@ -6,10 +6,10 @@
 - [x] TypeORM veya Prisma kararını ver ve ekle (→ TypeORM)
 
 ## Bağlantı Yönetimi
-- [ ] DatabaseModule (NestJS dynamic module)
-- [ ] Connection pool konfigürasyonu
+- [x] DatabaseModule (NestJS dynamic module)
+- [x] Connection pool konfigürasyonu
 - [ ] Read replica desteği hazırlığı
-- [ ] Graceful shutdown (connection kapat)
+- [x] Graceful shutdown (connection kapat)
 
 ## Migration Altyapısı
 - [ ] Migration klasör yapısı: packages/db/migrations/
