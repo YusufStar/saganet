@@ -154,5 +154,6 @@ Mimari:
 - [ ] E2E: token yenileme
 
 ## Docs
-- [ ] Swagger endpoint'leri aç
+- [x] Swagger endpoint'leri aç (dev modda /docs, Bearer + Cookie auth)
 - [ ] Auth akış diyagramı (docs/ altına)
+- [x] docs/setup.md — migration kurulum notu, outbox açıklaması
