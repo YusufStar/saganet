@@ -32,7 +32,7 @@ const PUBLIC_ROUTES = [
   { path: 'api/metrics',              method: RequestMethod.GET  },
   { path: 'docs',                     method: RequestMethod.GET  },
   { path: 'docs/(.*)',                method: RequestMethod.GET  },
-  { path: 'swagger-proxy/(.*)',       method: RequestMethod.GET  },
+  { path: 'api/swagger-proxy/(.*)',   method: RequestMethod.GET  },
 ];
 
 @Module({
