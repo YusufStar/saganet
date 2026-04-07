@@ -4,65 +4,65 @@
 
 - [x] NestJS projesi oluştur
 - [x] apps/notification-service klasörüne ekle
-- [ ] Bağımlılıklar: nodemailer, @nestjs/bull (veya BullMQ)
+- [x] Bağımlılıklar: nodemailer, @nestjs/bull (veya BullMQ)
 
 ## Bildirim Kanalları
 
-- [ ] E-posta kanalı (Nodemailer / SendGrid)
-- [ ] NotificationChannel interface tanımla
+- [x] E-posta kanalı (Nodemailer / SendGrid)
+- [x] NotificationChannel interface tanımla
 
 ## Template Sistemi
 
-- [ ] Template engine seç (Handlebars veya Mjml)
-- [ ] Sipariş oluşturuldu template'i
-- [ ] Sipariş tamamlandı template'i
-- [ ] Sipariş başarısız template'i
-- [ ] Hoş geldin / kayıt doğrulama template'i
-- [ ] Şifre sıfırlama template'i
+- [x] Template engine seç (Handlebars veya Mjml)
+- [x] Sipariş oluşturuldu template'i
+- [x] Sipariş tamamlandı template'i
+- [x] Sipariş başarısız template'i
+- [x] Hoş geldin / kayıt doğrulama template'i
+- [x] Şifre sıfırlama template'i
 
 ## Queue
 
-- [ ] BullMQ ile bildirim kuyruğu kur
-- [ ] Retry mekanizması (max 3 deneme, exponential backoff)
-- [ ] Dead letter queue (başarısız bildirimler)
-- [ ] Öncelik sırası (kritik > normal)
+- [x] BullMQ ile bildirim kuyruğu kur
+- [x] Retry mekanizması (max 3 deneme, exponential backoff)
+- [x] Dead letter queue (başarısız bildirimler)
+- [x] Öncelik sırası (kritik > normal)
 
 ## Kafka Events (Dinle)
 
-- [ ] order.created → sipariş oluşturuldu bildirimi
-- [ ] order.completed → sipariş tamamlandı bildirimi
-- [ ] order.failed → sipariş başarısız bildirimi
-- [ ] user.registered → hoş geldin e-postası
-- [ ] payment.completed → ödeme onay bildirimi
-- [ ] payment.refunded → iade bildirimi
+- [x] order.created → sipariş oluşturuldu bildirimi
+- [x] order.completed → sipariş tamamlandı bildirimi
+- [x] order.failed → sipariş başarısız bildirimi
+- [x] user.registered → hoş geldin e-postası
+- [x] payment.completed → ödeme onay bildirimi
+- [x] payment.refunded → iade bildirimi
 
 ## Tercih Yönetimi
 
-- [ ] Kullanıcı bildirim tercihleri tablosu
-- [ ] Kanal bazlı opt-in/opt-out
+- [x] Kullanıcı bildirim tercihleri tablosu
+- [x] Kanal bazlı opt-in/opt-out
 
 ## Database
 
-- [ ] Migration: notifications tablosu (gönderim kaydı)
-- [ ] Migration: notification_preferences tablosu
-- [ ] Index: user_id, status, created_at
+- [x] Migration: notifications tablosu (gönderim kaydı)
+- [x] Migration: notification_preferences tablosu
+- [x] Index: user_id, status, created_at
 
 ## Observability
 
-- [ ] OpenTelemetry tracing
-- [ ] Gönderilen/başarısız bildirim metriği
-- [ ] Queue derinliği metriği
-- [ ] Structured JSON log
-- [ ] /health endpoint
+- [x] OpenTelemetry tracing
+- [x] Gönderilen/başarısız bildirim metriği
+- [x] Queue derinliği metriği
+- [x] Structured JSON log
+- [x] /health endpoint
 
 ## Tests
 
-- [ ] Unit: template rendering
-- [ ] Unit: kanal seçim mantığı
-- [ ] Integration: Kafka event → kuyruk → gönderim
-- [ ] Mock: e-posta/SMS gönderimi
+- [x] Unit: template rendering
+- [x] Unit: kanal seçim mantığı
+- [x] Integration: Kafka event → kuyruk → gönderim
+- [x] Mock: e-posta/SMS gönderimi
 
 ## Docs
 
-- [ ] Template değiştirme / ekleme rehberi
-- [ ] Yeni kanal ekleme rehberi
+- [x] Template değiştirme / ekleme rehberi
+- [x] Yeni kanal ekleme rehberi

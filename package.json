@@ -27,10 +27,11 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
-      "bcrypt",
       "@nestjs/core",
       "@scarf/scarf",
-      "unrs-resolver"
+      "msgpackr-extract",
+      "protobufjs",
+      "sharp"
     ]
   }
 }
