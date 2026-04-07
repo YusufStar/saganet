@@ -6,6 +6,7 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 import { RedisModule } from '@saganet/redis';
 import { HealthModule } from './health/health.module';
 import { MetricsModule } from './metrics/metrics.module';
+import { SwaggerProxyController } from './proxy/swagger-proxy.controller';
 import { JwtAuthMiddleware } from './middleware/jwt-auth.middleware';
 import { RequestIdMiddleware } from './middleware/request-id.middleware';
 import { ContentTypeMiddleware } from './middleware/content-type.middleware';
@@ -31,9 +32,11 @@ const PUBLIC_ROUTES = [
   { path: 'api/metrics',              method: RequestMethod.GET  },
   { path: 'docs',                     method: RequestMethod.GET  },
   { path: 'docs/(.*)',                method: RequestMethod.GET  },
+  { path: 'swagger-proxy/(.*)',       method: RequestMethod.GET  },
 ];
 
 @Module({
+  controllers: [SwaggerProxyController],
   imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath }),
     JwtModule.registerAsync({
