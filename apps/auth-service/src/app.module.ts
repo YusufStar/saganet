@@ -2,13 +2,14 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from '@saganet/db';
 import { UserEntity } from './users/user.entity';
+import { UserSessionEntity } from './users/user-session.entity';
 import { RedisModule } from '@saganet/redis';
 import { KafkaModule } from '@saganet/kafka';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    DatabaseModule.forRoot({ entities: [UserEntity] }),
+    DatabaseModule.forRoot({ entities: [UserEntity, UserSessionEntity] }),
     RedisModule.forRoot(),
     KafkaModule.forRoot({ clientId: 'auth-service' }),
   ],

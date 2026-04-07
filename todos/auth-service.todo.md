@@ -31,12 +31,64 @@ API Gateway, her istekte auth-service'in `/auth/verify` endpoint'ini çağırır
 - [ ] Logout / token invalidation
 - [ ] Email doğrulama akışı
 
+## Session Modeli (better-auth tarzı)
+
+Mimari:
+- Her login → yeni `UserSessionEntity` (PostgreSQL) + Redis cache
+- Refresh token session'a bağlı, DB'de bcrypt hash olarak saklanır
+- Session ID cookie'de (httpOnly, secure, sameSite=strict)
+- Redis hem hız hem anlık invalidation sağlar
+
+```
+[Login]
+  → UserSessionEntity oluştur (DB)
+  → session:{sessionId} → { userId, role } set (Redis, TTL=7gün)
+  → user:{userId}:sessions → sessionId ekle (Redis SET)
+  → access_token (JWT, 15dk) + session_id (cookie) döndür
+
+[Token Refresh]
+  → Cookie'den sessionId al
+  → Redis'te session:{sessionId} var mı? → yoksa 401
+  → DB'de revokedAt null, expiresAt > now mı? → hayırsa 401
+  → refreshTokenHash bcrypt verify → yanlışsa 401
+  → Yeni access_token + yeni refreshToken üret (rotation)
+  → DB refreshTokenHash güncelle, lastActiveAt güncelle
+  → Redis TTL yenile
+
+[Logout (tek cihaz)]
+  → session:{sessionId} Redis'ten sil
+  → user:{userId}:sessions → sessionId çıkar
+  → DB revokedAt set
+
+[Logout (tüm cihazlar)]
+  → user:{userId}:sessions tüm sessionId'leri al
+  → Hepsini Redis'ten sil
+  → DB: userId'ye ait tüm aktif session'ları revoke et
+
+[Cihazları listele]
+  → user:{userId}:sessions → Redis SET → her biri için session:{id} detayı
+  → Fallback: DB sorgusu
+```
+
+### UserSessionEntity (PostgreSQL)
+- [x] id (uuid, PK)
+- [x] userId (FK → users, CASCADE DELETE)
+- [x] refreshTokenHash (bcrypt hash)
+- [x] userAgent (nullable)
+- [x] ipAddress (nullable)
+- [x] lastActiveAt
+- [x] expiresAt (session mutlak bitiş)
+- [x] revokedAt (nullable, manuel iptal)
+
+### Redis Yapısı
+- [ ] `session:{sessionId}` → `{ userId, role, sessionId }` (TTL = expiresAt)
+- [ ] `user:{userId}:sessions` → Redis SET (aktif sessionId'ler)
+
 ## JWT
-- [ ] Access token üretimi (kısa ömürlü, ~15dk)
-- [ ] Refresh token üretimi (uzun ömürlü, ~7gün)
-- [ ] Refresh token rotation
-- [ ] Token blacklist (Redis)
-- [ ] Token doğrulama servisi (api-gateway'e expose)
+- [ ] Access token üretimi (kısa ömürlü, ~15dk) — payload: { sub, role, sessionId }
+- [ ] Refresh token üretimi (uzun ömürlü, ~7gün) — session'a bağlı, rotation ile
+- [ ] Refresh token rotation (her refresh'te yeni token, eski hash güncellenir)
+- [ ] Token doğrulama servisi (api-gateway'e expose) — Redis'e bakarak anlık kontrol
 
 ## Password
 - [ ] bcrypt ile hash
@@ -44,14 +96,14 @@ API Gateway, her istekte auth-service'in `/auth/verify` endpoint'ini çağırır
 - [ ] Şifre güç kuralları (validation)
 
 ## Roles & Permissions
-- [ ] Rol tanımla: ADMIN, CUSTOMER, VENDOR
+- [x] Rol tanımla: ADMIN, CUSTOMER, VENDOR
 - [ ] RolesGuard yaz
 - [ ] @Roles() decorator
 
 ## Database
 - [ ] PostgreSQL bağlantısı (TypeORM veya Prisma)
 - [ ] Migration: users tablosu
-- [ ] Migration: refresh_tokens tablosu
+- [x] Migration: user_sessions tablosu (UserSessionEntity)
 - [ ] Outbox tablosu (user.registered event için)
 
 ## Kafka Events
