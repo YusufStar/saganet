@@ -1,8 +1,8 @@
 # notification-service todos
 
 ## Scaffold
-- [ ] NestJS projesi oluştur
-- [ ] apps/notification-service klasörüne ekle
+- [x] NestJS projesi oluştur
+- [x] apps/notification-service klasörüne ekle
 - [ ] Bağımlılıklar: nodemailer, @nestjs/bull (veya BullMQ)
 
 ## Bildirim Kanalları

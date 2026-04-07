@@ -1,8 +1,8 @@
 # order-service todos
 
 ## Scaffold
-- [ ] NestJS projesi oluştur
-- [ ] apps/order-service klasörüne ekle
+- [x] NestJS projesi oluştur
+- [x] apps/order-service klasörüne ekle
 - [ ] Bağımlılıklar: TypeORM/Prisma, kafkajs
 
 ## Order Domain

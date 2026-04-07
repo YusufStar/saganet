@@ -1,9 +1,9 @@
 # api-gateway todos
 
 ## Scaffold
-- [ ] NestJS projesi oluştur
-- [ ] Monorepo'ya ekle (apps/api-gateway)
-- [ ] package.json, tsconfig.json ayarla
+- [x] NestJS projesi oluştur
+- [x] Monorepo'ya ekle (apps/api-gateway)
+- [x] package.json, tsconfig.json ayarla
 
 ## Routing & Proxy
 - [ ] HTTP proxy middleware kur (http-proxy-middleware veya custom)
@@ -35,7 +35,7 @@
 - [ ] Her isteğe trace-id / span-id ekle
 - [ ] Request/response log middleware
 - [ ] Prometheus metrics endpoint (/metrics)
-- [ ] Health check endpoint (/health, /ready)
+- [x] Health check endpoint (/health, /ready)
 
 ## Error Handling
 - [ ] Global exception filter

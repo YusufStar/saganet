@@ -1,9 +1,9 @@
 # packages/observability todos
 
 ## Scaffold
-- [ ] packages/observability klasörü oluştur
-- [ ] package.json, tsconfig.json
-- [ ] Bağımlılıklar: @opentelemetry/sdk-node, prom-client, winston/pino
+- [x] packages/observability klasörü oluştur
+- [x] package.json, tsconfig.json
+- [x] Bağımlılıklar: pino (pino + pino-pretty)
 
 ## Tracing (OpenTelemetry)
 - [ ] TracingModule (NestJS dynamic module)
@@ -23,9 +23,9 @@
   - [ ] Gauge (kuyruk derinliği, aktif bağlantı)
 
 ## Logging
-- [ ] LoggerModule (Winston veya Pino)
-- [ ] JSON structured log formatı
-- [ ] Log seviyesi env'den al (LOG_LEVEL)
+- [x] LoggerModule (Pino)
+- [x] JSON structured log formatı
+- [x] Log seviyesi env'den al (LOG_LEVEL)
 - [ ] Trace ID / span ID log'a otomatik ekle
 - [ ] Hassas veri maskeleme (şifre, kart no)
 - [ ] Request/response log middleware
