@@ -31,12 +31,12 @@
   - [x] Type check
   - [x] Unit testleri
   - [x] Build
-- [ ] .github/workflows/integration-tests.yml
-  - [ ] Docker Compose ayağa kaldır
-  - [ ] E2E testleri çalıştır
-- [ ] .github/workflows/release.yml
-  - [ ] Tag push'ta Docker image build + push
-  - [ ] Semantic versioning (standard-version)
+- [x] .github/workflows/integration-tests.yml
+  - [x] Docker Compose ayağa kaldır
+  - [x] E2E testleri çalıştır
+- [x] .github/workflows/release.yml
+  - [x] Tag push'ta Docker image build + push
+  - [x] Semantic versioning (standard-version)
 
 ## Environment
 - [x] .env.example dosyası (tüm değişkenler, değersiz)
@@ -45,11 +45,12 @@
 
 ## Monitoring Stack
 - [x] Prometheus scrape config (her servis /metrics)
-- [ ] Grafana dashboard JSON'ları
-  - [ ] Genel sistem dashboard
-  - [ ] Saga akış dashboard
+- [x] Grafana dashboard JSON'ları
+  - [x] Genel sistem dashboard
+  - [x] Saga akış dashboard
   - [ ] Kafka consumer lag dashboard
 - [x] Jaeger all-in-one konfigürasyonu
+- [x] Prometheus alert kuralları dosyası
 
 ## Chaos Mode
 - [ ] npm run chaos script'i implement et
@@ -59,6 +60,6 @@
 - [ ] Chaos test senaryoları belgele
 
 ## Docs
-- [ ] Yerel geliştirme kurulum rehberi
+- [x] Yerel geliştirme kurulum rehberi
 - [ ] Kubernetes deploy rehberi
-- [ ] Monitoring stack kullanım rehberi
+- [x] Monitoring stack kullanım rehberi

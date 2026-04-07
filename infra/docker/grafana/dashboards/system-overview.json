@@ -1,0 +1,40 @@
+{
+  "title": "Saganet System Overview",
+  "uid": "saganet-overview",
+  "version": 1,
+  "schemaVersion": 38,
+  "panels": [
+    {
+      "id": 1,
+      "title": "Services Up",
+      "type": "stat",
+      "gridPos": {"h": 4, "w": 6, "x": 0, "y": 0},
+      "targets": [{"expr": "sum(up)", "legendFormat": "Services"}],
+      "options": {"reduceOptions": {"calcs": ["lastNotNull"]}}
+    },
+    {
+      "id": 2,
+      "title": "Request Rate (req/s)",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 4},
+      "targets": [{"expr": "sum(rate(http_requests_total[1m])) by (job)", "legendFormat": "{{job}}"}]
+    },
+    {
+      "id": 3,
+      "title": "Error Rate (%)",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 4},
+      "targets": [{"expr": "sum(rate(http_requests_total{status=~\"5..\"}[1m])) by (job) / sum(rate(http_requests_total[1m])) by (job) * 100", "legendFormat": "{{job}}"}]
+    },
+    {
+      "id": 4,
+      "title": "Payment Success Rate (%)",
+      "type": "gauge",
+      "gridPos": {"h": 4, "w": 6, "x": 6, "y": 0},
+      "targets": [{"expr": "sum(rate(payment_sent_total{status=\"success\"}[5m])) / sum(rate(payment_sent_total[5m])) * 100"}],
+      "options": {"reduceOptions": {"calcs": ["lastNotNull"]}, "minVizValue": 0, "maxVizValue": 100}
+    }
+  ],
+  "time": {"from": "now-1h", "to": "now"},
+  "refresh": "30s"
+}
