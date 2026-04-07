@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ForbiddenException } from '@nestjs/common';
+import { ThrottlerModule } from '@nestjs/throttler';
 import { VendorProductController } from '../vendor-product.controller';
 import { ProductService } from '../../product/product.service';
 import { ImageUploadService } from '../image-upload.service';
@@ -36,6 +37,7 @@ describe('VendorProductController', () => {
     jest.clearAllMocks();
 
     const module: TestingModule = await Test.createTestingModule({
+      imports: [ThrottlerModule.forRoot([{ ttl: 60000, limit: 100 }])],
       controllers: [VendorProductController],
       providers: [
         { provide: ProductService, useValue: mockProductService },

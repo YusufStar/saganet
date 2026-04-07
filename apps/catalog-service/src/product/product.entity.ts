@@ -52,4 +52,7 @@ export class ProductEntity extends BaseEntity {
     cascade: ['insert', 'update'],
   })
   images: ProductImageEntity[];
+
+  @Column({ type: 'tsvector', nullable: true, insert: false, update: false, select: false })
+  searchVector?: any;
 }

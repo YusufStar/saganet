@@ -47,4 +47,9 @@ export class ProductListQueryDto {
   @IsOptional()
   @IsString()
   sortOrder?: 'ASC' | 'DESC' = 'DESC';
+
+  @ApiPropertyOptional({ description: 'Cursor for next page (base64 encoded)' })
+  @IsOptional()
+  @IsString()
+  cursor?: string;
 }

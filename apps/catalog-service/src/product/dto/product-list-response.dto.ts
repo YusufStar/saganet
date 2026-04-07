@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { ProductResponseDto } from './product-response.dto';
 
 export class ProductListResponseDto {
@@ -16,4 +16,7 @@ export class ProductListResponseDto {
 
   @ApiProperty({ example: 8 })
   totalPages: number;
+
+  @ApiPropertyOptional()
+  nextCursor?: string;
 }

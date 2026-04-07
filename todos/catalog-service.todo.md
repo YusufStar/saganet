@@ -100,10 +100,10 @@ VENDOR ürün ekler
   - `vendorId` → VENDOR DTO'sunda hiç bulunmasın (backend set eder, `req.user.id`)
   - `status` → VENDOR DTO'sunda hiç bulunmasın
   - `rejectionReason` → sadece Admin DTO'sunda
-- [ ] **Header doğrulama:** `x-user-id`, `x-user-role` headerları API Gateway'den gelir — doğrudan dışarıdan kabul etme
+- [x] **Header doğrulama:** `x-user-id`, `x-user-role` headerları API Gateway'den gelir — doğrudan dışarıdan kabul etme
 - [x] **Input sanitization:** `description` alanı HTML strip (XSS)
 - [x] **Görsel upload güvenliği:** magic bytes + MIME check + 5MB limit
-- [ ] **Rate limiting:** vendor ürün ekleme endpoint'ine limit (örn. 100 ürün/saat)
+- [x] **Rate limiting:** vendor ürün ekleme endpoint'ine limit (örn. 100 ürün/saat)
 
 ---
 
@@ -111,11 +111,11 @@ VENDOR ürün ekler
 
 - [x] Fiyat aralığı filtresi (`minPrice`, `maxPrice`)
 - [x] Kategori filtresi
-- [ ] Vendor filtresi (admin için)
+- [x] Vendor filtresi (admin için)
 - [x] Status filtresi (admin: tümü, vendor: kendi, public: yalnızca ACTIVE)
-- [ ] Fulltext arama (PostgreSQL `tsvector`)
+- [x] Fulltext arama (PostgreSQL `tsvector`)
 - [x] Sıralama: fiyat, tarih, ad
-- [ ] Cursor-based pagination
+- [x] Cursor-based pagination
 
 ---
 
@@ -148,7 +148,7 @@ VENDOR ürün ekler
 - [x] `product.price-changed` event yayınla
 - [x] `product.suspended` event yayınla
 - [x] `product.deleted` event yayınla
-- [ ] `stock.updated` event'ini inventory-service'ten dinle
+- [x] `stock.updated` event'ini inventory-service'ten dinle
 
 ---
 
@@ -162,12 +162,12 @@ VENDOR ürün ekler
 
 ## Observability
 
-- [ ] OpenTelemetry tracing
-- [ ] Ürün görüntüleme metriği
-- [ ] Vendor başına ürün sayısı metriği
-- [ ] Onay bekleyen ürün sayısı metriği (admin dashboard için)
-- [ ] Structured JSON log
-- [ ] `/health` endpoint
+- [x] OpenTelemetry tracing
+- [x] Ürün görüntüleme metriği
+- [x] Vendor başına ürün sayısı metriği
+- [x] Onay bekleyen ürün sayısı metriği (admin dashboard için)
+- [x] Structured JSON log
+- [x] `/health` endpoint
 
 ---
 
@@ -180,12 +180,12 @@ VENDOR ürün ekler
 - [x] Integration: vendor ürün ekle → PENDING_REVIEW → admin onaylar → ACTIVE
 - [x] Admin redder → REJECTED + rejectionReason zorunlu
 - [x] Integration: public endpoint yalnızca ACTIVE döndürür
-- [ ] E2E: ürün arama
+- [x] E2E: ürün arama
 
 ---
 
 ## Docs
 
 - [x] Swagger endpoint'leri (rol bazlı ayrım belirtilmiş)
-- [ ] Vendor ürün yaşam döngüsü diyagramı (`docs/` altına)
-- [ ] Rol-izin matrisi dokümantasyonu
+- [x] Vendor ürün yaşam döngüsü diyagramı (`docs/` altına)
+- [x] Rol-izin matrisi dokümantasyonu

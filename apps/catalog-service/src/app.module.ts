@@ -1,6 +1,7 @@
 import * as path from 'path';
-import { Module } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { ThrottlerModule } from '@nestjs/throttler';
 import { DatabaseModule } from '@saganet/db';
 import { StorageModule } from '@saganet/storage';
 import { RedisModule } from '@saganet/redis';
@@ -14,6 +15,8 @@ import { VendorProductModule } from './vendor/vendor-product.module';
 import { HealthModule } from './health/health.module';
 import { MetricsModule } from './metrics/metrics.module';
 import { AdminModule } from './admin/admin.module';
+import { StockModule } from './stock/stock.module';
+import { InternalAuthMiddleware } from './common/middleware/internal-auth.middleware';
 
 const envFilePath = [
   path.join(__dirname, '../../../.env'),
@@ -24,6 +27,13 @@ const envFilePath = [
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath }),
+    ThrottlerModule.forRoot([
+      {
+        name: 'vendor_product_create',
+        ttl: 60 * 60 * 1000,
+        limit: 100,
+      },
+    ]),
     DatabaseModule.forRoot({
       entities: [CategoryEntity, ProductEntity, ProductImageEntity],
     }),
@@ -36,6 +46,11 @@ const envFilePath = [
     HealthModule,
     MetricsModule,
     AdminModule,
+    StockModule,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(InternalAuthMiddleware).forRoutes('*');
+  }
+}
