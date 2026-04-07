@@ -197,7 +197,7 @@ describe('ProductService', () => {
       // Here we verify the guard logic: CUSTOMER is not VENDOR or ADMIN.
       const { Reflector } = jest.requireActual('@nestjs/core');
       const reflector = new Reflector();
-      const { RolesGuard: Guard } = jest.requireActual('../../../common/guards/roles.guard') as typeof import('../../../common/guards/roles.guard');
+      const { RolesGuard: Guard } = jest.requireActual('../../common/guards/roles.guard') as typeof import('../../common/guards/roles.guard');
       const guard = new Guard(reflector);
 
       // Guard returns true when no roles required (no metadata) — unit-level check
