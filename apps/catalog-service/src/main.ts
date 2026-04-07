@@ -1,3 +1,5 @@
+import { otelSdk } from './tracing';
+otelSdk.start();
 import 'reflect-metadata';
 import cookieParser from 'cookie-parser';
 import pinoHttp from 'pino-http';

@@ -69,13 +69,13 @@ VENDOR ürün ekler
 
 ### Vendor Endpoint'leri (`@Roles(VENDOR)` + Ownership Guard)
 
-- [ ] `POST /vendor/products` — ürün ekle (status=PENDING_REVIEW otomatik set edilir, vendor değiştiremez)
-- [ ] `GET /vendor/products` — kendi ürünlerini listele (tüm status'lar)
-- [ ] `PATCH /vendor/products/:id` — kendi ürününü düzenle
+- [x] `POST /vendor/products` — ürün ekle (status=PENDING_REVIEW otomatik set edilir, vendor değiştiremez)
+- [x] `GET /vendor/products` — kendi ürünlerini listele (tüm status'lar)
+- [x] `PATCH /vendor/products/:id` — kendi ürününü düzenle
   - **Güvenlik:** `vendorId === req.user.id` kontrolü (OwnershipGuard)
   - **Güvenlik:** `status`, `vendorId`, `rejectionReason` alanlarını VENDOR değiştiremez
   - Düzenleme sonrası status tekrar PENDING_REVIEW'a döner
-- [ ] `DELETE /vendor/products/:id` — soft delete (sadece kendi ürünü, status=DELETED)
+- [x] `DELETE /vendor/products/:id` — soft delete (sadece kendi ürünü, status=DELETED)
 
 ### Admin Endpoint'leri (`@Roles(ADMIN)`)
 
@@ -94,41 +94,40 @@ VENDOR ürün ekler
 
 ## Güvenlik
 
-- [ ] **OwnershipGuard**: `vendorId === req.user.id` — her VENDOR işleminde kontrol et, 403 dön
-- [ ] **DTO kısıtlamaları:**
+- [x] **OwnershipGuard**: `vendorId === req.user.id` — her VENDOR işleminde kontrol et, 403 dön
+- [x] **DTO kısıtlamaları:**
   - `price` → `@IsPositive()`, `@Min(0.01)`, max sınır (örn. 1_000_000)
   - `vendorId` → VENDOR DTO'sunda hiç bulunmasın (backend set eder, `req.user.id`)
   - `status` → VENDOR DTO'sunda hiç bulunmasın
   - `rejectionReason` → sadece Admin DTO'sunda
 - [ ] **Header doğrulama:** `x-user-id`, `x-user-role` headerları API Gateway'den gelir — doğrudan dışarıdan kabul etme
-- [ ] **Input sanitization:** `description` alanı HTML strip (XSS)
-- [ ] **Görsel upload güvenliği:** (ayrı bölümde detay)
+- [x] **Input sanitization:** `description` alanı HTML strip (XSS)
+- [x] **Görsel upload güvenliği:** magic bytes + MIME check + 5MB limit
 - [ ] **Rate limiting:** vendor ürün ekleme endpoint'ine limit (örn. 100 ürün/saat)
 
 ---
 
 ## Arama & Filtreleme
 
-- [ ] Fiyat aralığı filtresi (`minPrice`, `maxPrice`)
-- [ ] Kategori filtresi
+- [x] Fiyat aralığı filtresi (`minPrice`, `maxPrice`)
+- [x] Kategori filtresi
 - [ ] Vendor filtresi (admin için)
-- [ ] Status filtresi (admin: tümü, vendor: kendi, public: yalnızca ACTIVE)
+- [x] Status filtresi (admin: tümü, vendor: kendi, public: yalnızca ACTIVE)
 - [ ] Fulltext arama (PostgreSQL `tsvector`)
-- [ ] Sıralama: fiyat, tarih, ad
+- [x] Sıralama: fiyat, tarih, ad
 - [ ] Cursor-based pagination
 
 ---
 
 ## Görsel / Medya
 
-- [ ] Ürün görseli upload endpoint'i (`POST /vendor/products/:id/images`)
-  - **Güvenlik:** `vendorId` ownership kontrolü
-  - **Güvenlik:** Sadece `image/jpeg`, `image/png`, `image/webp` kabul et (MIME type doğrula)
-  - **Güvenlik:** Max dosya boyutu: 5MB
-  - **Güvenlik:** Dosya adı sanitize (path traversal önleme)
-  - **Güvenlik:** Magic bytes kontrolü (Content-Type header'ına güvenme)
-- [ ] Görsel boyutlandırma (thumbnail, full)
-- [ ] CDN entegrasyon hazırlığı
+- [x] Ürün görseli upload endpoint'i (`POST /vendor/products/:id/images`)
+  - [x] **Güvenlik:** `vendorId` ownership kontrolü
+  - [x] **Güvenlik:** Sadece `image/jpeg`, `image/png`, `image/webp` kabul et (MIME type doğrula)
+  - [x] **Güvenlik:** Max dosya boyutu: 5MB
+  - [x] **Güvenlik:** Dosya adı sanitize (path traversal önleme)
+  - [x] **Güvenlik:** Magic bytes kontrolü (Content-Type header'ına güvenme)
+- [x] Görsel boyutlandırma (thumbnail, full) — sharp ile resize
 
 ---
 
@@ -144,19 +143,19 @@ VENDOR ürün ekler
 
 ## Kafka Events
 
-- [ ] `product.created` event yayınla (vendorId dahil)
+- [x] `product.created` event yayınla (vendorId dahil)
 - [ ] `product.approved` event yayınla (inventory-service stok kaydı açabilir)
-- [ ] `product.price-changed` event yayınla
+- [x] `product.price-changed` event yayınla
 - [ ] `product.suspended` event yayınla
-- [ ] `product.deleted` event yayınla
+- [x] `product.deleted` event yayınla
 - [ ] `stock.updated` event'ini inventory-service'ten dinle
 
 ---
 
 ## Cache
 
-- [ ] Redis ile ürün detay cache (TTL: 5dk) — sadece ACTIVE ürünler cache'lenir
-- [ ] Cache invalidation: `product.updated`, `product.suspended`, `product.deleted` event'lerinde
+- [x] Redis ile ürün detay cache (TTL: 5dk) — sadece ACTIVE ürünler cache'lenir
+- [x] Cache invalidation: product.updated, product.deleted event'lerinde
 - [ ] Admin onay sonrası cache bust
 
 ---
@@ -174,19 +173,19 @@ VENDOR ürün ekler
 
 ## Tests
 
-- [ ] Unit: fiyat doğrulama, slug üretimi, OwnershipGuard
-- [ ] Unit: VENDOR başkasının ürününü düzenleyemez (403)
-- [ ] Unit: VENDOR status/vendorId alanını değiştiremez
+- [x] Unit: fiyat doğrulama, slug üretimi, OwnershipGuard
+- [x] Unit: VENDOR başkasının ürününü düzenleyemez (403)
+- [x] Unit: VENDOR status/vendorId alanını değiştiremez
 - [ ] Unit: CUSTOMER ürün ekleyemez (403)
 - [ ] Integration: vendor ürün ekle → PENDING_REVIEW → admin onaylar → ACTIVE
 - [ ] Integration: admin redder → REJECTED + rejectionReason zorunlu
-- [ ] Integration: public endpoint yalnızca ACTIVE döndürür
+- [x] Integration: public endpoint yalnızca ACTIVE döndürür
 - [ ] E2E: ürün arama
 
 ---
 
 ## Docs
 
-- [ ] Swagger endpoint'leri (rol bazlı ayrım belirtilmiş)
+- [x] Swagger endpoint'leri (rol bazlı ayrım belirtilmiş)
 - [ ] Vendor ürün yaşam döngüsü diyagramı (`docs/` altına)
 - [ ] Rol-izin matrisi dokümantasyonu
