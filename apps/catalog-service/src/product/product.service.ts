@@ -42,6 +42,7 @@ export class ProductService {
       search,
       sortBy = 'createdAt',
       sortOrder = 'DESC',
+      cursor,
     } = query;
 
     const qb = repo
@@ -54,25 +55,60 @@ export class ProductService {
     if (minPrice) qb.andWhere('CAST(product.price AS NUMERIC) >= :minPrice', { minPrice });
     if (maxPrice) qb.andWhere('CAST(product.price AS NUMERIC) <= :maxPrice', { maxPrice });
     if (search) {
-      qb.andWhere(
-        '(product.name ILIKE :search OR product.description ILIKE :search)',
-        { search: `%${search}%` },
-      );
+      qb.andWhere(`product.searchVector @@ plainto_tsquery('simple', :search)`, { search });
     }
 
+    // Cursor-based pagination: stable sort by createdAt DESC, id DESC
+    qb.orderBy('product.createdAt', 'DESC').addOrderBy('product.id', 'DESC');
+
+    let cursorCondition: { createdAt: string; id: string } | null = null;
+    if (cursor) {
+      try {
+        cursorCondition = JSON.parse(Buffer.from(cursor, 'base64').toString('utf-8'));
+      } catch {
+        // ignore invalid cursor, fall through to offset
+      }
+    }
+
+    if (cursorCondition) {
+      qb.andWhere(
+        '(product.createdAt < :cursorDate OR (product.createdAt = :cursorDate AND product.id < :cursorId))',
+        { cursorDate: cursorCondition.createdAt, cursorId: cursorCondition.id },
+      );
+      const data = await qb.take(limit).getMany();
+      const nextCursor =
+        data.length === limit
+          ? Buffer.from(
+              JSON.stringify({ createdAt: data[data.length - 1].createdAt, id: data[data.length - 1].id }),
+            ).toString('base64')
+          : undefined;
+      return { data: data.map(this.toDto), total: data.length, page: 1, limit, totalPages: 1, nextCursor };
+    }
+
+    // Offset pagination (default)
     const allowedSort: Record<string, string> = {
       price: 'product.price',
       createdAt: 'product.createdAt',
       name: 'product.name',
     };
-    qb.orderBy(allowedSort[sortBy] ?? 'product.createdAt', sortOrder);
+    // Override order if explicit sortBy provided (not default)
+    if (sortBy !== 'createdAt' || sortOrder !== 'DESC') {
+      qb.orderBy(allowedSort[sortBy] ?? 'product.createdAt', sortOrder);
+    }
 
     const [data, total] = await qb
       .skip((page - 1) * limit)
       .take(limit)
       .getManyAndCount();
 
-    return { data: data.map(this.toDto), total, page, limit, totalPages: Math.ceil(total / limit) };
+    const nextCursor =
+      data.length === limit
+        ? Buffer.from(
+            JSON.stringify({ createdAt: data[data.length - 1].createdAt, id: data[data.length - 1].id }),
+          ).toString('base64')
+        : undefined;
+
+    return { data: data.map(this.toDto), total, page, limit, totalPages: Math.ceil(total / limit), nextCursor };
   }
 
   async findOne(id: string): Promise<ProductResponseDto> {

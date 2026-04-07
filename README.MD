@@ -14,7 +14,7 @@ Access:
 
 * API Gateway: [http://localhost:3000](http://localhost:3000)
 * Jaeger: [http://localhost:16686](http://localhost:16686)
-* Grafana: [http://localhost:3001](http://localhost:3001)
+* Grafana: [http://localhost:4000](http://localhost:4000)
 
 ---
 

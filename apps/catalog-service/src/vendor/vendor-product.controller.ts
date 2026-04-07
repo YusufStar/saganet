@@ -15,6 +15,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
 import {
@@ -33,6 +34,7 @@ import { Request } from 'express';
 import { ProductService } from '../product/product.service';
 import { ImageUploadService } from './image-upload.service';
 import { RolesGuard } from '../common/guards/roles.guard';
+import { VendorThrottlerGuard } from '../common/guards/vendor-throttler.guard';
 import { Roles, UserRole } from '../common/decorators/roles.decorator';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -53,6 +55,8 @@ export class VendorProductController {
   ) {}
 
   @Post()
+  @UseGuards(VendorThrottlerGuard)
+  @Throttle({ vendor_product_create: { ttl: 3600000, limit: 100 } })
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Create a new product (status=PENDING_REVIEW automatically)' })
   @ApiCreatedResponse({ type: ProductResponseDto })
