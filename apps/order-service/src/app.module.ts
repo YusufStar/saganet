@@ -9,6 +9,8 @@ import { OrderItemEntity } from './order/order-item.entity';
 import { SagaStateEntity } from './saga/saga-state.entity';
 import { HealthModule } from './health/health.module';
 import { MetricsModule } from './metrics/metrics.module';
+import { OrderModule } from './order/order.module';
+import { OutboxModule } from './outbox/outbox.module';
 
 const envFilePath = [
   path.join(__dirname, '../../../.env'),
@@ -26,6 +28,8 @@ const envFilePath = [
     KafkaModule.forRoot({ clientId: 'order-service' }),
     HealthModule,
     MetricsModule,
+    OrderModule,
+    OutboxModule,
   ],
 })
 export class AppModule {}

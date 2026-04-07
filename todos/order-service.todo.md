@@ -11,47 +11,47 @@
 - [x] Order entity (id, userId, status, totalAmount, createdAt, updatedAt)
 - [x] OrderItem entity (id, orderId, productId, quantity, unitPrice)
 - [x] OrderStatus enum: PENDING, CONFIRMED, FAILED, CANCELLED, COMPLETED
-- [ ] Sipariş oluşturma endpoint'i (POST /orders)
-- [ ] Sipariş sorgulama (GET /orders/:id, GET /orders?userId=)
-- [ ] Sipariş iptal endpoint'i
+- [x] Sipariş oluşturma endpoint'i (POST /orders)
+- [x] Sipariş sorgulama (GET /orders/:id, GET /orders?userId=)
+- [x] Sipariş iptal endpoint'i
 
 ## Saga Orchestration
 
-- [ ] Saga state machine tasarla
-  - [ ] PENDING → inventory reserve gönder
-  - [ ] INVENTORY_RESERVED → payment charge gönder
-  - [ ] PAYMENT_COMPLETED → order.completed event yayınla
-  - [ ] PAYMENT_FAILED → compensation: inventory release gönder → order.failed
-  - [ ] INVENTORY_FAILED → order.failed event yayınla
+- [x] Saga state machine tasarla
+  - [x] PENDING → inventory reserve gönder
+  - [x] INVENTORY_RESERVED → payment charge gönder
+  - [x] PAYMENT_COMPLETED → order.completed event yayınla
+  - [x] PAYMENT_FAILED → compensation: inventory release gönder → order.failed
+  - [x] INVENTORY_FAILED → order.failed event yayınla
 - [x] Saga state tablosu (sagaId, orderId, step, status, payload)
-- [ ] Timeout handling: belirli sürede cevap gelmezse compensation
+- [x] Timeout handling: belirli sürede cevap gelmezse compensation
 
 ## Outbox Pattern
 
-- [ ] Outbox tablosu
-- [ ] DB transaction: order + outbox atomik
-- [ ] Outbox relay worker
+- [x] Outbox tablosu
+- [x] DB transaction: order + outbox atomik
+- [x] Outbox relay worker
 
 ## Idempotency
 
-- [ ] Aynı istek tekrar gelirse aynı siparişi döndür
-- [ ] Idempotency key (X-Idempotency-Key header)
+- [x] Aynı istek tekrar gelirse aynı siparişi döndür
+- [x] Idempotency key (X-Idempotency-Key header)
 
 ## Kafka Events (Yayınla)
 
-- [ ] order.created
-- [ ] order.completed
-- [ ] order.failed
-- [ ] inventory.reserve (komut)
-- [ ] payment.charge (komut)
-- [ ] inventory.release (compensation komutu)
+- [x] order.created
+- [x] order.completed
+- [x] order.failed
+- [x] inventory.reserve (komut)
+- [x] payment.charge (komut)
+- [x] inventory.release (compensation komutu)
 
 ## Kafka Events (Dinle)
 
-- [ ] inventory.reserved
-- [ ] inventory.reservation-failed
-- [ ] payment.completed
-- [ ] payment.failed
+- [x] inventory.reserved
+- [x] inventory.reservation-failed
+- [x] payment.completed
+- [x] payment.failed
 
 ## Database
 
@@ -62,20 +62,20 @@
 
 ## Observability
 
-- [ ] OpenTelemetry tracing (saga adımlarını trace et)
-- [ ] Sipariş tamamlanma süresi metriği
-- [ ] Başarı/başarısız oran metriği
+- [x] OpenTelemetry tracing (saga adımlarını trace et)
+- [x] Sipariş tamamlanma süresi metriği
+- [x] Başarı/başarısız oran metriği
 - [x] Structured JSON log
 - [x] /health endpoint
 
 ## Tests
 
-- [ ] Unit: saga state machine geçişleri
-- [ ] Integration: mutlu yol (happy path) saga akışı
-- [ ] Integration: compensation akışı
-- [ ] E2E: sipariş oluştur → tamamla
+- [x] Unit: saga state machine geçişleri
+- [x] Integration: mutlu yol (happy path) saga akışı
+- [x] Integration: compensation akışı
+- [x] E2E: sipariş oluştur → tamamla
 
 ## Docs
 
-- [ ] Swagger endpoint'leri
-- [ ] Saga akış diyagramı (docs/ altına)
+- [x] Swagger endpoint'leri
+- [x] Saga akış diyagramı (docs/ altına)
