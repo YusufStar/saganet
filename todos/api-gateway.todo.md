@@ -8,14 +8,14 @@
 
 ## Routing & Proxy
 
-- [ ] HTTP proxy middleware kur (http-proxy-middleware veya custom)
-- [ ] Her servis için route tanımla
-  - [ ] /orders → order-service
-  - [ ] /auth → auth-service
-  - [ ] /catalog → catalog-service
-  - [ ] /inventory → inventory-service
-  - [ ] /payments → payment-service
-- [ ] Route config'i environment-based yap
+- [x] HTTP proxy middleware kur (http-proxy-middleware veya custom)
+- [x] Her servis için route tanımla
+  - [x] /orders → order-service
+  - [x] /auth → auth-service
+  - [x] /catalog → catalog-service
+  - [x] /inventory → inventory-service
+  - [x] /payments → payment-service
+- [x] Route config'i environment-based yap
 
 ## Auth Middleware
 
@@ -26,34 +26,34 @@
 
 ## Rate Limiting
 
-- [ ] Global rate limiter ekle
-- [ ] Endpoint bazlı limit konfigürasyonu
-- [ ] Redis-backed rate limiting (distributed)
+- [x] Global rate limiter ekle
+- [x] Endpoint bazlı limit konfigürasyonu
+- [x] Redis-backed rate limiting (distributed)
 
 ## Request Validation
 
 - [x] Global validation pipe
-- [ ] Request ID header inject et
-- [ ] Content-Type kontrolü
+- [x] Request ID header inject et
+- [x] Content-Type kontrolü
 
 ## Observability
 
-- [ ] OpenTelemetry tracing entegrasyonu
-- [ ] Her isteğe trace-id / span-id ekle
-- [ ] Request/response log middleware
-- [ ] Prometheus metrics endpoint (/metrics)
+- [x] OpenTelemetry tracing entegrasyonu
+- [x] Her isteğe trace-id / span-id ekle
+- [x] Request/response log middleware
+- [x] Prometheus metrics endpoint (/metrics)
 - [x] Health check endpoint (/health, /ready)
 
 ## Error Handling
 
-- [ ] Global exception filter
-- [ ] Downstream servis hata dönüşümü
-- [ ] 502/503 için fallback response
+- [x] Global exception filter
+- [x] Downstream servis hata dönüşümü
+- [x] 502/503 için fallback response
 
 ## Tests
 
-- [ ] Unit: middleware ve filter testleri
-- [ ] E2E: temel route yönlendirme testleri
+- [x] Unit: middleware ve filter testleri
+- [x] E2E: temel route yönlendirme testleri
 
 ## Docs
 

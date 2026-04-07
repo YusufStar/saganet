@@ -18,18 +18,18 @@ export class JwtAuthMiddleware implements NestMiddleware {
 
   async use(req: Request, res: Response, next: NextFunction): Promise<void> {
     const token = this.extractToken(req);
-    if (!token) throw new UnauthorizedException('Token bulunamadı');
+    if (!token) throw new UnauthorizedException('Authorization token missing');
 
     let payload: JwtPayload;
     try {
       payload = this.jwtService.verify<JwtPayload>(token);
     } catch {
-      throw new UnauthorizedException('Geçersiz veya süresi dolmuş token');
+      throw new UnauthorizedException('Invalid or expired token');
     }
 
     // Redis'te aktif session kontrolü
     const sessionData = await this.redis.get(`session:${payload.sessionId}`);
-    if (!sessionData) throw new UnauthorizedException('Oturum sonlandırılmış');
+    if (!sessionData) throw new UnauthorizedException('Session has been revoked or expired');
 
     // Downstream servislere user context ilet
     req.headers['x-user-id'] = payload.sub;
