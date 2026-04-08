@@ -23,7 +23,7 @@ async function bootstrap() {
   });
 
   app.use(cookieParser());
-  app.use(pinoHttp({ logger }));
+  app.use(pinoHttp({ logger, autoLogging: { ignore: (req) => req.url === '/metrics' } }));
   app.setGlobalPrefix('api', { exclude: ['metrics'] });
   app.useGlobalPipes(
     new ValidationPipe({

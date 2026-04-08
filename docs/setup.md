@@ -44,50 +44,31 @@ Services started:
 ## 4. Run Migrations
 
 > **Important:** `pnpm dev` does NOT run migrations automatically.
-> Run them manually before starting a service.
-
-### auth-service
+> Run them once before starting services for the first time.
 
 ```bash
-cd apps/auth-service
 pnpm migration:run
 ```
 
-Migrations applied (in order):
-1. `CreateUsersTable` — users, roles, email verification
-2. `CreateUserSessionsTable` — session tracking, refresh token hashes
-3. `CreateUserOAuthAccountsTable` — Google/GitHub OAuth accounts
-4. `CreateOutboxTable` — reliable event publishing
-5. `AddEmailVerificationToUsers` — email verification token + expiry
-6. `AddLoginSecurityFields` — failed login counter, family ID for token reuse detection
+This runs migrations for all services in order (auth-service first, since it owns the shared `outbox` table).
 
-### catalog-service
+Services included: `auth-service`, `catalog-service`, `inventory-service`, `notification-service`, `order-service`, `payment-service`.
+
+### Revert last migration (per service)
 
 ```bash
-cd apps/catalog-service
-pnpm migration:run
-```
-
-Migrations applied (in order):
-1. `CreateCategoriesTable` — categories, self-referential tree (parentId)
-2. `CreateProductsTable` — products, vendorId, status, price, indexes
-3. `CreateProductImagesTable` — product images, CASCADE delete
-
-### Revert last migration
-
-```bash
-pnpm migration:revert
+pnpm --filter <service-name> run migration:revert
 ```
 
 ## 5. Start Services
 
 ```bash
-# Single service
-cd apps/auth-service && pnpm dev
-
-# From root
 pnpm dev
 ```
+
+Starts all apps in parallel. Logs are streamed per service.
+
+> Each service also writes detailed logs to `apps/<service>/logs/<service>.log` with daily rotation.
 
 ## 6. API Documentation (Swagger)
 
@@ -95,8 +76,13 @@ Swagger UI is only available when `NODE_ENV !== production`.
 
 | Service       | URL                            |
 |---------------|-------------------------------|
-| auth-service  | http://localhost:3001/docs    |
 | api-gateway   | http://localhost:3000/docs    |
+| auth-service  | http://localhost:3001/docs    |
+| catalog-service | http://localhost:3002/docs  |
+| inventory-service | http://localhost:3003/docs |
+| order-service | http://localhost:3004/docs    |
+| payment-service | http://localhost:3005/docs  |
+| notification-service | http://localhost:3006/docs |
 
 ## 7. Auth Flow
 
@@ -171,3 +157,6 @@ Outbox is used to reliably deliver events to Kafka:
 **Why it matters:**
 Direct Kafka publish risks: DB commit succeeds but Kafka publish fails.
 With Outbox: both are saved or neither — atomic guarantee.
+
+> The `outbox` table is shared across all services and owned by `auth-service` migration.
+> Other services do not create it — they rely on it already existing.

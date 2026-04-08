@@ -1,6 +1,9 @@
 import { otelSdk } from './tracing';
 otelSdk.start();
 
+import { EventEmitter } from 'events';
+EventEmitter.defaultMaxListeners = 20;
+
 import 'reflect-metadata';
 import cookieParser from 'cookie-parser';
 import pinoHttp from 'pino-http';
@@ -25,7 +28,7 @@ async function bootstrap() {
   });
 
   app.use(cookieParser());
-  app.use(pinoHttp({ logger }));
+  app.use(pinoHttp({ logger, autoLogging: { ignore: (req) => req.url === '/metrics' } }));
   app.setGlobalPrefix('api', { exclude: ['metrics'] });
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   app.useGlobalFilters(new GlobalExceptionFilter());

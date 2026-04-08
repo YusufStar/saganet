@@ -31,14 +31,19 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       message = 'Upstream service unavailable';
     }
 
-    this.logger.error({
+    const logPayload = {
       event: 'request.error',
       requestId,
       method: req.method,
       path: req.path,
       status,
       message: exception instanceof Error ? exception.message : String(exception),
-    });
+    };
+    if (status >= 500) {
+      this.logger.error(logPayload);
+    } else {
+      this.logger.warn(logPayload);
+    }
 
     res.status(status).json({
       statusCode: status,
