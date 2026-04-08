@@ -45,7 +45,7 @@
 - [x] Servis yanıt vermeme alarmı
 
 ## Tests
-- [ ] Unit: log maskeleme, metric kayıt
+- [x] Unit: log maskeleme, metric kayıt
 - [ ] Integration: trace propagation
 
 ## Docs

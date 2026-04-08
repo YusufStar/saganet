@@ -36,7 +36,7 @@
 
 ## Tests
 - [ ] Test database setup (in-memory veya Docker testcontainers)
-- [ ] Migration idempotency testi
+- [x] Migration idempotency testi
 
 ## Docs
 - [x] Yeni migration ekleme rehberi

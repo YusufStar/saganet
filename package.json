@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "pnpm --filter './apps/*' run --parallel --stream --workspace-concurrency=10 dev",
     "build": "pnpm --filter './packages/*' run build && pnpm --filter './apps/*' run build",
-    "test": "pnpm --filter './apps/*' run test",
+    "test": "pnpm --filter './packages/*' --filter './apps/*' run test",
     "lint": "eslint . --ext .ts",
     "typecheck": "pnpm --filter './apps/*' run typecheck",
     "format": "prettier --write \"**/*.{ts,json,md}\"",

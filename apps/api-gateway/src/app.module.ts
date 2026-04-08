@@ -30,13 +30,13 @@ const PUBLIC_ROUTES = [
   { path: 'api/auth/reset-password',  method: RequestMethod.POST },
   { path: 'api/health',               method: RequestMethod.GET  },
   { path: 'docs',                     method: RequestMethod.GET  },
-  { path: 'docs/(.*)',                method: RequestMethod.GET  },
-  { path: 'api/swagger-proxy/(.*)',   method: RequestMethod.GET  },
+  { path: 'docs/{*path}',             method: RequestMethod.GET  },
+  { path: 'api/swagger-proxy/{*path}',method: RequestMethod.GET  },
   { path: 'api/catalog/products',                   method: RequestMethod.GET },
-  { path: 'api/catalog/products/(.*)',               method: RequestMethod.GET },
-  { path: 'api/catalog/categories',                  method: RequestMethod.GET },
-  { path: 'api/catalog/categories/(.*)',             method: RequestMethod.GET },
-  { path: 'api/inventory/stock/(.*)',                method: RequestMethod.GET },
+  { path: 'api/catalog/products/{*path}',           method: RequestMethod.GET },
+  { path: 'api/catalog/categories',                 method: RequestMethod.GET },
+  { path: 'api/catalog/categories/{*path}',         method: RequestMethod.GET },
+  { path: 'api/inventory/stock/{*path}',            method: RequestMethod.GET },
 ];
 
 @Module({
@@ -58,19 +58,19 @@ const PUBLIC_ROUTES = [
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     // 0. Metrics collection — first, so it captures all requests
-    consumer.apply(MetricsMiddleware).forRoutes('*');
+    consumer.apply(MetricsMiddleware).forRoutes({ path: '{*path}', method: RequestMethod.ALL });
 
     // 1. Request ID — every request gets a unique trace ID
-    consumer.apply(RequestIdMiddleware).forRoutes('*');
+    consumer.apply(RequestIdMiddleware).forRoutes({ path: '{*path}', method: RequestMethod.ALL });
 
     // 2. Content-Type — enforce JSON for mutation requests
-    consumer.apply(ContentTypeMiddleware).forRoutes('*');
+    consumer.apply(ContentTypeMiddleware).forRoutes({ path: '{*path}', method: RequestMethod.ALL });
 
     // 3. Rate limiting — Redis-backed, distributed
-    consumer.apply(RateLimitMiddleware).forRoutes('*');
+    consumer.apply(RateLimitMiddleware).forRoutes({ path: '{*path}', method: RequestMethod.ALL });
 
     // 4. JWT auth — skip public routes
-    consumer.apply(JwtAuthMiddleware).exclude(...PUBLIC_ROUTES).forRoutes('*');
+    consumer.apply(JwtAuthMiddleware).exclude(...PUBLIC_ROUTES).forRoutes({ path: '{*path}', method: RequestMethod.ALL });
 
     // 5. Proxy — forward to downstream services LAST
     for (const route of getRoutes()) {
@@ -89,7 +89,7 @@ export class AppModule implements NestModule {
 
       consumer
         .apply(proxy)
-        .forRoutes({ path: `${route.prefix}/(.*)`, method: RequestMethod.ALL });
+        .forRoutes({ path: `${route.prefix}/{*path}`, method: RequestMethod.ALL });
     }
   }
 }

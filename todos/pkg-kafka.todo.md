@@ -47,5 +47,5 @@
 - [x] DLQ mesaj sayısı metriği
 
 ## Tests
-- [ ] Unit: producer, consumer, outbox relay
-- [ ] Integration: kafkajs mock ile end-to-end
+- [x] Unit: producer, consumer, outbox relay
+- [x] Integration: kafkajs mock ile end-to-end

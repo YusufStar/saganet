@@ -27,7 +27,7 @@
 
 ## Tests
 
-- [ ] Unit: mock ioredis ile bağlantı factory testi
+- [x] Unit: mock ioredis ile bağlantı factory testi
 - [ ] Integration: Docker testcontainers ile Redis
 
 ## Docs

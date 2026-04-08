@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule, OutboxEntity } from '@saganet/db';
 import { RedisModule } from '@saganet/redis';
@@ -35,6 +35,6 @@ const envFilePath = [
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {
-    consumer.apply(InternalAuthMiddleware).forRoutes('*');
+    consumer.apply(InternalAuthMiddleware).forRoutes({ path: '{*path}', method: RequestMethod.ALL });
   }
 }
