@@ -10,6 +10,7 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -22,6 +23,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Roles, CurrentUserId, CurrentUserRole } from '@saganet/common';
+import { RolesGuard } from '../common/guards/roles.guard';
 import { ReviewService } from './review.service';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
@@ -58,6 +60,7 @@ export class ReviewController {
 
   @Post('products/:productId/reviews')
   @Roles('CUSTOMER')
+  @UseGuards(RolesGuard)
   @HttpCode(HttpStatus.CREATED)
   @ApiBearerAuth('access-token')
   @ApiOperation({ summary: 'Create a review (must have purchased the product)' })
@@ -73,6 +76,7 @@ export class ReviewController {
 
   @Patch('reviews/:id')
   @Roles('CUSTOMER', 'ADMIN')
+  @UseGuards(RolesGuard)
   @ApiBearerAuth('access-token')
   @ApiOperation({ summary: 'Update own review' })
   @ApiOkResponse({ type: ReviewResponseDto })
@@ -88,6 +92,7 @@ export class ReviewController {
 
   @Delete('reviews/:id')
   @Roles('CUSTOMER', 'ADMIN')
+  @UseGuards(RolesGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiBearerAuth('access-token')
   @ApiOperation({ summary: 'Delete own review (ADMIN can delete any)' })
