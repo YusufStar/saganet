@@ -12,6 +12,7 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.getHttpServer().setMaxListeners(0); // unlimited — HTTP servers handle many concurrent requests
 
   app.use(cookieParser());
   app.use(pinoHttp({ logger, autoLogging: { ignore: (req) => req.url === '/metrics' } }));

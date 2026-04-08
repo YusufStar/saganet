@@ -16,6 +16,7 @@ import { GlobalExceptionFilter } from './filters/http-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.getHttpServer().setMaxListeners(0); // unlimited — HTTP servers handle many concurrent requests
 
   const expressApp = app.getHttpAdapter().getInstance();
   expressApp.set('trust proxy', 1);
