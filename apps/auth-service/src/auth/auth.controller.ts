@@ -39,6 +39,15 @@ const COOKIE_OPTIONS = {
   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in ms
 };
 
+/** Short-lived access token cookie — read by Next.js Proxy for route guards */
+const ACCESS_TOKEN_COOKIE_OPTIONS = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === 'production',
+  sameSite: 'lax' as const,
+  maxAge: 15 * 60, // 15 minutes — matches JWT expiry
+  path: '/',
+};
+
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
@@ -81,6 +90,7 @@ export class AuthController {
 
     res.cookie('session_id', sessionId, COOKIE_OPTIONS);
     res.cookie('refresh_token', rawRefreshToken, COOKIE_OPTIONS);
+    res.cookie('sat', response.access_token, ACCESS_TOKEN_COOKIE_OPTIONS);
 
     return response;
   }
@@ -108,6 +118,7 @@ export class AuthController {
       await this.authService.refresh(sessionId, rawRefreshToken, userAgent);
 
     res.cookie('refresh_token', newRefreshToken, COOKIE_OPTIONS);
+    res.cookie('sat', access_token, ACCESS_TOKEN_COOKIE_OPTIONS);
 
     return { access_token };
   }
@@ -127,6 +138,7 @@ export class AuthController {
     }
     res.clearCookie('session_id');
     res.clearCookie('refresh_token');
+    res.clearCookie('sat');
   }
 
   @Post('logout/all')
@@ -143,6 +155,7 @@ export class AuthController {
     }
     res.clearCookie('session_id');
     res.clearCookie('refresh_token');
+    res.clearCookie('sat');
   }
 
   @Post('verify')

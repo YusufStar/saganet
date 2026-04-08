@@ -8,24 +8,12 @@ import type {
 } from '@/lib/api/types';
 import { authKeys } from './query-keys';
 
-async function setTokenCookie(access_token: string) {
-  await fetch('/api/auth/token', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ access_token }),
-  });
-}
-
-async function clearTokenCookie() {
-  await fetch('/api/auth/token', { method: 'DELETE' });
-}
-
 export function useLogin() {
   return useMutation({
     mutationFn: (body: LoginRequest) => authApi.login(body),
-    onSuccess: async (data) => {
+    onSuccess: (data) => {
+      // sat (access token) cookie is set by auth-service directly via Set-Cookie header
       tokenStore.set(data.access_token);
-      await setTokenCookie(data.access_token);
     },
   });
 }
@@ -40,9 +28,8 @@ export function useLogout() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: () => authApi.logout(),
-    onSettled: async () => {
+    onSettled: () => {
       tokenStore.clear();
-      await clearTokenCookie();
       qc.clear();
     },
   });

@@ -72,8 +72,14 @@ export class JwtAuthMiddleware implements NestMiddleware {
   }
 
   private extractToken(req: Request): string | undefined {
+    // 1. Cookie — primary source (sat = Saganet Access Token, set by auth-service)
+    const sat = req.cookies?.['sat'];
+    if (sat) return sat;
+
+    // 2. Authorization header — fallback for API clients / mobile
     const authHeader = req.headers.authorization;
     if (authHeader?.startsWith('Bearer ')) return authHeader.slice(7);
+
     return undefined;
   }
 }
