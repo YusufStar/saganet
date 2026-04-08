@@ -37,6 +37,7 @@ const PUBLIC_ROUTES = [
   { path: 'api/catalog/categories',                 method: RequestMethod.GET },
   { path: 'api/catalog/categories/{*path}',         method: RequestMethod.GET },
   { path: 'api/inventory/stock/{*path}',            method: RequestMethod.GET },
+  { path: 'metrics',                               method: RequestMethod.GET },
 ];
 
 @Module({
