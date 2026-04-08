@@ -45,19 +45,25 @@ export function Popover({
   return (
     <div
       ref={ref}
-      role="dialog"
       aria-hidden={!open}
-      style={{ minWidth }}
       className={[
-        'absolute top-full mt-1 z-[200]',
-        'bg-white border border-(--color-border) rounded-(--radius-lg) shadow-(--shadow-dropdown)',
-        'transition-all duration-150 origin-top',
-        open ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none',
+        'absolute top-full z-[200] pt-1',
+        open ? 'pointer-events-auto' : 'pointer-events-none',
         alignClass,
-        className,
       ].join(' ')}
+      style={{ minWidth }}
     >
-      {children}
+      <div
+        role="dialog"
+        className={[
+          'bg-white border border-(--color-border) rounded-(--radius-lg) shadow-(--shadow-dropdown)',
+          'transition-all duration-150 origin-top',
+          open ? 'opacity-100 scale-100' : 'opacity-0 scale-95',
+          className,
+        ].join(' ')}
+      >
+        {children}
+      </div>
     </div>
   );
 }

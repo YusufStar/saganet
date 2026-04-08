@@ -9,7 +9,7 @@ import { UserRole } from '../users/user-role.enum';
 export class AdminSeedService implements OnApplicationBootstrap {
   private readonly logger = new Logger(AdminSeedService.name);
 
-  constructor(@Inject(DATA_SOURCE) private readonly dataSource: DataSource) {}
+  constructor(@Inject(DATA_SOURCE) private readonly dataSource: DataSource) { }
 
   async onApplicationBootstrap(): Promise<void> {
     const email = process.env.ADMIN_EMAIL;
@@ -35,6 +35,7 @@ export class AdminSeedService implements OnApplicationBootstrap {
       email,
       passwordHash,
       role: UserRole.ADMIN,
+      displayName: "ProMax Admin",
       emailVerified: true,   // auto-verified — no email flow needed
       failedLoginAttempts: 0,
     });
