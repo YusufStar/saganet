@@ -1,1 +1,548 @@
 @import "tailwindcss";
+
+/* ─── Trendyol Design System ────────────────────────────────────────────────── */
+
+@theme {
+  /* ── Fonts ── */
+  --font-sans: "Inter", ui-sans-serif, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* ── Brand ── */
+  --color-orange-50:  #FFF8F0;
+  --color-orange-100: #FFF0D9;
+  --color-orange-200: #FFD9A8;
+  --color-orange-300: #FFB966;
+  --color-orange-400: #FF9933;
+  --color-orange-500: #F27A1A;   /* Trendyol primary */
+  --color-orange-600: #E06010;
+  --color-orange-700: #C04D08;
+  --color-orange-800: #993C06;
+  --color-orange-900: #6B2904;
+
+  /* ── Neutrals ── */
+  --color-neutral-0:   #FFFFFF;
+  --color-neutral-50:  #F3F3F3;  /* page background */
+  --color-neutral-100: #EBEBEB;
+  --color-neutral-200: #E4E4E4;  /* borders */
+  --color-neutral-300: #CCCCCC;
+  --color-neutral-400: #AAAAAA;
+  --color-neutral-500: #999999;  /* placeholder text */
+  --color-neutral-600: #6D6D6D;  /* secondary text */
+  --color-neutral-700: #444444;
+  --color-neutral-800: #2D2D2D;
+  --color-neutral-900: #1D1D1B;  /* primary text */
+
+  /* ── Semantic ── */
+  --color-success:      #39B54A;
+  --color-success-bg:   #F0FAF1;
+  --color-error:        #E74040;
+  --color-error-bg:     #FEF2F2;
+  --color-warning:      #F5A623;
+  --color-warning-bg:   #FFFBEB;
+  --color-info:         #3B82F6;
+  --color-info-bg:      #EFF6FF;
+
+  /* ── E-commerce specific ── */
+  --color-discount:     #E74040;   /* sale price / badge */
+  --color-flash:        #FF6000;   /* flash sale */
+  --color-star:         #FFB800;   /* rating stars */
+  --color-badge-new:    #39B54A;
+  --color-badge-free:   #3B82F6;  /* free shipping */
+  --color-favorite:     #E74040;   /* heart / wishlist */
+
+  /* ── Surfaces ── */
+  --color-page:    var(--color-neutral-50);
+  --color-surface: var(--color-neutral-0);
+  --color-border:  var(--color-neutral-200);
+  --color-border-light: #F0F0F0;
+
+  /* ── Text ── */
+  --color-text-primary:   var(--color-neutral-900);
+  --color-text-secondary: var(--color-neutral-600);
+  --color-text-muted:     var(--color-neutral-500);
+  --color-text-disabled:  var(--color-neutral-400);
+  --color-text-inverse:   var(--color-neutral-0);
+  --color-text-orange:    var(--color-orange-500);
+
+  /* ── Shadows ── */
+  --shadow-card:   0 2px 8px 0 rgba(0, 0, 0, 0.08);
+  --shadow-hover:  0 4px 16px 0 rgba(0, 0, 0, 0.14);
+  --shadow-header: 0 2px 4px 0 rgba(0, 0, 0, 0.10);
+  --shadow-modal:  0 8px 32px 0 rgba(0, 0, 0, 0.20);
+  --shadow-dropdown: 0 4px 12px 0 rgba(0, 0, 0, 0.12);
+
+  /* ── Radius ── */
+  --radius-xs:  2px;
+  --radius-sm:  4px;
+  --radius-md:  8px;
+  --radius-lg:  12px;
+  --radius-xl:  16px;
+  --radius-full: 9999px;
+
+  /* ── Spacing scale (base 4px) ── */
+  --spacing-0:   0px;
+  --spacing-1:   4px;
+  --spacing-2:   8px;
+  --spacing-3:   12px;
+  --spacing-4:   16px;
+  --spacing-5:   20px;
+  --spacing-6:   24px;
+  --spacing-7:   28px;
+  --spacing-8:   32px;
+  --spacing-10:  40px;
+  --spacing-12:  48px;
+  --spacing-16:  64px;
+
+  /* ── Breakpoints ── */
+  --breakpoint-sm:  640px;
+  --breakpoint-md:  768px;
+  --breakpoint-lg:  1024px;
+  --breakpoint-xl:  1280px;
+  --breakpoint-2xl: 1440px;
+
+  /* ── Z-index ── */
+  --z-header:   100;
+  --z-dropdown: 200;
+  --z-modal:    300;
+  --z-toast:    400;
+}
+
+/* ─── Base styles ────────────────────────────────────────────────────────────── */
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-family: var(--font-sans);
+    font-size: 14px;         /* Trendyol uses 14px base */
+    line-height: 1.5;
+    color: var(--color-text-primary);
+    background-color: var(--color-page);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-height: 100vh;
+    background-color: var(--color-page);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img, svg {
+    display: block;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  input, textarea, select {
+    font-family: inherit;
+    font-size: inherit;
+  }
+
+  /* Remove default list styles in nav contexts */
+  nav ul, nav ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* ─── Component utilities ────────────────────────────────────────────────────── */
+
+@layer components {
+  /* Container */
+  .container-page {
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
+    padding-inline: 16px;
+  }
+
+  @media (min-width: 1280px) {
+    .container-page {
+      padding-inline: 32px;
+    }
+  }
+
+  /* ── Card ── */
+  .card {
+    background-color: var(--color-surface);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+  }
+
+  .card-hover {
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+
+  .card-hover:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+  }
+
+  /* ── Product card ── */
+  .product-card {
+    background-color: var(--color-surface);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .product-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+  }
+
+  .product-card__image {
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    object-fit: cover;
+    background-color: var(--color-neutral-100);
+  }
+
+  .product-card__body {
+    padding: 12px;
+  }
+
+  .product-card__brand {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .product-card__name {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    margin-top: 2px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.4;
+  }
+
+  .product-card__price {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-top: 6px;
+  }
+
+  .product-card__price--original {
+    font-size: 12px;
+    color: var(--color-text-muted);
+    text-decoration: line-through;
+    margin-top: 2px;
+  }
+
+  .product-card__discount {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--color-discount);
+    margin-left: 4px;
+  }
+
+  .product-card__rating {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-top: 4px;
+  }
+
+  /* ── Buttons ── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background-color 0.15s ease, opacity 0.15s ease;
+    white-space: nowrap;
+    user-select: none;
+    text-decoration: none;
+  }
+
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .btn-sm  { font-size: 12px; padding: 6px 12px; height: 32px; }
+  .btn-md  { font-size: 14px; padding: 10px 16px; height: 42px; }
+  .btn-lg  { font-size: 16px; padding: 12px 24px; height: 52px; }
+
+  .btn-primary {
+    background-color: var(--color-orange-500);
+    color: var(--color-text-inverse);
+  }
+  .btn-primary:hover:not(:disabled) {
+    background-color: var(--color-orange-600);
+  }
+
+  .btn-secondary {
+    background-color: transparent;
+    color: var(--color-orange-500);
+    border: 1.5px solid var(--color-orange-500);
+  }
+  .btn-secondary:hover:not(:disabled) {
+    background-color: var(--color-orange-50);
+  }
+
+  .btn-ghost {
+    background-color: transparent;
+    color: var(--color-text-secondary);
+  }
+  .btn-ghost:hover:not(:disabled) {
+    background-color: var(--color-neutral-100);
+    color: var(--color-text-primary);
+  }
+
+  .btn-danger {
+    background-color: var(--color-error);
+    color: var(--color-text-inverse);
+  }
+  .btn-danger:hover:not(:disabled) {
+    background-color: #C53030;
+  }
+
+  /* ── Input ── */
+  .input {
+    width: 100%;
+    height: 42px;
+    padding: 0 12px;
+    font-size: 14px;
+    color: var(--color-text-primary);
+    background-color: var(--color-surface);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    outline: none;
+    transition: border-color 0.15s ease;
+  }
+
+  .input::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  .input:focus {
+    border-color: var(--color-orange-500);
+  }
+
+  .input:disabled {
+    background-color: var(--color-neutral-100);
+    cursor: not-allowed;
+    color: var(--color-text-disabled);
+  }
+
+  .input-error {
+    border-color: var(--color-error);
+  }
+
+  .label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: 4px;
+  }
+
+  .field-error {
+    font-size: 12px;
+    color: var(--color-error);
+    margin-top: 4px;
+  }
+
+  /* ── Badge ── */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: var(--radius-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  .badge-orange  { background-color: var(--color-orange-500); color: #fff; }
+  .badge-red     { background-color: var(--color-discount); color: #fff; }
+  .badge-green   { background-color: var(--color-success); color: #fff; }
+  .badge-blue    { background-color: var(--color-info); color: #fff; }
+  .badge-gray    { background-color: var(--color-neutral-200); color: var(--color-text-secondary); }
+
+  /* ── Skeleton / loading ── */
+  .skeleton {
+    background: linear-gradient(90deg, var(--color-neutral-100) 25%, var(--color-neutral-200) 50%, var(--color-neutral-100) 75%);
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.4s ease-in-out infinite;
+    border-radius: var(--radius-sm);
+  }
+
+  @keyframes skeleton-shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* ── Divider ── */
+  .divider {
+    height: 1px;
+    background-color: var(--color-border-light);
+    border: none;
+    margin: 0;
+  }
+
+  /* ── Star rating ── */
+  .star {
+    color: var(--color-star);
+    font-size: 12px;
+  }
+
+  .star-empty {
+    color: var(--color-neutral-300);
+    font-size: 12px;
+  }
+
+  /* ── Section title ── */
+  .section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    letter-spacing: -0.2px;
+  }
+
+  /* ── Price tag ── */
+  .price {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+  }
+
+  .price-original {
+    font-size: 13px;
+    color: var(--color-text-muted);
+    text-decoration: line-through;
+  }
+
+  .price-discount {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-discount);
+  }
+
+  /* ── Spinner ── */
+  .spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--color-neutral-200);
+    border-top-color: var(--color-orange-500);
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* ── Scrollbar ── */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-neutral-300) transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: var(--color-neutral-300);
+    border-radius: var(--radius-full);
+  }
+
+  /* ── Dropdown ── */
+  .dropdown {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-dropdown);
+    overflow: hidden;
+  }
+
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    font-size: 13px;
+    color: var(--color-text-primary);
+    cursor: pointer;
+    transition: background-color 0.1s;
+  }
+
+  .dropdown-item:hover {
+    background-color: var(--color-neutral-50);
+  }
+
+  /* ── Toast ── */
+  .toast {
+    padding: 12px 16px;
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: var(--shadow-modal);
+    max-width: 380px;
+  }
+
+  .toast-success { background-color: var(--color-success-bg); color: var(--color-success); border-left: 3px solid var(--color-success); }
+  .toast-error   { background-color: var(--color-error-bg);   color: var(--color-error);   border-left: 3px solid var(--color-error);   }
+  .toast-warning { background-color: var(--color-warning-bg); color: var(--color-warning); border-left: 3px solid var(--color-warning); }
+
+  /* ── Form group ── */
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  /* ── Page section ── */
+  .page-section {
+    background-color: var(--color-surface);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    box-shadow: var(--shadow-card);
+  }
+
+  /* ── Empty state ── */
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 64px 24px;
+    text-align: center;
+    color: var(--color-text-muted);
+    gap: 12px;
+  }
+}
