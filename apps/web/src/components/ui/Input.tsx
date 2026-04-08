@@ -2,56 +2,43 @@
 
 import { forwardRef, useState } from 'react';
 
-export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> {
+export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'prefix'> {
   label?: string;
   error?: string;
   hint?: string;
   type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search';
-  /** Content to render on the left side inside the input */
   prefix?: React.ReactNode;
-  /** Content to render on the right side inside the input (overridden by password toggle) */
   suffix?: React.ReactNode;
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, hint, type = 'text', prefix, suffix, className = '', id, ...props }, ref) => {
+  ({ label, error, hint, type = 'text', prefix, suffix, className, id, ...props }, ref) => {
     const [showPassword, setShowPassword] = useState(false);
     const isPassword = type === 'password';
     const inputType = isPassword ? (showPassword ? 'text' : 'password') : type;
-
     const inputId = id ?? label?.toLowerCase().replace(/\s+/g, '-');
-
-    const baseInput = [
-      'w-full text-sm bg-white outline-none transition-colors',
-      'placeholder:text-[var(--color-text-muted)]',
-      'text-[var(--color-text-primary)]',
-      prefix ? 'pl-9' : 'pl-3.5',
-      isPassword || suffix ? 'pr-10' : 'pr-3.5',
-      'py-2.5',
-      className,
-    ].join(' ');
-
-    const wrapperClass = [
-      'relative flex items-center rounded-[var(--radius-md)] border transition-colors',
-      error
-        ? 'border-red-400 bg-red-50 focus-within:border-red-500'
-        : 'border-[var(--color-border)] bg-white focus-within:border-orange-500',
-    ].join(' ');
 
     return (
       <div className="flex flex-col gap-1.5">
         {label && (
           <label
             htmlFor={inputId}
-            className="text-sm font-medium text-[var(--color-text-primary)] select-none"
+            className="text-sm font-medium text-(--color-text-primary) select-none"
           >
             {label}
           </label>
         )}
 
-        <div className={wrapperClass}>
+        <div
+          className={[
+            'relative flex items-center rounded-md border transition-colors',
+            error
+              ? 'border-red-400 bg-red-50 focus-within:border-red-500'
+              : 'border-(--color-border) bg-white focus-within:border-orange-500',
+          ].join(' ')}
+        >
           {prefix && (
-            <span className="absolute left-3 text-[var(--color-text-muted)] pointer-events-none flex items-center">
+            <span className="absolute left-3 text-(--color-text-muted) pointer-events-none flex items-center">
               {prefix}
             </span>
           )}
@@ -60,9 +47,18 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             id={inputId}
             type={inputType}
-            className={baseInput}
+            className={[
+              'w-full text-sm bg-transparent outline-none transition-colors',
+              'placeholder:text-(--color-text-muted) text-(--color-text-primary)',
+              prefix ? 'pl-9' : 'pl-3.5',
+              isPassword || suffix ? 'pr-10' : 'pr-3.5',
+              'py-2.5',
+              className,
+            ].join(' ')}
             aria-invalid={!!error}
-            aria-describedby={error ? `${inputId}-error` : hint ? `${inputId}-hint` : undefined}
+            aria-describedby={
+              error ? `${inputId}-error` : hint ? `${inputId}-hint` : undefined
+            }
             {...props}
           />
 
@@ -71,7 +67,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               type="button"
               tabIndex={-1}
               onClick={() => setShowPassword((v) => !v)}
-              className="absolute right-3 text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-colors flex items-center"
+              className="absolute right-3 text-(--color-text-muted) hover:text-(--color-text-primary) transition-colors flex items-center"
               aria-label={showPassword ? 'Hide password' : 'Show password'}
             >
               {showPassword ? (
@@ -86,7 +82,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               )}
             </button>
           ) : suffix ? (
-            <span className="absolute right-3 text-[var(--color-text-muted)] flex items-center pointer-events-none">
+            <span className="absolute right-3 text-(--color-text-muted) flex items-center pointer-events-none">
               {suffix}
             </span>
           ) : null}
@@ -94,7 +90,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
         {error && (
           <p id={`${inputId}-error`} className="text-xs text-red-500 flex items-center gap-1">
-            <svg className="w-3 h-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <svg className="w-3 h-3 shrink-0" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0zm-7 4a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-1-9a1 1 0 0 0-1 1v4a1 1 0 1 0 2 0V6a1 1 0 0 0-1-1z" clipRule="evenodd" />
             </svg>
             {error}
@@ -102,7 +98,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         )}
 
         {hint && !error && (
-          <p id={`${inputId}-hint`} className="text-xs text-[var(--color-text-muted)]">
+          <p id={`${inputId}-hint`} className="text-xs text-(--color-text-muted)">
             {hint}
           </p>
         )}

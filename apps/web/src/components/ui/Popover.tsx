@@ -50,7 +50,7 @@ export function Popover({
       style={{ minWidth }}
       className={[
         'absolute top-full mt-1 z-[200]',
-        'bg-white border border-[var(--color-border)] rounded-[var(--radius-lg)] shadow-[var(--shadow-dropdown)]',
+        'bg-white border border-(--color-border) rounded-(--radius-lg) shadow-(--shadow-dropdown)',
         'transition-all duration-150 origin-top',
         open ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none',
         alignClass,

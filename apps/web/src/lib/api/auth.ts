@@ -15,10 +15,10 @@ const ADDRESSES = '/api/auth/addresses';
 
 export const authApi = {
   register: (body: RegisterRequest) =>
-    post<RegisterResponse>(`${AUTH}/register`, body),
+    post<RegisterResponse>(`${AUTH}/register`, body, { skipRefresh: true }),
 
   login: (body: LoginRequest) =>
-    post<LoginResponse>(`${AUTH}/login`, body),
+    post<LoginResponse>(`${AUTH}/login`, body, { skipRefresh: true }),
 
   logout: () =>
     post<void>(`${AUTH}/logout`),

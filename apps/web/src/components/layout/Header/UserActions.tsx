@@ -36,7 +36,7 @@ function ActionButton({
       ? 'text-purple-600 hover:bg-purple-50'
       : highlight === 'seller'
       ? 'text-orange-500 hover:bg-orange-50'
-      : 'text-[var(--color-text-secondary)] hover:bg-neutral-100';
+      : 'text-(--color-text-secondary) hover:bg-neutral-100';
 
   return (
     <div
@@ -46,7 +46,7 @@ function ActionButton({
     >
       <Tooltip content={tooltip} position="bottom">
         <Link href={href}>
-          <div className={`flex items-center justify-center w-10 h-10 rounded-[var(--radius-md)] cursor-pointer transition-colors relative ${colorClass}`}>
+          <div className={`flex items-center justify-center w-10 h-10 rounded-(--radius-md) cursor-pointer transition-colors relative ${colorClass}`}>
             {children}
             {badge != null && badge > 0 && (
               <span className="absolute top-0.5 right-0.5 min-w-[16px] h-4 bg-orange-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center px-0.5 leading-none">
@@ -76,21 +76,21 @@ function ProfileDropdown({ displayName }: { displayName?: string }) {
 
   return (
     <>
-      <div className="px-4 py-3 border-b border-[var(--color-border)]">
-        <p className="text-xs text-[var(--color-text-muted)]">Welcome back!</p>
-        <p className="text-sm font-semibold text-[var(--color-text-primary)]">
+      <div className="px-4 py-3 border-b border-(--color-border)">
+        <p className="text-xs text-(--color-text-muted)">Welcome back!</p>
+        <p className="text-sm font-semibold text-(--color-text-primary)">
           {displayName ?? 'User'}
         </p>
       </div>
       <div className="py-1">
         {items.map((item) => (
           <Link key={item.href} href={item.href}>
-            <div className="px-4 py-2.5 text-sm text-[var(--color-text-primary)] hover:bg-orange-50 hover:text-orange-500 transition-colors">
+            <div className="px-4 py-2.5 text-sm text-(--color-text-primary) hover:bg-orange-50 hover:text-orange-500 transition-colors">
               {item.label}
             </div>
           </Link>
         ))}
-        <div className="border-t border-[var(--color-border)] mt-1 pt-1">
+        <div className="border-t border-(--color-border) mt-1 pt-1">
           <Link href="/logout">
             <div className="px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition-colors">
               Sign Out

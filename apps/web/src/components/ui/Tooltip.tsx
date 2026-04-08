@@ -48,8 +48,8 @@ export function Tooltip({ content, children, delay = 400, position = 'bottom' }:
         className={[
           'absolute left-1/2 -translate-x-1/2 z-[300] pointer-events-none',
           'whitespace-nowrap px-2.5 py-1.5',
-          'bg-[var(--color-neutral-900)] text-white text-[11px] font-medium rounded-[var(--radius-sm)]',
-          'shadow-[var(--shadow-modal)]',
+          'bg-(--color-neutral-900) text-white text-[11px] font-medium rounded-(--radius-sm)',
+          'shadow-(--shadow-modal)',
           'transition-all duration-150 origin-top',
           posClass,
           visible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-1',
@@ -61,8 +61,8 @@ export function Tooltip({ content, children, delay = 400, position = 'bottom' }:
           className={[
             'absolute left-1/2 -translate-x-1/2 w-0 h-0',
             position === 'top'
-              ? 'top-full border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-[var(--color-neutral-900)]'
-              : 'bottom-full border-l-4 border-r-4 border-b-4 border-l-transparent border-r-transparent border-b-[var(--color-neutral-900)]',
+              ? 'top-full border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-(--color-neutral-900)'
+              : 'bottom-full border-l-4 border-r-4 border-b-4 border-l-transparent border-r-transparent border-b-(--color-neutral-900)',
           ].join(' ')}
         />
       </div>

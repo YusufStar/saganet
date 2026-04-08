@@ -34,7 +34,7 @@ function StrengthBar({ password }: { password: string }) {
             'h-1 flex-1 rounded-full transition-colors duration-200',
             level >= l
               ? l === 1 ? 'bg-red-400' : l === 2 ? 'bg-yellow-400' : 'bg-green-400'
-              : 'bg-[var(--color-border)]',
+              : 'bg-(--color-border)',
           ].join(' ')}
         />
       ))}
@@ -74,12 +74,12 @@ export default function RegisterPage() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h2 className="text-xl font-bold text-[var(--color-text-primary)] mb-2">Account created!</h2>
-        <p className="text-sm text-[var(--color-text-secondary)] mb-1">We sent a verification link to</p>
-        <p className="text-sm font-semibold text-[var(--color-text-primary)] mb-6">{successEmail}</p>
+        <h2 className="text-xl font-bold text-(--color-text-primary) mb-2">Account created!</h2>
+        <p className="text-sm text-(--color-text-secondary) mb-1">We sent a verification link to</p>
+        <p className="text-sm font-semibold text-(--color-text-primary) mb-6">{successEmail}</p>
         <Link
           href="/login"
-          className="inline-block px-6 py-2.5 bg-orange-500 hover:bg-orange-600 text-white font-semibold text-sm rounded-[var(--radius-md)] transition-colors"
+          className="inline-block px-6 py-2.5 bg-orange-500 hover:bg-orange-600 text-white font-semibold text-sm rounded-(--radius-md) transition-colors"
         >
           Go to Sign In
         </Link>
@@ -90,8 +90,8 @@ export default function RegisterPage() {
   return (
     <>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">Create account</h1>
-        <p className="text-sm text-[var(--color-text-secondary)] mt-1">
+        <h1 className="text-2xl font-bold text-(--color-text-primary)">Create account</h1>
+        <p className="text-sm text-(--color-text-secondary) mt-1">
           Join Saganet and start shopping today.
         </p>
       </div>
@@ -129,7 +129,7 @@ export default function RegisterPage() {
         />
 
         {errors.root && (
-          <div className="flex items-center gap-2 px-3.5 py-2.5 bg-red-50 border border-red-200 rounded-[var(--radius-md)] text-sm text-red-600">
+          <div className="flex items-center gap-2 px-3.5 py-2.5 bg-red-50 border border-red-200 rounded-(--radius-md) text-sm text-red-600">
             <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0zm-7 4a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-1-9a1 1 0 0 0-1 1v4a1 1 0 1 0 2 0V6a1 1 0 0 0-1-1z" clipRule="evenodd" />
             </svg>
@@ -140,7 +140,7 @@ export default function RegisterPage() {
         <button
           type="submit"
           disabled={isSubmitting || registerMutation.isPending}
-          className="w-full py-2.5 px-4 bg-orange-500 hover:bg-orange-600 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold text-sm rounded-[var(--radius-md)] transition-colors flex items-center justify-center gap-2"
+          className="w-full py-2.5 px-4 bg-orange-500 hover:bg-orange-600 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold text-sm rounded-(--radius-md) transition-colors flex items-center justify-center gap-2"
         >
           {(isSubmitting || registerMutation.isPending) ? (
             <>
@@ -153,7 +153,7 @@ export default function RegisterPage() {
           ) : 'Create account'}
         </button>
 
-        <p className="text-center text-xs text-[var(--color-text-muted)]">
+        <p className="text-center text-xs text-(--color-text-muted)">
           By creating an account you agree to our{' '}
           <Link href="/terms" className="text-orange-500 hover:underline">Terms of Service</Link>
           {' '}and{' '}
@@ -161,7 +161,7 @@ export default function RegisterPage() {
         </p>
       </form>
 
-      <p className="mt-6 text-center text-sm text-[var(--color-text-secondary)]">
+      <p className="mt-6 text-center text-sm text-(--color-text-secondary)">
         Already have an account?{' '}
         <Link href="/login" className="text-orange-500 font-semibold hover:underline">Sign in</Link>
       </p>
