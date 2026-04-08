@@ -233,6 +233,42 @@ export interface Payment {
   createdAt: string;
 }
 
+// ─── Reviews ──────────────────────────────────────────────────────────────────
+
+export interface Review {
+  id: string;
+  productId: string;
+  userId: string;
+  orderId: string;
+  rating: number;
+  comment?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ReviewStats {
+  avgRating: number;
+  reviewCount: number;
+  distribution: Record<number, number>;
+}
+
+export interface ReviewListResponse {
+  data: Review[];
+  meta: PaginationMeta;
+  stats: ReviewStats;
+}
+
+export interface CreateReviewRequest {
+  rating: number;
+  comment?: string;
+  orderId: string;
+}
+
+export interface UpdateReviewRequest {
+  rating?: number;
+  comment?: string;
+}
+
 // ─── Notifications ────────────────────────────────────────────────────────────
 
 export interface Notification {

@@ -6,3 +6,4 @@ export { inventoryApi } from './inventory';
 export { ordersApi } from './orders';
 export { paymentsApi } from './payments';
 export { notificationsApi } from './notifications';
+export { reviewsApi } from './reviews';

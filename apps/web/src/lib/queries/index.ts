@@ -21,3 +21,6 @@ export * from './inventory/mutations';
 export * from './orders/mutations';
 // payments: read-only, no mutations exposed client-side
 // notifications: read-only
+export * from './reviews/query-keys';
+export * from './reviews/queries';
+export * from './reviews/mutations';

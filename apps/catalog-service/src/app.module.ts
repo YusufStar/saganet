@@ -16,6 +16,9 @@ import { HealthModule } from './health/health.module';
 import { MetricsModule } from './metrics/metrics.module';
 import { AdminModule } from './admin/admin.module';
 import { StockModule } from './stock/stock.module';
+import { ReviewModule } from './review/review.module';
+import { ReviewEntity } from './review/review.entity';
+import { UserPurchasedProductEntity } from './review/user-purchased-product.entity';
 import { InternalAuthMiddleware } from './common/middleware/internal-auth.middleware';
 
 const envFilePath = [
@@ -35,7 +38,7 @@ const envFilePath = [
       },
     ]),
     DatabaseModule.forRoot({
-      entities: [CategoryEntity, ProductEntity, ProductImageEntity],
+      entities: [CategoryEntity, ProductEntity, ProductImageEntity, ReviewEntity, UserPurchasedProductEntity],
     }),
     StorageModule.forRoot(),
     RedisModule.forRoot(),
@@ -47,6 +50,7 @@ const envFilePath = [
     MetricsModule,
     AdminModule,
     StockModule,
+    ReviewModule,
   ],
 })
 export class AppModule implements NestModule {
