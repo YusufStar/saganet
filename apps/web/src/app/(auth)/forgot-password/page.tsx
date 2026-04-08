@@ -2,32 +2,38 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { Input } from '@/components/ui/Input';
 import { useForgotPassword } from '@/lib/queries/auth/mutations';
 import { ApiError } from '@/lib/api/client';
 
-export default function ForgotPasswordPage() {
-  const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
-  const [sent, setSent] = useState(false);
+const schema = z.object({
+  email: z.string().min(1, 'Email is required').email('Enter a valid email address'),
+});
 
+type FormData = z.infer<typeof schema>;
+
+export default function ForgotPasswordPage() {
+  const [sentTo, setSentTo] = useState('');
   const forgotPassword = useForgotPassword();
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setError('');
+  const { register, handleSubmit, setError, formState: { errors, isSubmitting } } =
+    useForm<FormData>({ resolver: zodResolver(schema) });
+
+  async function onSubmit(data: FormData) {
     try {
-      await forgotPassword.mutateAsync({ email });
-      setSent(true);
+      await forgotPassword.mutateAsync({ email: data.email });
+      setSentTo(data.email);
     } catch (err) {
-      if (err instanceof ApiError) {
-        setError(err.message);
-      } else {
-        setError('Something went wrong. Please try again.');
-      }
+      const message =
+        err instanceof ApiError ? err.message : 'Something went wrong. Please try again.';
+      setError('root', { message });
     }
   }
 
-  if (sent) {
+  if (sentTo) {
     return (
       <div className="text-center py-4">
         <div className="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -36,17 +42,11 @@ export default function ForgotPasswordPage() {
           </svg>
         </div>
         <h2 className="text-xl font-bold text-[var(--color-text-primary)] mb-2">Check your inbox</h2>
-        <p className="text-sm text-[var(--color-text-secondary)] mb-1">
-          We sent a password reset link to
-        </p>
-        <p className="text-sm font-semibold text-[var(--color-text-primary)] mb-6">{email}</p>
+        <p className="text-sm text-[var(--color-text-secondary)] mb-1">We sent a reset link to</p>
+        <p className="text-sm font-semibold text-[var(--color-text-primary)] mb-6">{sentTo}</p>
         <p className="text-xs text-[var(--color-text-muted)] mb-6">
-          Didn&apos;t receive it? Check your spam folder or{' '}
-          <button
-            type="button"
-            onClick={() => setSent(false)}
-            className="text-orange-500 hover:underline"
-          >
+          Didn&apos;t receive it? Check spam or{' '}
+          <button type="button" onClick={() => setSentTo('')} className="text-orange-500 hover:underline">
             try again
           </button>.
         </p>
@@ -66,37 +66,32 @@ export default function ForgotPasswordPage() {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-[var(--color-text-primary)] mb-1.5">
-            Email
-          </label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@example.com"
-            required
-            autoFocus
-            className="w-full px-3.5 py-2.5 text-sm rounded-[var(--radius-md)] border border-[var(--color-border)] focus:border-orange-500 bg-white placeholder:text-[var(--color-text-muted)] outline-none transition-colors"
-          />
-        </div>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
+        <Input
+          label="Email"
+          type="email"
+          placeholder="you@example.com"
+          autoComplete="email"
+          autoFocus
+          error={errors.email?.message}
+          {...register('email')}
+        />
 
-        {error && (
+        {errors.root && (
           <div className="flex items-center gap-2 px-3.5 py-2.5 bg-red-50 border border-red-200 rounded-[var(--radius-md)] text-sm text-red-600">
             <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0zm-7 4a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-1-9a1 1 0 0 0-1 1v4a1 1 0 1 0 2 0V6a1 1 0 0 0-1-1z" clipRule="evenodd" />
             </svg>
-            {error}
+            {errors.root.message}
           </div>
         )}
 
         <button
           type="submit"
-          disabled={forgotPassword.isPending}
+          disabled={isSubmitting || forgotPassword.isPending}
           className="w-full py-2.5 px-4 bg-orange-500 hover:bg-orange-600 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold text-sm rounded-[var(--radius-md)] transition-colors flex items-center justify-center gap-2"
         >
-          {forgotPassword.isPending ? (
+          {(isSubmitting || forgotPassword.isPending) ? (
             <>
               <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
@@ -104,9 +99,7 @@ export default function ForgotPasswordPage() {
               </svg>
               Sending…
             </>
-          ) : (
-            'Send Reset Link'
-          )}
+          ) : 'Send Reset Link'}
         </button>
       </form>
 

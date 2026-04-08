@@ -7,9 +7,6 @@ class UserDto {
 }
 
 export class LoginResponseDto {
-  @ApiProperty({ description: 'JWT access token (15 min)' })
-  access_token: string;
-
   @ApiProperty()
   user: UserDto;
 }

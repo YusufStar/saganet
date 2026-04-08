@@ -9,7 +9,8 @@ function makeQueryClient() {
     defaultOptions: {
       queries: {
         // SSR: don't refetch immediately on mount
-        staleTime: 60 * 1000,
+        staleTime: 0,
+        gcTime: 0,
         // Retry once on failure (not for 4xx)
         retry: (failureCount, error) => {
           const status = (error as unknown as { status?: number })?.status;

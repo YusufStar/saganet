@@ -44,7 +44,7 @@ const ACCESS_TOKEN_COOKIE_OPTIONS = {
   httpOnly: true,
   secure: process.env.NODE_ENV === 'production',
   sameSite: 'lax' as const,
-  maxAge: 15 * 60, // 15 minutes — matches JWT expiry
+  maxAge: 15 * 60 * 1000, // 15 minutes in ms (Express maxAge is milliseconds)
   path: '/',
 };
 
@@ -86,17 +86,17 @@ export class AuthController {
     const ip = (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() ?? req.ip ?? '';
     const userAgent = req.headers['user-agent'] ?? '';
 
-    const { sessionId, rawRefreshToken, ...response } = await this.authService.login(dto, ip, userAgent);
+    const { sessionId, rawRefreshToken, access_token, ...response } = await this.authService.login(dto, ip, userAgent);
 
     res.cookie('session_id', sessionId, COOKIE_OPTIONS);
     res.cookie('refresh_token', rawRefreshToken, COOKIE_OPTIONS);
-    res.cookie('sat', response.access_token, ACCESS_TOKEN_COOKIE_OPTIONS);
+    res.cookie('sat', access_token, ACCESS_TOKEN_COOKIE_OPTIONS);
 
     return response;
   }
 
   @Post('refresh')
-  @HttpCode(HttpStatus.OK)
+  @HttpCode(HttpStatus.NO_CONTENT)
   @ApiCookieAuth('session_id')
   @ApiCookieAuth('refresh_token')
   @ApiOperation({ summary: 'Rotate refresh token and get a new access token' })
@@ -105,7 +105,7 @@ export class AuthController {
   async refresh(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
-  ): Promise<{ access_token: string }> {
+  ): Promise<void> {
     const sessionId = req.cookies?.['session_id'];
     const rawRefreshToken = req.cookies?.['refresh_token'];
     const userAgent = req.headers['user-agent'] ?? '';
@@ -119,8 +119,6 @@ export class AuthController {
 
     res.cookie('refresh_token', newRefreshToken, COOKIE_OPTIONS);
     res.cookie('sat', access_token, ACCESS_TOKEN_COOKIE_OPTIONS);
-
-    return { access_token };
   }
 
   @Post('logout')

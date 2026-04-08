@@ -24,7 +24,7 @@ export const authApi = {
     post<void>(`${AUTH}/logout`),
 
   refresh: () =>
-    post<{ access_token: string }>(`${AUTH}/refresh`),
+    post<void>(`${AUTH}/refresh`),
 
   verifyEmail: (token: string) =>
     get<{ message: string }>(`${AUTH}/verify-email${qs({ token })}`),

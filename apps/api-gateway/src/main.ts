@@ -15,7 +15,7 @@ import { AppModule } from './app.module';
 import { GlobalExceptionFilter } from './filters/http-exception.filter';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { bodyParser: false, rawBody: true });
   app.getHttpServer().setMaxListeners(0); // unlimited — HTTP servers handle many concurrent requests
 
   const expressApp = app.getHttpAdapter().getInstance();

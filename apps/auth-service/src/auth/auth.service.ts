@@ -140,7 +140,7 @@ export class AuthService {
     return { message: 'Email verified successfully. Welcome to Saganet!' };
   }
 
-  async login(dto: LoginDto, ip: string, userAgent: string): Promise<LoginResponseDto & { sessionId: string; rawRefreshToken: string }> {
+  async login(dto: LoginDto, ip: string, userAgent: string, ): Promise<LoginResponseDto & { access_token: string; sessionId: string; rawRefreshToken: string }> {
     // 1. Rate limit check
     const rl = await this.rateLimiter.checkLoginRateLimit(ip, dto.email);
     if (!rl.allowed) {

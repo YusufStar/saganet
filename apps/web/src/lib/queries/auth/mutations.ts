@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { authApi } from '@/lib/api/auth';
-import { tokenStore } from '@/lib/api/client';
 import type {
   LoginRequest, RegisterRequest,
   ForgotPasswordRequest, ResetPasswordRequest,
@@ -10,11 +9,8 @@ import { authKeys } from './query-keys';
 
 export function useLogin() {
   return useMutation({
+    // auth-service sets sat + session_id + refresh_token cookies via Set-Cookie
     mutationFn: (body: LoginRequest) => authApi.login(body),
-    onSuccess: (data) => {
-      // sat (access token) cookie is set by auth-service directly via Set-Cookie header
-      tokenStore.set(data.access_token);
-    },
   });
 }
 
@@ -29,7 +25,7 @@ export function useLogout() {
   return useMutation({
     mutationFn: () => authApi.logout(),
     onSettled: () => {
-      tokenStore.clear();
+      // auth-service clears all cookies (sat, session_id, refresh_token) on logout
       qc.clear();
     },
   });
