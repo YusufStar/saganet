@@ -283,3 +283,82 @@ export interface NotificationListQuery {
   page?: number;
   limit?: number;
 }
+
+// ─── Admin: Users ────────────────────────────────────────────────────────────
+
+export interface AdminUser {
+  id: string;
+  email: string;
+  role: UserRole;
+  displayName?: string;
+  emailVerified: boolean;
+  isBanned: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AdminUserListQuery {
+  page?: number;
+  limit?: number;
+  role?: UserRole;
+  search?: string;
+  sortBy?: 'email' | 'createdAt' | 'role';
+  sortOrder?: 'ASC' | 'DESC';
+}
+
+export interface UpdateUserRoleRequest {
+  role: UserRole;
+}
+
+// ─── Admin: Products ─────────────────────────────────────────────────────────
+
+export type ProductStatus = 'PENDING_REVIEW' | 'ACTIVE' | 'REJECTED' | 'SUSPENDED';
+
+export interface AdminProduct extends Product {
+  status: ProductStatus;
+  rejectionReason?: string;
+}
+
+export interface AdminProductListQuery {
+  page?: number;
+  limit?: number;
+  status?: ProductStatus;
+  vendorId?: string;
+  search?: string;
+  sortBy?: 'price' | 'createdAt' | 'name';
+  sortOrder?: 'ASC' | 'DESC';
+}
+
+// ─── Admin: Orders ───────────────────────────────────────────────────────────
+
+export interface AdminOrderListQuery extends OrderListQuery {
+  userId?: string;
+  sortBy?: 'createdAt' | 'totalAmount' | 'status';
+  sortOrder?: 'ASC' | 'DESC';
+}
+
+export interface UpdateOrderStatusRequest {
+  status: OrderStatus;
+  reason?: string;
+}
+
+// ─── Admin: Payments ─────────────────────────────────────────────────────────
+
+export interface AdminPaymentListQuery {
+  page?: number;
+  limit?: number;
+  status?: PaymentStatus;
+  userId?: string;
+  orderId?: string;
+}
+
+export interface RefundPaymentRequest {
+  reason?: string;
+}
+
+// ─── Admin: Gateway Health ───────────────────────────────────────────────────
+
+export interface GatewayHealth {
+  status: string;
+  info?: Record<string, { status: string }>;
+}

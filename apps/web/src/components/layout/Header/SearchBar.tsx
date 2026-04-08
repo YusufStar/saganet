@@ -27,20 +27,20 @@ export function SearchBar() {
     <div className="flex-1 max-w-[640px] relative">
       <div
         className={[
-          'flex items-stretch rounded-(--radius-md) border-2 transition-colors duration-150',
-          'bg-(--color-neutral-50)',
-          focused ? 'border-orange-500' : 'border-(--color-border)',
+          'flex items-stretch rounded-md border-2 transition-colors duration-150',
+          'bg-neutral-50',
+          focused ? 'border-orange-500' : 'border-border',
         ].join(' ')}
       >
         {/* Category selector */}
-        <div className="relative flex-shrink-0">
+        <div className="relative shrink-0">
           <button
             type="button"
             onClick={() => setCatOpen((v) => !v)}
-            className="flex items-center gap-1 px-3 h-full text-xs font-medium text-(--color-text-secondary) bg-(--color-neutral-100) border-r border-(--color-border) hover:bg-(--color-neutral-200) transition-colors whitespace-nowrap rounded-l-[calc(var(--radius-md)-2px)] max-w-[120px] truncate"
+            className="flex items-center gap-1 px-3 h-full text-xs font-medium text-text-secondary bg-neutral-100 border-r border-border hover:bg-neutral-200 transition-colors whitespace-nowrap rounded-l-[calc(varmd-2px)] max-w-[120px] truncate"
           >
             <span className="truncate">{buttonLabel}</span>
-            <svg className="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-3 h-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
           </button>
@@ -56,7 +56,7 @@ export function SearchBar() {
                     'w-full text-left px-4 py-2 text-sm transition-colors',
                     !selectedId
                       ? 'text-orange-500 font-medium bg-orange-50'
-                      : 'text-(--color-text-primary) hover:bg-orange-50 hover:text-orange-500',
+                      : 'text-text-primary hover:bg-orange-50 hover:text-orange-500',
                   ].join(' ')}
                 >
                   {ALL}
@@ -71,7 +71,7 @@ export function SearchBar() {
                       'w-full text-left px-4 py-2 text-sm transition-colors',
                       selectedId === cat.id
                         ? 'text-orange-500 font-medium bg-orange-50'
-                        : 'text-(--color-text-primary) hover:bg-orange-50 hover:text-orange-500',
+                        : 'text-text-primary hover:bg-orange-50 hover:text-orange-500',
                     ].join(' ')}
                   >
                     {cat.name}
@@ -91,13 +91,13 @@ export function SearchBar() {
           onFocus={() => setFocused(true)}
           onBlur={() => setTimeout(() => setFocused(false), 150)}
           placeholder="Search for products, brands or categories..."
-          className="flex-1 px-4 py-2.5 text-sm bg-transparent outline-none text-(--color-text-primary) placeholder:text-(--color-text-muted) min-w-0"
+          className="flex-1 px-4 py-2.5 text-sm bg-transparent outline-none text-text-primary placeholder:text-text-muted min-w-0"
         />
 
         {/* Search button */}
         <button
           type="button"
-          className="px-5 bg-orange-500 hover:bg-orange-600 text-white flex items-center justify-center rounded-r-[calc(var(--radius-md)-2px)] transition-colors duration-150 flex-shrink-0"
+          className="px-5 bg-orange-500 hover:bg-orange-600 text-white flex items-center justify-center rounded-r-[calc(varmd-2px)] transition-colors duration-150 shrink-0"
         >
           <Search01Icon size={20} />
         </button>
@@ -105,10 +105,10 @@ export function SearchBar() {
 
       {/* Search suggestions — static popular terms, no API needed yet */}
       <Popover open={focused && !catOpen && query.length > 0} minWidth={400} className="w-full">
-        <div className="px-4 pt-3 pb-1 text-xs font-semibold text-(--color-text-muted) uppercase tracking-wider">
+        <div className="px-4 pt-3 pb-1 text-xs font-semibold text-text-muted uppercase tracking-wider">
           Results
         </div>
-        <div className="px-4 py-3 text-sm text-(--color-text-muted)">
+        <div className="px-4 py-3 text-sm text-text-muted">
           Press Enter to search for &ldquo;{query}&rdquo;
           {selectedId && (
             <span className="text-orange-500"> in {selectedName}</span>

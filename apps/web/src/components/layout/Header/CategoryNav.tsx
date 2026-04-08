@@ -18,7 +18,7 @@ function MegaMenuContent({ children }: { children: Category[] }) {
       {children.map((child) => (
         <div key={child.id}>
           <Link href={`/category/${child.slug}`}>
-            <p className="text-xs font-bold text-(--color-text-muted) uppercase tracking-wider mb-2.5 hover:text-orange-500 transition-colors">
+            <p className="text-xs font-bold text-text-muted uppercase tracking-wider mb-2.5 hover:text-orange-500 transition-colors">
               {child.name}
             </p>
           </Link>
@@ -28,7 +28,7 @@ function MegaMenuContent({ children }: { children: Category[] }) {
                 <li key={sub.id}>
                   <Link
                     href={`/category/${sub.slug}`}
-                    className="block text-sm text-(--color-text-primary) hover:text-orange-500 transition-colors"
+                    className="block text-sm text-text-primary hover:text-orange-500 transition-colors"
                   >
                     {sub.name}
                   </Link>
@@ -47,12 +47,12 @@ export function CategoryNav() {
   const { data: categories = [], isLoading } = useQuery(categoriesQuery());
 
   return (
-    <div className="bg-white border-t border-(--color-border)">
+    <div className="bg-white border-t border-border">
       <div className="max-w-[1280px] mx-auto px-2">
         <div className="flex items-stretch overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
           {/* Static "All Categories" */}
           <div
-            className="relative flex-shrink-0"
+            className="relative shrink-0"
             onMouseEnter={() => setActive('__all__')}
             onMouseLeave={() => setActive(null)}
           >
@@ -79,13 +79,13 @@ export function CategoryNav() {
           {categories.map((cat) => (
             <div
               key={cat.id}
-              className="relative flex-shrink-0"
+              className="relative shrink-0"
               onMouseEnter={() => setActive(cat.id)}
               onMouseLeave={() => setActive(null)}
             >
               <Link href={`/category/${cat.slug}`}>
                 <div className="relative flex items-center px-4 py-3 whitespace-nowrap cursor-pointer group">
-                  <span className="text-[13px] font-medium text-(--color-text-primary) group-hover:text-orange-500 transition-colors">
+                  <span className="text-[13px] font-medium text-text-primary group-hover:text-orange-500 transition-colors">
                     {cat.name}
                   </span>
                   <span

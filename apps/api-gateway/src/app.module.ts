@@ -20,6 +20,7 @@ const envFilePath = [
   '.env',
 ];
 
+
 @Module({
   controllers: [SwaggerProxyController],
   imports: [
@@ -64,6 +65,13 @@ export class AppModule implements NestModule {
         pathFilter: (reqPath) => reqPath.startsWith(prefix),
         ...(route.pathRewrite ? { pathRewrite: route.pathRewrite } : {}),
         on: {
+          proxyReq: (proxyReq) => {
+            // Sign the request so downstream InternalAuthMiddleware trusts x-user-* headers
+            const secret = process.env.INTERNAL_SECRET;
+            if (secret) {
+              proxyReq.setHeader('x-internal-secret', secret);
+            }
+          },
           error: (_err, _req, res) => {
             (res as any).status?.(502).json({
               statusCode: 502,

@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 export default function NotFound() {
   const router = useRouter();
   return (
-    <div className="min-h-screen bg-(--color-page) flex items-center justify-center px-6">
+    <div className="min-h-screen bg-page flex items-center justify-center px-6">
       <div className="text-center max-w-md">
         {/* Big 404 */}
         <div className="relative mb-8">
@@ -30,10 +30,10 @@ export default function NotFound() {
         </div>
 
         {/* Message */}
-        <h1 className="text-2xl font-bold text-(--color-text-primary) mb-3">
+        <h1 className="text-2xl font-bold text-text-primary mb-3">
           Page not found
         </h1>
-        <p className="text-(--color-text-secondary) text-sm leading-relaxed mb-8">
+        <p className="text-text-secondary text-sm leading-relaxed mb-8">
           The page you&apos;re looking for doesn&apos;t exist or has been moved.
           Let&apos;s get you back on track.
         </p>
@@ -42,7 +42,7 @@ export default function NotFound() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 px-6 py-2.5 bg-orange-500 hover:bg-orange-600 text-white font-semibold text-sm rounded-(--radius-md) transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-2.5 bg-orange-500 hover:bg-orange-600 text-white font-semibold text-sm rounded-md transition-colors"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 0 0 1 1h3m10-11l2 2m-2-2v10a1 1 0 0 1-1 1h-3m-6 0a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1m-6 0h6" />
@@ -51,7 +51,7 @@ export default function NotFound() {
           </Link>
           <button
             onClick={() => router.back()}
-            className="inline-flex items-center gap-2 px-6 py-2.5 bg-white hover:bg-(--color-border) text-(--color-text-primary) font-semibold text-sm rounded-(--radius-md) border border-(--color-border) transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-2.5 bg-white hover:bg-border text-text-primary font-semibold text-sm rounded-md border border-border transition-colors"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -61,8 +61,8 @@ export default function NotFound() {
         </div>
 
         {/* Divider */}
-        <div className="mt-10 pt-8 border-t border-(--color-border)">
-          <p className="text-xs text-(--color-text-muted) mb-4">Popular pages</p>
+        <div className="mt-10 pt-8 border-t border-border">
+          <p className="text-xs text-text-muted mb-4">Popular pages</p>
           <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-sm">
             {[
               { href: '/login', label: 'Sign In' },
@@ -73,7 +73,7 @@ export default function NotFound() {
               <Link
                 key={href}
                 href={href}
-                className="text-(--color-text-secondary) hover:text-orange-500 transition-colors"
+                className="text-text-secondary hover:text-orange-500 transition-colors"
               >
                 {label}
               </Link>

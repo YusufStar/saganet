@@ -8,7 +8,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(({ className = '', children, 
   <div
     ref={ref}
     className={[
-      'bg-white rounded-(--radius-lg) border border-(--color-border) shadow-sm',
+      'bg-white rounded-lg border border-border shadow-sm',
       className,
     ].join(' ')}
     {...props}

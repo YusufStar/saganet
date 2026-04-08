@@ -23,7 +23,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="text-sm font-medium text-(--color-text-primary) select-none"
+            className="text-sm font-medium text-text-primary select-none"
           >
             {label}
           </label>
@@ -34,11 +34,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             'relative flex items-center rounded-md border transition-colors',
             error
               ? 'border-red-400 bg-red-50 focus-within:border-red-500'
-              : 'border-(--color-border) bg-white focus-within:border-orange-500',
+              : 'border-border bg-white focus-within:border-orange-500',
           ].join(' ')}
         >
           {prefix && (
-            <span className="absolute left-3 text-(--color-text-muted) pointer-events-none flex items-center">
+            <span className="absolute left-3 text-text-muted pointer-events-none flex items-center">
               {prefix}
             </span>
           )}
@@ -49,7 +49,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             type={inputType}
             className={[
               'w-full text-sm bg-transparent outline-none transition-colors',
-              'placeholder:text-(--color-text-muted) text-(--color-text-primary)',
+              'placeholder:text-text-muted text-text-primary',
               prefix ? 'pl-9' : 'pl-3.5',
               isPassword || suffix ? 'pr-10' : 'pr-3.5',
               'py-2.5',
@@ -67,7 +67,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               type="button"
               tabIndex={-1}
               onClick={() => setShowPassword((v) => !v)}
-              className="absolute right-3 text-(--color-text-muted) hover:text-(--color-text-primary) transition-colors flex items-center"
+              className="absolute right-3 text-text-muted hover:text-text-primary transition-colors flex items-center"
               aria-label={showPassword ? 'Hide password' : 'Show password'}
             >
               {showPassword ? (
@@ -82,7 +82,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               )}
             </button>
           ) : suffix ? (
-            <span className="absolute right-3 text-(--color-text-muted) flex items-center pointer-events-none">
+            <span className="absolute right-3 text-text-muted flex items-center pointer-events-none">
               {suffix}
             </span>
           ) : null}
@@ -98,7 +98,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         )}
 
         {hint && !error && (
-          <p id={`${inputId}-hint`} className="text-xs text-(--color-text-muted)">
+          <p id={`${inputId}-hint`} className="text-xs text-text-muted">
             {hint}
           </p>
         )}

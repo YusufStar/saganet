@@ -81,3 +81,27 @@ export function useDeleteCategory() {
     onSuccess: () => qc.invalidateQueries({ queryKey: catalogKeys.categories() }),
   });
 }
+
+export function useUpdateCategory() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, body }: { id: string; body: { name?: string; parentId?: string } }) =>
+      catalogApi.admin.updateCategory(id, body),
+    onSuccess: (_data, { id }) => {
+      qc.invalidateQueries({ queryKey: catalogKeys.category(id) });
+      qc.invalidateQueries({ queryKey: catalogKeys.categories() });
+    },
+  });
+}
+
+export function useUpdateAdminProduct() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, body }: { id: string; body: UpdateProductRequest }) =>
+      catalogApi.admin.updateProduct(id, body),
+    onSuccess: (_data, { id }) => {
+      qc.invalidateQueries({ queryKey: catalogKeys.product(id) });
+      qc.invalidateQueries({ queryKey: catalogKeys.adminProducts() });
+    },
+  });
+}

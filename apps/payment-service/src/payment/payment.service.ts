@@ -5,6 +5,7 @@ import { PaymentEntity } from './payment.entity';
 import { PaymentStatus } from './payment-status.enum';
 import { MockPaymentProvider } from './providers/mock-payment.provider';
 import { CardDetails } from './providers/payment-provider.interface';
+import { PaymentListQueryDto } from './dto/payment-list-query.dto';
 import { paymentSuccessTotal, paymentFailureTotal, paymentDuration } from '../metrics/metrics.controller';
 
 @Injectable()
@@ -111,5 +112,35 @@ export class PaymentService {
 
   async findAll(): Promise<PaymentEntity[]> {
     return this.dataSource.getRepository(PaymentEntity).find({ order: { createdAt: 'DESC' } });
+  }
+
+  async findAllPaginated(query: PaymentListQueryDto) {
+    const page = query.page ?? 1;
+    const limit = query.limit ?? 20;
+
+    const qb = this.dataSource
+      .getRepository(PaymentEntity)
+      .createQueryBuilder('payment');
+
+    if (query.status) {
+      qb.andWhere('payment.status = :status', { status: query.status });
+    }
+
+    qb.orderBy('payment.createdAt', 'DESC');
+
+    const [data, total] = await qb
+      .skip((page - 1) * limit)
+      .take(limit)
+      .getManyAndCount();
+
+    return {
+      data,
+      meta: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
   }
 }

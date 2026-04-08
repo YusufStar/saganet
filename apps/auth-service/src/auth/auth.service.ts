@@ -157,12 +157,18 @@ export class AuthService {
       throw new UnauthorizedException('Invalid email or password');
     }
 
-    // 3. OAuth-only account
+    // 3. Ban check
+    if (user.isBanned) {
+      logger.warn({ event: 'login.banned', email: dto.email, ip });
+      throw new ForbiddenException('Your account has been suspended. Please contact support.');
+    }
+
+    // 4. OAuth-only account
     if (!user.passwordHash) {
       throw new UnauthorizedException('Invalid email or password');
     }
 
-    // 4. Account lockout check
+    // 5. Account lockout check
     if (
       user.failedLoginAttempts >= MAX_FAILED_ATTEMPTS &&
       user.lastFailedLoginAt &&
@@ -175,7 +181,7 @@ export class AuthService {
       );
     }
 
-    // 5. Password check
+    // 6. Password check
     const passwordMatch = await bcrypt.compare(dto.password, user.passwordHash);
     if (!passwordMatch) {
       logger.warn({ event: 'login.failure', email: dto.email, ip, reason: 'invalid_password' });
@@ -186,17 +192,17 @@ export class AuthService {
       throw new UnauthorizedException('Invalid email or password');
     }
 
-    // 6. Email verified check
+    // 7. Email verified check
     if (!user.emailVerified) {
       throw new ForbiddenException('Please verify your email address before signing in.');
     }
 
-    // 7. Reset lockout counters on successful auth
+    // 8. Reset lockout counters on successful auth
     await userRepo.update(user.id, { failedLoginAttempts: 0, lastFailedLoginAt: null as any });
     await this.rateLimiter.onLoginSuccess(dto.email);
     logger.info({ event: 'login.success', userId: user.id, ip });
 
-    // 8. Create session
+    // 9. Create session
     const rawRefreshToken = randomUUID();
     const refreshTokenHash = await bcrypt.hash(rawRefreshToken, 10);
     const familyId = randomUUID();
@@ -213,7 +219,7 @@ export class AuthService {
       expiresAt,
     });
 
-    // 9. Write to Redis
+    // 10. Write to Redis
     const redisKey = `session:${session.id}`;
     await this.redis.set(
       redisKey,
@@ -224,7 +230,7 @@ export class AuthService {
     await this.redis.sadd(`user:${user.id}:sessions`, session.id);
     await this.redis.expire(`user:${user.id}:sessions`, SESSION_TTL_SECONDS);
 
-    // 10. Sign access token
+    // 11. Sign access token
     const access_token = this.jwtService.sign({
       sub: user.id,
       role: user.role,

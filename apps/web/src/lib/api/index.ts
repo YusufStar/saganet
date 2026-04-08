@@ -7,3 +7,4 @@ export { ordersApi } from './orders';
 export { paymentsApi } from './payments';
 export { notificationsApi } from './notifications';
 export { reviewsApi } from './reviews';
+export { adminApi } from './admin';

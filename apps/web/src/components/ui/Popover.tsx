@@ -56,7 +56,7 @@ export function Popover({
       <div
         role="dialog"
         className={[
-          'bg-white border border-(--color-border) rounded-(--radius-lg) shadow-(--shadow-dropdown)',
+          'bg-white border border-border rounded-lg shadow-dropdown',
           'transition-all duration-150 origin-top',
           open ? 'opacity-100 scale-100' : 'opacity-0 scale-95',
           className,

@@ -50,8 +50,8 @@ function LoginForm() {
   return (
     <>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-(--color-text-primary)">Sign in</h1>
-        <p className="text-sm text-(--color-text-secondary) mt-1">
+        <h1 className="text-2xl font-bold text-text-primary">Sign in</h1>
+        <p className="text-sm text-text-secondary mt-1">
           Welcome back! Please enter your details.
         </p>
       </div>
@@ -69,7 +69,7 @@ function LoginForm() {
 
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-(--color-text-primary)">Password</span>
+            <span className="text-sm font-medium text-text-primary">Password</span>
             <Link
               href="/forgot-password"
               className="text-xs text-orange-500 hover:text-orange-600 hover:underline transition-colors"
@@ -87,8 +87,8 @@ function LoginForm() {
         </div>
 
         {errors.root && (
-          <div className="flex items-center gap-2 px-3.5 py-2.5 bg-red-50 border border-red-200 rounded-(--radius-md) text-sm text-red-600">
-            <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+          <div className="flex items-center gap-2 px-3.5 py-2.5 bg-red-50 border border-red-200 rounded-md text-sm text-red-600">
+            <svg className="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0zm-7 4a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-1-9a1 1 0 0 0-1 1v4a1 1 0 1 0 2 0V6a1 1 0 0 0-1-1z" clipRule="evenodd" />
             </svg>
             {errors.root.message}
@@ -98,7 +98,7 @@ function LoginForm() {
         <button
           type="submit"
           disabled={isSubmitting || login.isPending}
-          className="w-full py-2.5 px-4 bg-orange-500 hover:bg-orange-600 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold text-sm rounded-(--radius-md) transition-colors flex items-center justify-center gap-2"
+          className="w-full py-2.5 px-4 bg-orange-500 hover:bg-orange-600 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold text-sm rounded-md transition-colors flex items-center justify-center gap-2"
         >
           {(isSubmitting || login.isPending) ? (
             <>
@@ -112,7 +112,7 @@ function LoginForm() {
         </button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-(--color-text-secondary)">
+      <p className="mt-6 text-center text-sm text-text-secondary">
         Don&apos;t have an account?{' '}
         <Link href="/register" className="text-orange-500 font-semibold hover:underline">
           Create one

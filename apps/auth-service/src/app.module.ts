@@ -17,6 +17,7 @@ import { MetricsModule } from './metrics/metrics.module';
 import { ProfileModule } from './profile/profile.module';
 import { AddressModule } from './address/address.module';
 import { SeedModule } from './seed/seed.module';
+import { AdminModule } from './admin/admin.module';
 
 const envFilePath = [
   path.join(__dirname, '../../../.env'),
@@ -40,6 +41,7 @@ const envFilePath = [
     ProfileModule,
     AddressModule,
     SeedModule,
+    AdminModule,
   ],
 })
 export class AppModule implements NestModule {

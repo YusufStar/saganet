@@ -4,6 +4,7 @@ import type {
   LoginRequest, RegisterRequest,
   ForgotPasswordRequest, ResetPasswordRequest,
   UpdateProfileRequest, CreateAddressRequest, UpdateAddressRequest,
+  UpdateUserRoleRequest,
 } from '@/lib/api/types';
 import { authKeys } from './query-keys';
 
@@ -81,5 +82,42 @@ export function useSetDefaultAddress() {
   return useMutation({
     mutationFn: (id: string) => authApi.setDefaultAddress(id),
     onSuccess: () => qc.invalidateQueries({ queryKey: authKeys.addresses() }),
+  });
+}
+
+// ─── Admin: User Management ─────────────────────────────────────────────────
+
+export function useUpdateUserRole() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, body }: { id: string; body: UpdateUserRoleRequest }) =>
+      authApi.admin.updateUserRole(id, body),
+    onSuccess: (_data, { id }) => {
+      qc.invalidateQueries({ queryKey: authKeys.adminUser(id) });
+      qc.invalidateQueries({ queryKey: authKeys.adminUsers() });
+    },
+  });
+}
+
+export function useBanUser() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, reason }: { id: string; reason?: string }) =>
+      authApi.admin.banUser(id, reason),
+    onSuccess: (_data, { id }) => {
+      qc.invalidateQueries({ queryKey: authKeys.adminUser(id) });
+      qc.invalidateQueries({ queryKey: authKeys.adminUsers() });
+    },
+  });
+}
+
+export function useUnbanUser() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => authApi.admin.unbanUser(id),
+    onSuccess: (_data, id) => {
+      qc.invalidateQueries({ queryKey: authKeys.adminUser(id) });
+      qc.invalidateQueries({ queryKey: authKeys.adminUsers() });
+    },
   });
 }

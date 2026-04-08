@@ -49,8 +49,8 @@ function VerifyEmailContent() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" />
           </svg>
         </div>
-        <h2 className="text-xl font-bold text-(--color-text-primary) mb-2">Invalid link</h2>
-        <p className="text-sm text-(--color-text-secondary) mb-6">
+        <h2 className="text-xl font-bold text-text-primary mb-2">Invalid link</h2>
+        <p className="text-sm text-text-secondary mb-6">
           The verification link is missing or malformed.
         </p>
         <Link href="/login" className="text-orange-500 font-semibold hover:underline text-sm">
@@ -67,7 +67,7 @@ function VerifyEmailContent() {
           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 0 1 8-8V0C5.373 0 0 5.373 0 12h4z" />
         </svg>
-        <p className="text-sm text-(--color-text-secondary)">Verifying your email…</p>
+        <p className="text-sm text-text-secondary">Verifying your email…</p>
       </div>
     );
   }
@@ -80,11 +80,11 @@ function VerifyEmailContent() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h2 className="text-xl font-bold text-(--color-text-primary) mb-2">Email verified!</h2>
-        <p className="text-sm text-(--color-text-secondary) mb-6">{message}</p>
+        <h2 className="text-xl font-bold text-text-primary mb-2">Email verified!</h2>
+        <p className="text-sm text-text-secondary mb-6">{message}</p>
         <Link
           href="/login"
-          className="inline-block px-6 py-2.5 bg-orange-500 hover:bg-orange-600 text-white font-semibold text-sm rounded-(--radius-md) transition-colors"
+          className="inline-block px-6 py-2.5 bg-orange-500 hover:bg-orange-600 text-white font-semibold text-sm rounded-md transition-colors"
         >
           Sign In
         </Link>
@@ -100,8 +100,8 @@ function VerifyEmailContent() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
         </svg>
       </div>
-      <h2 className="text-xl font-bold text-(--color-text-primary) mb-2">Verification failed</h2>
-      <p className="text-sm text-(--color-text-secondary) mb-6">{message}</p>
+      <h2 className="text-xl font-bold text-text-primary mb-2">Verification failed</h2>
+      <p className="text-sm text-text-secondary mb-6">{message}</p>
       <div className="flex flex-col gap-2 items-center">
         <Link href="/login" className="text-orange-500 font-semibold hover:underline text-sm">
           Back to Sign In

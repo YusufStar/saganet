@@ -1,4 +1,4 @@
-import { Body, Controller, ForbiddenException, Get, NotFoundException, Param, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, ForbiddenException, Get, NotFoundException, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Inject } from '@nestjs/common';
 import { Request } from 'express';
@@ -7,7 +7,7 @@ import { DATA_SOURCE, OutboxEntity } from '@saganet/db';
 import { PaymentService } from './payment.service';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles, UserRole } from '../common/decorators/roles.decorator';
-import { PaymentEntity } from './payment.entity';
+import { PaymentListQueryDto } from './dto/payment-list-query.dto';
 
 @ApiTags('Payments')
 @ApiBearerAuth('access-token')
@@ -34,8 +34,8 @@ export class PaymentController {
 
   @Get()
   @Roles(UserRole.ADMIN)
-  async findAll(): Promise<PaymentEntity[]> {
-    return this.paymentService.findAll();
+  async findAll(@Query() query: PaymentListQueryDto) {
+    return this.paymentService.findAllPaginated(query);
   }
 
   @Post('webhook/simulate')

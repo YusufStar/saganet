@@ -45,4 +45,10 @@ export class UserEntity extends BaseEntity {
 
   @Column({ length: 2048, nullable: true })
   avatarUrl?: string;
+
+  @Column({ default: false })
+  isBanned: boolean;
+
+  @Column({ type: 'timestamp', nullable: true })
+  bannedAt?: Date;
 }

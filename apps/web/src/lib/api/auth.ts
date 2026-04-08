@@ -5,6 +5,7 @@ import type {
   ForgotPasswordRequest, ResetPasswordRequest,
   Profile, UpdateProfileRequest,
   Address, CreateAddressRequest, UpdateAddressRequest,
+  AdminUser, AdminUserListQuery, UpdateUserRoleRequest, PaginatedResponse,
 } from './types';
 
 const AUTH = '/api/auth';
@@ -59,4 +60,23 @@ export const authApi = {
 
   setDefaultAddress: (id: string) =>
     patch<Address>(`${ADDRESSES}/${id}/default`),
+
+  // ─── Admin: User Management ────────────────────────────────────────────────
+
+  admin: {
+    listUsers: (query?: AdminUserListQuery) =>
+      get<PaginatedResponse<AdminUser>>(`${AUTH}/admin/users${qs(query as Record<string, unknown>)}`),
+
+    getUser: (id: string) =>
+      get<AdminUser>(`${AUTH}/admin/users/${id}`),
+
+    updateUserRole: (id: string, body: UpdateUserRoleRequest) =>
+      patch<AdminUser>(`${AUTH}/admin/users/${id}/role`, body),
+
+    banUser: (id: string, reason?: string) =>
+      post<void>(`${AUTH}/admin/users/${id}/ban`, reason ? { reason } : undefined),
+
+    unbanUser: (id: string) =>
+      post<void>(`${AUTH}/admin/users/${id}/unban`),
+  },
 };
