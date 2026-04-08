@@ -2,7 +2,7 @@
 
 ## Scaffold
 
-- [x] Next.js 15 projesi oluştur (apps/web)
+- [x] Next.js 16 projesi oluştur (apps/web)
 - [x] Port 3333'te çalışacak şekilde ayarla
 - [x] pnpm workspace'e ekle
 - [ ] API client katmanı (api-gateway → tüm servisler)

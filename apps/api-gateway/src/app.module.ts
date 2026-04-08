@@ -20,26 +20,6 @@ const envFilePath = [
   '.env',
 ];
 
-// Public routes that bypass JWT auth
-const PUBLIC_ROUTES = [
-  { path: 'api/auth/register',        method: RequestMethod.POST },
-  { path: 'api/auth/login',           method: RequestMethod.POST },
-  { path: 'api/auth/refresh',         method: RequestMethod.POST },
-  { path: 'api/auth/verify-email',    method: RequestMethod.GET  },
-  { path: 'api/auth/forgot-password', method: RequestMethod.POST },
-  { path: 'api/auth/reset-password',  method: RequestMethod.POST },
-  { path: 'api/health',               method: RequestMethod.GET  },
-  { path: 'docs',                     method: RequestMethod.GET  },
-  { path: 'docs/{*path}',             method: RequestMethod.GET  },
-  { path: 'api/swagger-proxy/{*path}',method: RequestMethod.GET  },
-  { path: 'api/catalog/products',                   method: RequestMethod.GET },
-  { path: 'api/catalog/products/{*path}',           method: RequestMethod.GET },
-  { path: 'api/catalog/categories',                 method: RequestMethod.GET },
-  { path: 'api/catalog/categories/{*path}',         method: RequestMethod.GET },
-  { path: 'api/inventory/stock/{*path}',            method: RequestMethod.GET },
-  { path: 'metrics',                               method: RequestMethod.GET },
-];
-
 @Module({
   controllers: [SwaggerProxyController],
   imports: [
@@ -70,14 +50,19 @@ export class AppModule implements NestModule {
     // 3. Rate limiting — Redis-backed, distributed
     consumer.apply(RateLimitMiddleware).forRoutes({ path: '{*path}', method: RequestMethod.ALL });
 
-    // 4. JWT auth — skip public routes
-    consumer.apply(JwtAuthMiddleware).exclude(...PUBLIC_ROUTES).forRoutes({ path: '{*path}', method: RequestMethod.ALL });
+    // 4. JWT auth — public route whitelist is handled inside the middleware via regex
+    consumer.apply(JwtAuthMiddleware).forRoutes({ path: '{*path}', method: RequestMethod.ALL });
 
     // 5. Proxy — forward to downstream services LAST
+    // Use pathFilter inside http-proxy-middleware instead of NestJS forRoutes path matching,
+    // because forRoutes wildcard patterns are unreliable for unregistered/proxied routes.
     for (const route of getRoutes()) {
+      const prefix = route.prefix;
       const proxy = createProxyMiddleware({
         target: route.target,
         changeOrigin: true,
+        pathFilter: (reqPath) => reqPath.startsWith(prefix),
+        ...(route.pathRewrite ? { pathRewrite: route.pathRewrite } : {}),
         on: {
           error: (_err, _req, res) => {
             (res as any).status?.(502).json({
@@ -90,7 +75,7 @@ export class AppModule implements NestModule {
 
       consumer
         .apply(proxy)
-        .forRoutes({ path: `${route.prefix}/{*path}`, method: RequestMethod.ALL });
+        .forRoutes({ path: '{*path}', method: RequestMethod.ALL });
     }
   }
 }

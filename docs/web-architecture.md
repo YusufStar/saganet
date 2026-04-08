@@ -1,6 +1,6 @@
 # Web (apps/web)
 
-Next.js 15 — App Router — port **3333**
+Next.js 16 — App Router — port **3333**
 
 ## Roller
 

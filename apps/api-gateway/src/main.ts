@@ -2,7 +2,7 @@ import { otelSdk } from './tracing';
 otelSdk.start();
 
 import { EventEmitter } from 'events';
-EventEmitter.defaultMaxListeners = 20;
+EventEmitter.defaultMaxListeners = 0;
 
 import 'reflect-metadata';
 import cookieParser from 'cookie-parser';

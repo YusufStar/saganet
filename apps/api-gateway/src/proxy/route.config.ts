@@ -3,6 +3,12 @@ export interface ServiceRoute {
   prefix: string;
   /** Target service URL (read from env) */
   target: string;
+  /**
+   * Optional path rewrite map passed to http-proxy-middleware.
+   * Key: regex string, Value: replacement string.
+   * e.g. { '^/api/catalog': '/api' } rewrites /api/catalog/categories → /api/categories
+   */
+  pathRewrite?: Record<string, string>;
 }
 
 /**
@@ -12,7 +18,13 @@ export interface ServiceRoute {
 export function getRoutes(): ServiceRoute[] {
   return [
     { prefix: '/api/auth',         target: process.env.AUTH_SERVICE_URL         ?? 'http://localhost:3001' },
-    { prefix: '/api/catalog',      target: process.env.CATALOG_SERVICE_URL      ?? 'http://localhost:3002' },
+    {
+      prefix: '/api/catalog',
+      target: process.env.CATALOG_SERVICE_URL ?? 'http://localhost:3002',
+      // Catalog service controllers live under /api/{categories,products,vendor,...}
+      // so strip the /catalog segment before forwarding.
+      pathRewrite: { '^/api/catalog': '/api' },
+    },
     { prefix: '/api/inventory',    target: process.env.INVENTORY_SERVICE_URL    ?? 'http://localhost:3003' },
     { prefix: '/api/orders',       target: process.env.ORDER_SERVICE_URL        ?? 'http://localhost:3004' },
     { prefix: '/api/payments',     target: process.env.PAYMENT_SERVICE_URL      ?? 'http://localhost:3005' },

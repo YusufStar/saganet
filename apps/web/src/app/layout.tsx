@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { QueryProvider } from '@/providers/query-provider';
+import { Header } from '@/components/layout/Header';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -10,8 +11,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>
-        <QueryProvider>{children}</QueryProvider>
+      <body className="bg-[var(--color-page)] min-h-screen">
+        <QueryProvider>
+          <main>{children}</main>
+        </QueryProvider>
       </body>
     </html>
   );

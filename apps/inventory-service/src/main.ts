@@ -1,5 +1,7 @@
 import { otelSdk } from './tracing';
 otelSdk.start();
+import { EventEmitter } from 'events';
+EventEmitter.defaultMaxListeners = 0; // suppress false-positive memory leak warnings on ServerResponse
 import 'reflect-metadata';
 import cookieParser from 'cookie-parser';
 import pinoHttp from 'pino-http';
