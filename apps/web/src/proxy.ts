@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://127.0.0.1:3000';
 
 // Pages that require a specific role
 const VENDOR_PREFIX = '/store';
@@ -19,15 +19,21 @@ const AUTH_ONLY_PAGES = ['/login', '/register', '/forgot-password', '/reset-pass
  */
 async function getRole(req: NextRequest): Promise<string | null> {
   try {
-    const res = await fetch(`${API_URL}/api/auth/profile`, {
+    const cookie = req.headers.get('cookie') ?? '';
+    const url = `${API_URL}/api/auth/profile`;
+    console.log(`[proxy] getRole → ${url} | cookie: ${cookie.slice(0, 80)}...`);
+    const res = await fetch(url, {
       method: 'GET',
-      headers: { cookie: req.headers.get('cookie') ?? '' },
+      headers: { cookie },
       cache: 'no-store',
     });
+    console.log(`[proxy] getRole ← ${res.status}`);
     if (!res.ok) return null;
     const data = await res.json() as { role?: string };
+    console.log(`[proxy] role: ${data.role}`);
     return data.role ?? null;
-  } catch {
+  } catch (err) {
+    console.error(`[proxy] getRole error:`, err);
     return null;
   }
 }
