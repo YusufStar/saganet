@@ -10,6 +10,7 @@ export class CreateReviewsTables1744000004000 implements MigrationInterface {
         "orderId"    UUID NOT NULL,
         "createdAt"  TIMESTAMP NOT NULL DEFAULT now(),
         "updatedAt"  TIMESTAMP NOT NULL DEFAULT now(),
+        "deletedAt"  TIMESTAMP,
         CONSTRAINT "PK_user_purchased_products" PRIMARY KEY ("id"),
         CONSTRAINT "UQ_user_purchased_products_user_product" UNIQUE ("userId", "productId")
       )
@@ -28,6 +29,7 @@ export class CreateReviewsTables1744000004000 implements MigrationInterface {
         "comment"    TEXT,
         "createdAt"  TIMESTAMP NOT NULL DEFAULT now(),
         "updatedAt"  TIMESTAMP NOT NULL DEFAULT now(),
+        "deletedAt"  TIMESTAMP,
         CONSTRAINT "PK_reviews" PRIMARY KEY ("id"),
         CONSTRAINT "CHK_reviews_rating" CHECK ("rating" >= 1 AND "rating" <= 5),
         CONSTRAINT "FK_reviews_product"

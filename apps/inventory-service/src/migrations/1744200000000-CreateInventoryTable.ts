@@ -11,7 +11,8 @@ export class CreateInventoryTable1744200000000 implements MigrationInterface {
         available INTEGER NOT NULL DEFAULT 0,
         version INTEGER NOT NULL DEFAULT 0,
         "createdAt" TIMESTAMP NOT NULL DEFAULT now(),
-        "updatedAt" TIMESTAMP NOT NULL DEFAULT now()
+        "updatedAt" TIMESTAMP NOT NULL DEFAULT now(),
+        "deletedAt" TIMESTAMP
       )
     `);
     await queryRunner.query(`CREATE INDEX idx_inventory_product_id ON inventory("productId")`);

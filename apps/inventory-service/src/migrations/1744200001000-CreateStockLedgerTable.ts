@@ -13,7 +13,8 @@ export class CreateStockLedgerTable1744200001000 implements MigrationInterface {
         delta INTEGER NOT NULL,
         "referenceId" UUID,
         "createdAt" TIMESTAMP NOT NULL DEFAULT now(),
-        "updatedAt" TIMESTAMP NOT NULL DEFAULT now()
+        "updatedAt" TIMESTAMP NOT NULL DEFAULT now(),
+        "deletedAt" TIMESTAMP
       )
     `);
     await queryRunner.query(`CREATE INDEX idx_stock_ledger_product_id ON stock_ledger("productId")`);
