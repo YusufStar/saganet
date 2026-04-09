@@ -27,20 +27,34 @@ export class OutboxRelayService implements OnModuleInit, OnModuleDestroy {
   }
 
   private async relay() {
-    const repo = this.dataSource.getRepository(OutboxEntity);
-    const pending = await repo.find({ where: { sentAt: IsNull() }, take: 50, order: { createdAt: 'ASC' } });
-    if (!pending.length) return;
+    await this.dataSource.transaction(async (em) => {
+      // SELECT FOR UPDATE SKIP LOCKED prevents duplicate processing across intervals/instances
+      const pending: OutboxEntity[] = await em
+        .getRepository(OutboxEntity)
+        .createQueryBuilder('outbox')
+        .where('outbox.sentAt IS NULL')
+        .orderBy('outbox.createdAt', 'ASC')
+        .limit(50)
+        .setLock('pessimistic_write', undefined, ['outbox'])
+        .getMany();
 
-    for (const event of pending) {
-      try {
-        await this.kafkaProducer.send({
-          topic: event.topic,
-          messages: [{ key: event.id, value: JSON.stringify(event.payload) }],
-        });
-        await repo.update(event.id, { sentAt: new Date() });
-      } catch (err) {
-        this.logger.error({ msg: 'Outbox relay failed', eventId: event.id, err });
+      if (!pending.length) return;
+
+      for (const event of pending) {
+        try {
+          // Mark as sent BEFORE publishing to prevent re-processing on next tick
+          await em.getRepository(OutboxEntity).update(event.id, { sentAt: new Date() });
+
+          await this.kafkaProducer.send({
+            topic: event.topic,
+            messages: [{ key: event.id, value: JSON.stringify(event.payload) }],
+          });
+        } catch (err) {
+          // Rollback sentAt so it gets retried next cycle
+          await em.getRepository(OutboxEntity).update(event.id, { sentAt: null as unknown as Date });
+          this.logger.error({ msg: 'Outbox relay failed', eventId: event.id, err });
+        }
       }
-    }
+    });
   }
 }

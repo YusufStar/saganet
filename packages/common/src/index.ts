@@ -6,3 +6,5 @@ export * from './constants';
 export * from './decorators';
 export * from './validators';
 export * from './guards';
+export * from './circuit-breaker';
+export * from './retry';

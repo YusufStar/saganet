@@ -284,6 +284,70 @@ export interface NotificationListQuery {
   limit?: number;
 }
 
+// ─── Vendor Application ─────────────────────────────────────────────────────
+
+export type VendorApplicationStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
+
+export interface VendorApplication {
+  id: string;
+  userId: string;
+  status: VendorApplicationStatus;
+  firstName: string;
+  lastName: string;
+  identityNumber: string;
+  phone: string;
+  companyName: string;
+  companyType: string;
+  taxNumber?: string;
+  taxOffice?: string;
+  street: string;
+  district?: string;
+  city: string;
+  postalCode?: string;
+  iban: string;
+  bankName?: string;
+  about?: string;
+  identityDocumentUrl?: string;
+  taxDocumentUrl?: string;
+  signatureCircularUrl?: string;
+  reviewedBy?: string;
+  reviewedAt?: string;
+  rejectionReason?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateVendorApplicationRequest {
+  firstName: string;
+  lastName: string;
+  identityNumber: string;
+  phone: string;
+  companyName: string;
+  companyType: string;
+  taxNumber?: string;
+  taxOffice?: string;
+  street: string;
+  district?: string;
+  city: string;
+  postalCode?: string;
+  iban: string;
+  bankName?: string;
+  about?: string;
+}
+
+export interface VendorApplicationListQuery {
+  page?: number;
+  limit?: number;
+  status?: VendorApplicationStatus;
+  search?: string;
+  sortBy?: 'createdAt' | 'companyName';
+  sortOrder?: 'ASC' | 'DESC';
+}
+
+export interface RejectVendorApplicationRequest {
+  reason?: string;
+}
+
 // ─── Admin: Users ────────────────────────────────────────────────────────────
 
 export interface AdminUser {

@@ -13,7 +13,7 @@ COPY packages/kafka/ ./packages/kafka/
 COPY packages/observability/ ./packages/observability/
 COPY packages/smtp/ ./packages/smtp/
 RUN pnpm install --frozen-lockfile
-RUN pnpm --filter @saganet/notification-service build
+RUN pnpm --filter @saganet/notification-service... build
 
 FROM node:20-alpine AS production
 WORKDIR /app/apps/notification-service

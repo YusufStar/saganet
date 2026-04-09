@@ -6,11 +6,15 @@ import type {
   Profile, UpdateProfileRequest,
   Address, CreateAddressRequest, UpdateAddressRequest,
   AdminUser, AdminUserListQuery, UpdateUserRoleRequest, PaginatedResponse,
+  VendorApplication, CreateVendorApplicationRequest,
+  VendorApplicationListQuery, RejectVendorApplicationRequest,
 } from './types';
 
 const AUTH = '/api/auth';
 const PROFILE = '/api/auth/profile';
 const ADDRESSES = '/api/auth/addresses';
+const VENDOR_APP = '/api/auth/vendor-application';
+const ADMIN_VENDOR_APPS = '/api/auth/admin/vendor-applications';
 
 // ─── Auth endpoints ───────────────────────────────────────────────────────────
 
@@ -61,6 +65,25 @@ export const authApi = {
   setDefaultAddress: (id: string) =>
     patch<Address>(`${ADDRESSES}/${id}/default`),
 
+  // ─── Vendor Application ────────────────────────────────────────────────────
+
+  vendorApplication: {
+    create: (body: CreateVendorApplicationRequest) =>
+      post<VendorApplication>(VENDOR_APP, body),
+
+    getOwn: () =>
+      get<VendorApplication | null>(VENDOR_APP),
+
+    uploadDocument: (field: string, file: File) => {
+      const form = new FormData();
+      form.append('file', file);
+      return fetch(
+        `${process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000'}${VENDOR_APP}/documents/${field}`,
+        { method: 'POST', credentials: 'include', body: form },
+      ).then((r) => r.json() as Promise<VendorApplication>);
+    },
+  },
+
   // ─── Admin: User Management ────────────────────────────────────────────────
 
   admin: {
@@ -78,5 +101,18 @@ export const authApi = {
 
     unbanUser: (id: string) =>
       post<void>(`${AUTH}/admin/users/${id}/unban`),
+
+    // Vendor Applications
+    listVendorApplications: (query?: VendorApplicationListQuery) =>
+      get<PaginatedResponse<VendorApplication>>(`${ADMIN_VENDOR_APPS}${qs(query as Record<string, unknown>)}`),
+
+    getVendorApplication: (id: string) =>
+      get<VendorApplication>(`${ADMIN_VENDOR_APPS}/${id}`),
+
+    approveVendorApplication: (id: string) =>
+      patch<VendorApplication>(`${ADMIN_VENDOR_APPS}/${id}/approve`),
+
+    rejectVendorApplication: (id: string, body?: RejectVendorApplicationRequest) =>
+      patch<VendorApplication>(`${ADMIN_VENDOR_APPS}/${id}/reject`, body),
   },
 };

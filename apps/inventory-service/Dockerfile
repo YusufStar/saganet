@@ -15,7 +15,7 @@ COPY packages/kafka/ ./packages/kafka/
 COPY packages/observability/ ./packages/observability/
 COPY packages/redis/ ./packages/redis/
 RUN pnpm install --frozen-lockfile
-RUN pnpm --filter @saganet/inventory-service build
+RUN pnpm --filter @saganet/inventory-service... build
 
 FROM node:20-alpine AS production
 WORKDIR /app/apps/inventory-service

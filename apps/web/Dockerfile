@@ -16,7 +16,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/apps/web/node_modules ./apps/web/node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
-RUN pnpm --filter @saganet/web build
+RUN pnpm --filter @saganet/web... build
 
 # ─── Stage 3: production ──────────────────────────────────────────────────────
 FROM node:20-alpine AS production

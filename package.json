@@ -10,7 +10,12 @@
     "typecheck": "pnpm --filter \"{./apps/*}\" run typecheck",
     "format": "prettier --write \"**/*.{ts,json,md}\"",
     "format:check": "prettier --check \"**/*.{ts,json,md}\"",
-    "migration:run": "pnpm --filter \"{./apps/*}\" run --if-present --workspace-concurrency=1 migration:run"
+    "migration:run": "pnpm --filter \"{./apps/*}\" run --if-present --workspace-concurrency=1 migration:run",
+    "chaos": "npx tsx scripts/chaos.ts",
+    "chaos:reset": "npx tsx scripts/chaos.ts reset",
+    "docker:up": "docker compose -f infra/docker/docker-compose.yml up -d",
+    "docker:down": "docker compose -f infra/docker/docker-compose.yml down",
+    "docker:build": "docker compose -f infra/docker/docker-compose.yml up -d --build"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.5.0",

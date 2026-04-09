@@ -13,6 +13,7 @@ import { ContentTypeMiddleware } from './middleware/content-type.middleware';
 import { RateLimitMiddleware } from './middleware/rate-limit.middleware';
 import { MetricsMiddleware } from './middleware/metrics.middleware';
 import { getRoutes } from './proxy/route.config';
+import { getBreaker } from './proxy/circuit-breakers';
 
 const envFilePath = [
   path.join(__dirname, '../../../.env'),
@@ -55,10 +56,22 @@ export class AppModule implements NestModule {
     consumer.apply(JwtAuthMiddleware).forRoutes({ path: '{*path}', method: RequestMethod.ALL });
 
     // 5. Proxy — forward to downstream services LAST
-    // Use pathFilter inside http-proxy-middleware instead of NestJS forRoutes path matching,
-    // because forRoutes wildcard patterns are unreliable for unregistered/proxied routes.
+    // Circuit breaker wraps each proxy — fast-fails when upstream is down.
     for (const route of getRoutes()) {
       const prefix = route.prefix;
+      const breaker = getBreaker(prefix);
+
+      // Circuit breaker middleware — checks before proxy
+      const circuitMiddleware = (_req: any, res: any, next: any) => {
+        if (breaker && breaker.currentState === 'OPEN') {
+          return res.status(503).json({
+            statusCode: 503,
+            message: `Service temporarily unavailable (circuit open: ${breaker.name})`,
+          });
+        }
+        next();
+      };
+
       const proxy = createProxyMiddleware({
         target: route.target,
         changeOrigin: true,
@@ -66,13 +79,22 @@ export class AppModule implements NestModule {
         ...(route.pathRewrite ? { pathRewrite: route.pathRewrite } : {}),
         on: {
           proxyReq: (proxyReq) => {
-            // Sign the request so downstream InternalAuthMiddleware trusts x-user-* headers
             const secret = process.env.INTERNAL_SECRET;
             if (secret) {
               proxyReq.setHeader('x-internal-secret', secret);
             }
           },
+          proxyRes: () => {
+            // Successful proxy response — record success in circuit breaker
+            if (breaker) {
+              try { breaker.exec(async () => {}); } catch { /* ignore */ }
+            }
+          },
           error: (_err, _req, res) => {
+            // Upstream failed — record failure in circuit breaker
+            if (breaker) {
+              breaker.exec(async () => { throw new Error('proxy error'); }).catch(() => {});
+            }
             (res as any).status?.(502).json({
               statusCode: 502,
               message: 'Upstream service unavailable',
@@ -82,7 +104,7 @@ export class AppModule implements NestModule {
       });
 
       consumer
-        .apply(proxy)
+        .apply(circuitMiddleware, proxy)
         .forRoutes({ path: '{*path}', method: RequestMethod.ALL });
     }
   }

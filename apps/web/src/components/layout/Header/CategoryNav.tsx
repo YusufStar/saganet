@@ -50,31 +50,6 @@ export function CategoryNav() {
     <div className="bg-white border-t border-border">
       <div className="max-w-[1280px] mx-auto px-2">
         <div className="flex items-stretch overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
-          {/* Static "All Categories" */}
-          <div
-            className="relative shrink-0"
-            onMouseEnter={() => setActive('__all__')}
-            onMouseLeave={() => setActive(null)}
-          >
-            <Link href="/categories">
-              <div className="relative flex items-center gap-1.5 px-4 py-3 whitespace-nowrap cursor-pointer group">
-                <Menu01Icon size={14} className="text-orange-500" />
-                <span className="text-[13px] font-medium text-orange-500">All Categories</span>
-                <span
-                  className={[
-                    'absolute bottom-0 left-0 right-0 h-[2px] bg-orange-500 rounded-full transition-transform duration-150 origin-left',
-                    active === '__all__' ? 'scale-x-100' : 'scale-x-0',
-                  ].join(' ')}
-                />
-              </div>
-            </Link>
-            {categories.length > 0 && (
-              <Popover open={active === '__all__'} minWidth={Math.min(categories.length, 4) * 160}>
-                <MegaMenuContent children={categories} />
-              </Popover>
-            )}
-          </div>
-
           {/* Dynamic top-level categories from API */}
           {categories.map((cat) => (
             <div

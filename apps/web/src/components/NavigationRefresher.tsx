@@ -15,7 +15,7 @@ export function NavigationRefresher() {
   const qc = useQueryClient();
 
   useEffect(() => {
-    qc.invalidateQueries({ queryKey: authKeys.profile() });
+    qc.invalidateQueries({ queryKey: authKeys.all });
   }, [pathname, qc]);
 
   return null;

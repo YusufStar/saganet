@@ -64,12 +64,21 @@ export class AuthController {
   }
 
   @Get('verify-email')
-  @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Verify email address via one-time token' })
-  @ApiOkResponse({ description: 'Email verified. Welcome email queued.' })
+  @ApiOkResponse({ description: 'Email verified. Redirects to frontend.' })
   @ApiBadRequestResponse({ description: 'Invalid, expired, or already-used token' })
-  async verifyEmail(@Query() dto: VerifyEmailDto): Promise<{ message: string }> {
-    return this.authService.verifyEmail(dto.token);
+  async verifyEmail(
+    @Query() dto: VerifyEmailDto,
+    @Res() res: Response,
+  ): Promise<void> {
+    const frontendUrl = process.env.FRONTEND_URL ?? 'http://localhost:3333';
+
+    try {
+      await this.authService.verifyEmail(dto.token);
+      res.redirect(`${frontendUrl}/login?verified=true`);
+    } catch {
+      res.redirect(`${frontendUrl}/login?verified=false`);
+    }
   }
 
   @Post('login')

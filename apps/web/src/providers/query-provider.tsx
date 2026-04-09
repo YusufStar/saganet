@@ -8,18 +8,9 @@ function makeQueryClient() {
   return new QueryClient({
     defaultOptions: {
       queries: {
-        // SSR: don't refetch immediately on mount
         staleTime: 0,
         gcTime: 0,
-        // Retry once on failure (not for 4xx)
-        retry: (failureCount, error) => {
-          const status = (error as unknown as { status?: number })?.status;
-          if (status && status < 500) return false;
-          return failureCount < 1;
-        },
-      },
-      mutations: {
-        retry: false,
+        refetchOnWindowFocus: true,
       },
     },
   });

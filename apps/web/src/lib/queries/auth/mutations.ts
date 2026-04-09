@@ -5,6 +5,7 @@ import type {
   ForgotPasswordRequest, ResetPasswordRequest,
   UpdateProfileRequest, CreateAddressRequest, UpdateAddressRequest,
   UpdateUserRoleRequest,
+  CreateVendorApplicationRequest, RejectVendorApplicationRequest,
 } from '@/lib/api/types';
 import { authKeys } from './query-keys';
 
@@ -118,6 +119,51 @@ export function useUnbanUser() {
     onSuccess: (_data, id) => {
       qc.invalidateQueries({ queryKey: authKeys.adminUser(id) });
       qc.invalidateQueries({ queryKey: authKeys.adminUsers() });
+    },
+  });
+}
+
+// ─── Vendor Application ─────────────────────────────────────────────────────
+
+export function useCreateVendorApplication() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (body: CreateVendorApplicationRequest) =>
+      authApi.vendorApplication.create(body),
+    onSuccess: () => qc.invalidateQueries({ queryKey: authKeys.vendorApplication() }),
+  });
+}
+
+export function useUploadVendorDocument() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ field, file }: { field: string; file: File }) =>
+      authApi.vendorApplication.uploadDocument(field, file),
+    onSuccess: () => qc.invalidateQueries({ queryKey: authKeys.vendorApplication() }),
+  });
+}
+
+// ─── Admin: Vendor Applications ─────────────────────────────────────────────
+
+export function useApproveVendorApplication() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => authApi.admin.approveVendorApplication(id),
+    onSuccess: (_data, id) => {
+      qc.invalidateQueries({ queryKey: authKeys.adminVendorApplication(id) });
+      qc.invalidateQueries({ queryKey: authKeys.adminVendorApplications() });
+    },
+  });
+}
+
+export function useRejectVendorApplication() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, body }: { id: string; body?: RejectVendorApplicationRequest }) =>
+      authApi.admin.rejectVendorApplication(id, body),
+    onSuccess: (_data, { id }) => {
+      qc.invalidateQueries({ queryKey: authKeys.adminVendorApplication(id) });
+      qc.invalidateQueries({ queryKey: authKeys.adminVendorApplications() });
     },
   });
 }

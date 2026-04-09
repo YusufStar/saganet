@@ -9,10 +9,7 @@ import {
   Grid02Icon,
   Invoice01Icon,
   CreditCardIcon,
-  Package01Icon,
-  Notification01Icon,
-  Analytics01Icon,
-  Settings01Icon,
+  Store01Icon,
   Logout01Icon,
   ShieldUserIcon,
 } from 'hugeicons-react';
@@ -23,6 +20,7 @@ const NAV_SECTIONS = [
     items: [
       { label: 'Dashboard', href: '/admin', icon: DashboardSquare01Icon },
       { label: 'Users', href: '/admin/users', icon: UserGroupIcon },
+      { label: 'Seller Applications', href: '/admin/applications', icon: Store01Icon },
     ],
   },
   {
@@ -32,15 +30,6 @@ const NAV_SECTIONS = [
       { label: 'Categories', href: '/admin/categories', icon: Grid02Icon },
       { label: 'Orders', href: '/admin/orders', icon: Invoice01Icon },
       { label: 'Payments', href: '/admin/payments', icon: CreditCardIcon },
-      { label: 'Inventory', href: '/admin/inventory', icon: Package01Icon },
-    ],
-  },
-  {
-    title: 'System',
-    items: [
-      { label: 'Notifications', href: '/admin/notifications', icon: Notification01Icon },
-      { label: 'Monitoring', href: '/admin/monitoring', icon: Analytics01Icon },
-      { label: 'Settings', href: '/admin/settings', icon: Settings01Icon },
     ],
   },
 ];

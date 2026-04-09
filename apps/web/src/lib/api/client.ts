@@ -106,6 +106,10 @@ export function del<T>(path: string, opts?: RequestOptions) {
  * Silent: 401 (not logged in) is simply ignored.
  */
 if (typeof window !== 'undefined') {
+  // Immediate refresh on first load — ensures sat cookie is fresh from the start
+  fetch(`${API_URL}/api/auth/refresh`, { method: 'POST', credentials: 'include' })
+    .catch(() => { /* not logged in — ignored */ });
+
   setInterval(() => {
     fetch(`${API_URL}/api/auth/refresh`, { method: 'POST', credentials: 'include' })
       .catch(() => { /* not logged in or network error — reactive refresh handles 401s */ });

@@ -3,13 +3,15 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 RUN corepack enable
 COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
+COPY packages/common/package.json ./packages/common/
 COPY packages/observability/package.json ./packages/observability/
 COPY packages/redis/package.json ./packages/redis/
 COPY apps/api-gateway/ ./apps/api-gateway/
+COPY packages/common/ ./packages/common/
 COPY packages/observability/ ./packages/observability/
 COPY packages/redis/ ./packages/redis/
 RUN pnpm install --frozen-lockfile
-RUN pnpm --filter @saganet/api-gateway build
+RUN pnpm --filter @saganet/api-gateway... build
 
 FROM node:20-alpine AS production
 WORKDIR /app/apps/api-gateway

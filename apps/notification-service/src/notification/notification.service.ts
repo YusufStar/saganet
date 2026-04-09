@@ -188,7 +188,13 @@ export class NotificationService implements OnApplicationBootstrap, OnApplicatio
 
   private async enqueue(type: string, to: string, template: { subject: string; html: string }, userId?: string): Promise<void> {
     try {
-      await this.notificationQueue.add(type, { to, subject: template.subject, html: template.html, type, userId });
+      // Deterministic jobId prevents duplicate emails when the same event is consumed more than once
+      const jobId = userId ? `${type}:${userId}:${to}` : `${type}:${to}:${Date.now()}`;
+      await this.notificationQueue.add(type, { to, subject: template.subject, html: template.html, type, userId }, {
+        jobId,
+        // If a job with the same ID already exists and is completed, don't re-add it for 5 minutes
+        deduplication: { id: jobId, ttl: 5 * 60 * 1000 },
+      });
       this.metrics.notificationsSent.inc({ type });
       this.logger.log(`Enqueued ${type} notification for ${to}`);
     } catch (err) {

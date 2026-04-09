@@ -6,6 +6,7 @@ import { StorageModule } from '@saganet/storage';
 import { RedisModule } from '@saganet/redis';
 import { KafkaModule } from '@saganet/kafka';
 import { UserEntity } from './users/user.entity';
+import { VendorApplicationEntity } from './vendor-application/vendor-application.entity';
 import { UserSessionEntity } from './users/user-session.entity';
 import { UserOAuthAccountEntity } from './users/user-oauth-account.entity';
 import { UserAddressEntity } from './users/user-address.entity';
@@ -18,6 +19,7 @@ import { ProfileModule } from './profile/profile.module';
 import { AddressModule } from './address/address.module';
 import { SeedModule } from './seed/seed.module';
 import { AdminModule } from './admin/admin.module';
+import { VendorApplicationModule } from './vendor-application/vendor-application.module';
 
 const envFilePath = [
   path.join(__dirname, '../../../.env'),
@@ -29,7 +31,7 @@ const envFilePath = [
   imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath }),
     DatabaseModule.forRoot({
-      entities: [UserEntity, UserSessionEntity, UserOAuthAccountEntity, OutboxEntity, UserAddressEntity],
+      entities: [UserEntity, UserSessionEntity, UserOAuthAccountEntity, OutboxEntity, UserAddressEntity, VendorApplicationEntity],
     }),
     StorageModule.forRoot(),
     RedisModule.forRoot(),
@@ -42,6 +44,7 @@ const envFilePath = [
     AddressModule,
     SeedModule,
     AdminModule,
+    VendorApplicationModule,
   ],
 })
 export class AppModule implements NestModule {

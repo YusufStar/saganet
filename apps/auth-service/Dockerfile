@@ -17,7 +17,7 @@ COPY packages/observability/ ./packages/observability/
 COPY packages/redis/ ./packages/redis/
 COPY packages/storage/ ./packages/storage/
 RUN pnpm install --frozen-lockfile
-RUN pnpm --filter @saganet/auth-service build
+RUN pnpm --filter @saganet/auth-service... build
 
 FROM node:20-alpine AS production
 WORKDIR /app/apps/auth-service

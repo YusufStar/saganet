@@ -1,0 +1,17 @@
+[
+  {
+    "name": "postgres",
+    "listen": "0.0.0.0:15432",
+    "upstream": "postgres:5432"
+  },
+  {
+    "name": "redis",
+    "listen": "0.0.0.0:16379",
+    "upstream": "redis:6379"
+  },
+  {
+    "name": "kafka",
+    "listen": "0.0.0.0:19092",
+    "upstream": "kafka:29092"
+  }
+]
