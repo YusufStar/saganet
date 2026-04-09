@@ -2,7 +2,7 @@
 FROM node:20-alpine AS builder
 WORKDIR /app
 RUN corepack enable
-COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
+COPY pnpm-lock.yaml pnpm-workspace.yaml package.json tsconfig.base.json ./
 COPY packages/common/package.json ./packages/common/
 COPY packages/db/package.json ./packages/db/
 COPY packages/kafka/package.json ./packages/kafka/

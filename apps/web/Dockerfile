@@ -4,7 +4,7 @@
 FROM node:20-alpine AS deps
 WORKDIR /app
 RUN corepack enable
-COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
+COPY pnpm-lock.yaml pnpm-workspace.yaml package.json tsconfig.base.json ./
 COPY apps/web/package.json ./apps/web/
 RUN pnpm install --frozen-lockfile --filter @saganet/web...
 
