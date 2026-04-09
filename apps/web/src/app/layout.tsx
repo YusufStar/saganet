@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { QueryProvider } from '@/providers/query-provider';
 import { NavigationRefresher } from '@/components/NavigationRefresher';
@@ -13,7 +14,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className="bg-page min-h-screen">
         <QueryProvider>
-          <NavigationRefresher />
+          <Suspense>
+            <NavigationRefresher />
+          </Suspense>
           <main>{children}</main>
         </QueryProvider>
       </body>

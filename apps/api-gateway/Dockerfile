@@ -18,6 +18,8 @@ WORKDIR /app/apps/api-gateway
 ENV NODE_ENV=production
 RUN corepack enable
 COPY --from=builder /app/node_modules /app/node_modules
+COPY --from=builder /app/apps/api-gateway/node_modules ./node_modules
+COPY --from=builder /app/pnpm-workspace.yaml /app/package.json /app/
 COPY --from=builder /app/packages /app/packages
 COPY --from=builder /app/apps/api-gateway/dist ./dist
 COPY --from=builder /app/apps/api-gateway/package.json ./

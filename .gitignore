@@ -18,6 +18,9 @@ build/
 .env.*
 !.env.example
 
+# K8s secrets (contains real credentials)
+infra/k8s/secrets.yaml
+
 # Logs
 logs/
 *.log

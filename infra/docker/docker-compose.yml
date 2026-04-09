@@ -44,15 +44,17 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_LISTENERS: INTERNAL://0.0.0.0:29092
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
     healthcheck:
-      test: ['CMD', 'kafka-broker-api-versions', '--bootstrap-server', 'localhost:9092']
+      test: ['CMD-SHELL', 'kafka-broker-api-versions --bootstrap-server localhost:29092 || exit 1']
       interval: 10s
       timeout: 10s
-      retries: 5
+      retries: 10
     networks:
       - saganet
 
@@ -220,6 +222,8 @@ services:
       DB_PORT: 5432
       KAFKA_BROKERS: kafka:29092
       REDIS_URL: redis://redis:6379
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
       MINIO_ENDPOINT: http://minio:9000
       MINIO_PUBLIC_URL: http://minio:9000
       JAEGER_ENDPOINT: http://jaeger:4318/v1/traces
@@ -249,6 +253,8 @@ services:
       DB_PORT: 5432
       KAFKA_BROKERS: kafka:29092
       REDIS_URL: redis://redis:6379
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
       MINIO_ENDPOINT: http://minio:9000
       MINIO_PUBLIC_URL: http://minio:9000
       JAEGER_ENDPOINT: http://jaeger:4318/v1/traces
@@ -276,6 +282,8 @@ services:
       DB_PORT: 5432
       KAFKA_BROKERS: kafka:29092
       REDIS_URL: redis://redis:6379
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
       JAEGER_ENDPOINT: http://jaeger:4318/v1/traces
       INVENTORY_SERVICE_PORT: 3003
     networks:
@@ -301,6 +309,8 @@ services:
       DB_PORT: 5432
       KAFKA_BROKERS: kafka:29092
       REDIS_URL: redis://redis:6379
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
       JAEGER_ENDPOINT: http://jaeger:4318/v1/traces
       ORDER_SERVICE_PORT: 3004
     networks:
@@ -326,6 +336,8 @@ services:
       DB_PORT: 5432
       KAFKA_BROKERS: kafka:29092
       REDIS_URL: redis://redis:6379
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
       JAEGER_ENDPOINT: http://jaeger:4318/v1/traces
       PAYMENT_SERVICE_PORT: 3005
     networks:
@@ -346,6 +358,8 @@ services:
     environment:
       KAFKA_BROKERS: kafka:29092
       REDIS_URL: redis://redis:6379
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
       JAEGER_ENDPOINT: http://jaeger:4318/v1/traces
       NOTIFICATION_SERVICE_PORT: 3006
     networks:
@@ -382,6 +396,8 @@ services:
     environment:
       API_GATEWAY_PORT: 3000
       REDIS_URL: redis://redis:6379
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
       JAEGER_ENDPOINT: http://jaeger:4318/v1/traces
       # Internal service URLs — Docker DNS resolves container names
       AUTH_SERVICE_URL: http://auth-service:3001

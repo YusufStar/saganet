@@ -16,7 +16,7 @@ const AppDataSource = databaseUrl
       type: 'postgres',
       url: databaseUrl,
       entities: [PaymentEntity, OutboxEntity],
-      migrations: ['src/migrations/*.ts'],
+      migrations: [process.env.NODE_ENV === 'production' ? 'dist/migrations/*.js' : 'src/migrations/*.ts'],
       synchronize: false,
     })
   : new DataSource({
@@ -27,7 +27,7 @@ const AppDataSource = databaseUrl
       password: process.env.DB_PASSWORD ?? 'postgres',
       database: process.env.DB_NAME ?? 'saganet',
       entities: [PaymentEntity, OutboxEntity],
-      migrations: ['src/migrations/*.ts'],
+      migrations: [process.env.NODE_ENV === 'production' ? 'dist/migrations/*.js' : 'src/migrations/*.ts'],
       synchronize: false,
     });
 

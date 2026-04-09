@@ -1,0 +1,36 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: saganet
+
+resources:
+  # Base
+  - namespace.yaml
+  - configmap.yaml
+  - secrets.yaml
+
+  # Infrastructure
+  - infra/postgres.yaml
+  - infra/redis.yaml
+  - infra/kafka.yaml
+  - infra/minio.yaml
+
+  # Microservices
+  - apps/api-gateway.yaml
+  - apps/auth-service.yaml
+  - apps/catalog-service.yaml
+  - apps/inventory-service.yaml
+  - apps/order-service.yaml
+  - apps/payment-service.yaml
+  - apps/notification-service.yaml
+  - apps/web.yaml
+
+  # Networking
+  - ingress.yaml
+
+  # Auto-scaling
+  - hpa.yaml
+
+labels:
+  - pairs:
+      app.kubernetes.io/part-of: saganet

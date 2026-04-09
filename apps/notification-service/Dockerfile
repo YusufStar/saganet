@@ -20,6 +20,8 @@ WORKDIR /app/apps/notification-service
 ENV NODE_ENV=production
 RUN corepack enable
 COPY --from=builder /app/node_modules /app/node_modules
+COPY --from=builder /app/apps/notification-service/node_modules ./node_modules
+COPY --from=builder /app/pnpm-workspace.yaml /app/package.json /app/
 COPY --from=builder /app/packages /app/packages
 COPY --from=builder /app/apps/notification-service/dist ./dist
 COPY --from=builder /app/apps/notification-service/package.json ./
