@@ -421,7 +421,8 @@ services:
     ports:
       - '3333:3333'     # The only frontend port exposed externally
     environment:
-      NEXT_PUBLIC_API_URL: http://api-gateway:3000
+      INTERNAL_API_URL: http://api-gateway:3000
+      NEXT_PUBLIC_API_URL: http://localhost:3000
       PORT: 3333
     networks:
       - saganet

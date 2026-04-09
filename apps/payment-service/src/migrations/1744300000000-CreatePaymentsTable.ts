@@ -17,7 +17,8 @@ export class CreatePaymentsTable1744300000000 implements MigrationInterface {
         "cardLast4" VARCHAR(4),
         "failureReason" TEXT,
         "createdAt" TIMESTAMP NOT NULL DEFAULT now(),
-        "updatedAt" TIMESTAMP NOT NULL DEFAULT now()
+        "updatedAt" TIMESTAMP NOT NULL DEFAULT now(),
+        "deletedAt" TIMESTAMP
       )
     `);
     await queryRunner.query(`CREATE INDEX idx_payments_order_id ON payments("orderId")`);

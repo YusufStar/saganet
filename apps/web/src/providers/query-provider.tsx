@@ -8,8 +8,8 @@ function makeQueryClient() {
   return new QueryClient({
     defaultOptions: {
       queries: {
-        staleTime: 0,
-        gcTime: 0,
+        staleTime: 1000 * 60 * 5,
+        gcTime: 1000 * 60 * 10,
         refetchOnWindowFocus: true,
       },
     },
