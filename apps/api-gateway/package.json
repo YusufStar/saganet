@@ -21,6 +21,7 @@
     "@opentelemetry/resources": "^2.6.1",
     "@opentelemetry/sdk-node": "^0.214.0",
     "@opentelemetry/semantic-conventions": "^1.40.0",
+    "@saganet/common": "workspace:*",
     "@saganet/observability": "workspace:*",
     "@saganet/redis": "workspace:*",
     "cookie-parser": "^1.4.7",
