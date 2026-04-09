@@ -13,6 +13,8 @@ interface RouteLimit {
 const ROUTE_LIMITS: RouteLimit[] = [
   // Auth write endpoints — tighter (brute-force surface)
   { pattern: /^\/api\/auth\/(login|register|forgot-password|reset-password)/, limit: 10,  windowSeconds: 900 },
+  // Profile & refresh — called frequently by proxy + client-side
+  { pattern: /^\/api\/auth\/(profile|refresh)/, limit: 600, windowSeconds: 60 },
   // Default for everything else
   { pattern: /.*/, limit: 120, windowSeconds: 60 },
 ];
